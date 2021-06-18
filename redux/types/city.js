@@ -1,0 +1,10 @@
+export const READ_CITIES = "READ_CITIES";
+export const READ_ONE_CITY = "READ_ONE_CITY";
+export const CREATE_CITY = "CREATE_CITY";
+export const UPDATE_CITY = "UPDATE_CITY";
+export const DELETE_CITY = "DELETE_CITY";
+export const SEARCH_CITY_FILTER = "SEARCH_CITY_FILTER";
+export const CITY_ERROR = "CITY_ERROR";
+export const CLEAR_CITY = "CLEAR_CITY";
+export const START_CITIES_RELOAD = "START_CITIES_RELOAD";
+export const FINISHED_CITIES_RELOAD = "FINISHED_CITIES_RELOAD";
