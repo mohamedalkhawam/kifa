@@ -39,7 +39,9 @@
     "react-redux": "^7.2.4",
     "redux": "^4.1.0",
     "redux-thunk": "^2.3.0",
-    "validator": "^13.6.0"
+    "validator": "^13.6.0",
+    "expo-camera": "~11.0.2",
+    "expo-barcode-scanner": "~10.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"

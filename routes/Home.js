@@ -7,6 +7,9 @@ import singleProduct from "../scences/singleProduct";
 import singleCustomer from "../scences/singleCustomer";
 import Invoices from "../scences/invoices";
 import Settings from "../scences/settings";
+import Menu from "../scences/menu";
+import NewCustomer from "../scences/newCustomer";
+import Scanner from "../scences/scanner";
 const HomeStack = createStackNavigator();
 export const HomeStackScreen = () => {
   const horizontalAnimation = {
@@ -17,8 +20,25 @@ export const HomeStackScreen = () => {
           transform: [
             {
               translateX: current.progress.interpolate({
-                inputRange: [0, 1],
+                inputRange: [1, 0],
                 outputRange: [layouts.screen.width, 0],
+              }),
+            },
+          ],
+        },
+      };
+    },
+  };
+  const verticalAnimation = {
+    gestureDirection: "vertical",
+    CardStyleInterpolators: ({ current, layouts }) => {
+      return {
+        cardStyle: {
+          transform: [
+            {
+              translateX: current.progress.interpolate({
+                inputRange: [0, 1],
+                outputRange: [layouts.screen.height, 0],
               }),
             },
           ],
@@ -35,18 +55,26 @@ export const HomeStackScreen = () => {
     >
       <HomeStack.Screen name="home" component={Home} />
       <HomeStack.Screen
+        name="menu"
+        component={Menu}
+        options={horizontalAnimation}
+      />
+      <HomeStack.Screen
         name="customers"
         component={Customers}
         options={horizontalAnimation}
       />
-
       <HomeStack.Screen
-        name="singleInvoice"
-        component={singleInvoice}
-        options={({ route }) => ({
-          title: route.params.name,
-        })}
+        name="newCustomer"
+        component={NewCustomer}
+        options={horizontalAnimation}
       />
+      <HomeStack.Screen
+        name="scanner"
+        component={Scanner}
+        options={horizontalAnimation}
+      />
+      <HomeStack.Screen name="singleInvoice" component={singleInvoice} />
       <HomeStack.Screen
         name="singleCustomer"
         component={singleCustomer}

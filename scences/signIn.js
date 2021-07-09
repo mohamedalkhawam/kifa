@@ -8,17 +8,33 @@ import {
   globalStyle,
   localize,
   AsyncStorage,
+  validator,
 } from "../utils/allImports";
-import { useTranslation, Trans } from "react-i18next";
-import { View, Text, useWindowDimensions, Pressable } from "react-native";
+import { useTranslation } from "react-i18next";
+import {
+  View,
+  Text,
+  useWindowDimensions,
+  KeyboardAvoidingView,
+  TouchableOpacity,
+} from "react-native";
 export default function SingIn({ navigation }) {
   const { width: windowWidth, height: windowHeight } = useWindowDimensions();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  const [validation, setValidation] = useState({
+    email: {
+      message: "",
+    },
+    password: {
+      message: "",
+    },
+  });
   const [toggleEye, setToggleEye] = useState(false);
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const setLocale = (locale) => {
     localize.changeLanguage(locale);
     AsyncStorage.setItem("lang", locale);
@@ -37,15 +53,8 @@ export default function SingIn({ navigation }) {
         />
         <View style={{ marginVertical: "5%" }}></View>
         <nativeElement.Input
-          // rtl={true}
-          // direction="rtl"
           leftIcon={
-            <nativeElement.Icon
-              onPress
-              name="email"
-              size={25}
-              color="#4E7D9B"
-            />
+            <nativeElement.Icon name="email" size={25} color="#4E7D9B" />
           }
           rightIcon={
             <nativeElement.Icon
@@ -55,23 +64,35 @@ export default function SingIn({ navigation }) {
             />
           }
           // label="Email"
+          inputStyle={styles.responsiveTextDirection}
           placeholder={t("email")}
-          errorMessage="Email must be valid!!"
-          inputContainerStyle={{
-            borderWidth: 1,
-            borderRadius: 5,
-            paddingHorizontal: 10,
-            paddingVertical: 7,
-          }}
+          errorMessage={validation.email.message}
+          inputContainerStyle={[
+            styles.responsiveDirection,
+            styles.AuthInputContainerStyle,
+          ]}
           value={formData.email}
-          onChangeText={(text) => setFormData({ ...formData, email: text })}
+          onChangeText={(text) => {
+            setFormData({ ...formData, email: text });
+            setValidation({
+              ...validation,
+              email: {
+                ...validation.email,
+                message:
+                  !validator.isEmail(text) && text.length > 0
+                    ? t("emailShouldBeValid")
+                    : text.length === 0
+                    ? t("emailRequired")
+                    : "",
+              },
+            });
+          }}
         />
         {/* ////////////////////////////////////////////////////////////////////////// */}
         <View style={{ marginVertical: 10 }}></View>
         <nativeElement.Input
           leftIcon={
             <nativeElement.Icon
-              onPress
               name="key"
               type="ionicon"
               size={25}
@@ -87,34 +108,60 @@ export default function SingIn({ navigation }) {
             />
           }
           // label="Email"
+          inputStyle={styles.responsiveTextDirection}
           placeholder={t("password")}
-          errorMessage="Password  required!!"
-          inputContainerStyle={{
-            borderWidth: 1,
-            borderRadius: 5,
-            paddingHorizontal: 10,
-            paddingVertical: 7,
-          }}
+          errorMessage={validation.password.message}
+          inputContainerStyle={[
+            styles.responsiveDirection,
+            styles.AuthInputContainerStyle,
+          ]}
           value={formData.password}
           secureTextEntry={!toggleEye}
-          onChangeText={(text) => setFormData({ ...formData, password: text })}
+          // onPress={() => alert("dd")}
+          onChangeText={(text) => {
+            setFormData({ ...formData, password: text });
+            setValidation({
+              ...validation,
+              password: {
+                ...validation.password,
+                message:
+                  text.length < 8 && text.length > 0
+                    ? t("passwordShouldBeMin8")
+                    : text.length === 0
+                    ? t("passwordRequired")
+                    : "",
+              },
+            });
+          }}
         />
-        {/* ///////////////////////////////////////////////////////// */}
         <View style={{ flex: 1 }}></View>
-        <View style={styles.flexBetween}>
-          <nativeElement.Button
-            title={t("login")}
-            buttonStyle={[styles.loginButton]}
-            titleStyle={{ color: "#F8F8F8", fontWeight: "bold" }}
-            onPress={() => setLocale("en")}
-            containerStyle={{
-              paddingHorizontal: 10,
-              paddingVertical: 7,
-              flexGrow: 1,
-              width: "40%",
-            }}
-          />
-          <Pressable
+        <View
+          style={[
+            styles.flexBetween,
+            { direction: localize.language === "en" ? "ltr" : "rtl" },
+          ]}
+        >
+          <KeyboardAvoidingView style={[styles.flexStart, { width: "70%" }]}>
+            <nativeElement.Button
+              title={t("login")}
+              disabled={
+                validation.email.message.length > 0 ||
+                validation.password.message.length ||
+                formData.email.lenth === 0 ||
+                formData.password.length === 0
+              }
+              buttonStyle={[styles.loginButton]}
+              titleStyle={{ color: "#F8F8F8", fontWeight: "bold" }}
+              onPress={() => setLocale("en")}
+              containerStyle={{
+                paddingHorizontal: 10,
+                paddingVertical: 7,
+                flexGrow: 1,
+                width: "40%",
+              }}
+            />
+          </KeyboardAvoidingView>
+          <TouchableOpacity
             onPress={() =>
               navigation.navigate("forgetPassword", {
                 email: formData.email,
@@ -130,7 +177,7 @@ export default function SingIn({ navigation }) {
             >
               {t("forgetPassowrd")}
             </Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </View>
       <View style={[styles.partContainer, styles.logoView]}>
@@ -144,7 +191,7 @@ export default function SingIn({ navigation }) {
           />
           <nativeElement.Button
             type="outline"
-            title={"عربي"}
+            title={"العربية"}
             buttonStyle={[styles.arabicButton]}
             titleStyle={{ color: "#F8F8F8", fontWeight: "bold" }}
             containerStyle={styles.shadow}

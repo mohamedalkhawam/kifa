@@ -1,10 +1,44 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { View, Text } from "react-native";
-export default function Home({ navigation }) {
+import {
+  React,
+  useSelector,
+  useDispatch,
+  useState,
+  useEffect,
+  globalStyle,
+  AsyncStorage,
+  primaryColor,
+} from "../utils/allImports";
+import { View } from "react-native";
+import LeftSide from "../components/homePageLeftSide";
+import RightSide from "../components/homePageRightSide";
+export default function ForgetPassword({ navigation }) {
+  const styles = globalStyle();
   return (
-    <View>
-      <Text styles={{ marginTop: 100 }}>Invoices</Text>
+    <View style={styles.splitContainer}>
+      <View
+        style={[
+          styles.partContainer,
+          {
+            backgroundColor: "#F8F8F8",
+            paddingVertical: 0,
+            paddingHorizontal: 0,
+          },
+        ]}
+      >
+        <LeftSide navigation={navigation} />
+      </View>
+      <View
+        style={[
+          styles.partContainer,
+          {
+            backgroundColor: primaryColor,
+            paddingVertical: 0,
+            paddingHorizontal: 0,
+          },
+        ]}
+      >
+        <RightSide navigation={navigation} />
+      </View>
     </View>
   );
 }

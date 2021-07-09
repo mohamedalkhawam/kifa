@@ -7,7 +7,7 @@ const RootStack = createStackNavigator();
 export const RootStackScreen = () => {
   // const AuthReducer = useSelector((state) => state.AuthReducer);
   // const [grantAccess, setGrantAcess] = useState(AuthReducer.isAuthenticated);
-  const [grantAccess, setGrantAcess] = useState(false);
+  const [grantAccess, setGrantAcess] = useState(true);
 
   // useEffect(() => {
   //   setGrantAcess(AuthReducer.isAuthenticated);

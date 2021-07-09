@@ -8,6 +8,7 @@ import {
   globalStyle,
   localize,
   AsyncStorage,
+  validator,
 } from "../utils/allImports";
 import { useTranslation } from "react-i18next";
 import {
@@ -15,11 +16,17 @@ import {
   Text,
   useWindowDimensions,
   TouchableOpacity,
+  KeyboardAvoidingView,
 } from "react-native";
 export default function ForgetPassword({ navigation }) {
   const { width: windowWidth, height: windowHeight } = useWindowDimensions();
   const [formData, setFormData] = useState({
     email: "",
+  });
+  const [validation, setValidation] = useState({
+    email: {
+      message: "",
+    },
   });
   const { t } = useTranslation();
 
@@ -56,12 +63,7 @@ export default function ForgetPassword({ navigation }) {
         <View style={{ marginVertical: "7%" }}></View>
         <nativeElement.Input
           leftIcon={
-            <nativeElement.Icon
-              onPress
-              name="email"
-              size={25}
-              color="#4E7D9B"
-            />
+            <nativeElement.Icon name="email" size={25} color="#4E7D9B" />
           }
           rightIcon={
             <nativeElement.Icon
@@ -71,22 +73,38 @@ export default function ForgetPassword({ navigation }) {
             />
           }
           // label="Email"
+          inputStyle={styles.responsiveTextDirection}
           placeholder={t("email")}
-          errorMessage="Email must be valid!!"
-          inputContainerStyle={{
-            borderWidth: 1,
-            borderRadius: 5,
-            paddingHorizontal: 10,
-            paddingVertical: 7,
-          }}
+          errorMessage={validation.email.message}
+          inputContainerStyle={[
+            styles.responsiveDirection,
+            styles.AuthInputContainerStyle,
+          ]}
           value={formData.email}
-          onChangeText={(text) => setFormData({ ...formData, email: text })}
+          onChangeText={(text) => {
+            setFormData({ ...formData, email: text });
+            setValidation({
+              ...validation,
+              email: {
+                ...validation.email,
+                message:
+                  !validator.isEmail(text) && text.length > 0
+                    ? t("emailShouldBeValid")
+                    : text.length === 0
+                    ? t("emailRequired")
+                    : "",
+              },
+            });
+          }}
         />
         {/* ////////////////////////////////////////////////////////////////////////// */}
 
         <View style={{ flex: 1 }}></View>
-        <View style={[styles.flexBetween]}>
+        <KeyboardAvoidingView style={[styles.flexBetween]}>
           <nativeElement.Button
+            disabled={
+              validation.email.message.length > 0 || formData.email.length === 0
+            }
             title={t("getNewPassword")}
             buttonStyle={[styles.loginButton]}
             titleStyle={{ color: "#F8F8F8", fontWeight: "bold" }}
@@ -98,7 +116,7 @@ export default function ForgetPassword({ navigation }) {
               width: "100%",
             }}
           />
-        </View>
+        </KeyboardAvoidingView>
       </View>
       <View style={[styles.partContainer, styles.logoView]}>
         <View style={[styles.logoCard]}>

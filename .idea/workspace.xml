@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="275845ab-a813-414d-bedf-038939c6b9b6" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/components/signIn.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/locales/ar.js" beforeDir="false" afterPath="$PROJECT_DIR$/locales/ar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/locales/en.js" beforeDir="false" afterPath="$PROJECT_DIR$/locales/en.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/Home.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scences/forgetPassword.js" beforeDir="false" afterPath="$PROJECT_DIR$/scences/forgetPassword.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scences/home.js" beforeDir="false" afterPath="$PROJECT_DIR$/scences/home.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scences/settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/scences/settings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scences/signIn.js" beforeDir="false" afterPath="$PROJECT_DIR$/scences/signIn.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/styles/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/allImports.js" beforeDir="false" afterPath="$PROJECT_DIR$/utils/allImports.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1ug0EXxhs3vJPi9r63MrRnpDqGc" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="275845ab-a813-414d-bedf-038939c6b9b6" name="Default Changelist" comment="" />
+      <created>1625071813433</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1625071813433</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="414" y="234" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1625072055378">
+      <screen x="0" y="0" width="1920" height="1160" />
+    </state>
+    <state x="414" y="234" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1080.-329.1080.1880/0.0.1920.1160@0.0.1920.1160" timestamp="1625072055378" />
+    <state x="616" y="270" key="run.anything.popup" timestamp="1625071925936">
+      <screen x="0" y="0" width="1920" height="1160" />
+    </state>
+    <state x="616" y="270" key="run.anything.popup/-1080.-329.1080.1880/0.0.1920.1160@0.0.1920.1160" timestamp="1625071925936" />
+  </component>
+</project>

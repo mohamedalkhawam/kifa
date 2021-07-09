@@ -10,6 +10,7 @@ import ordersReducer from "./orders";
 import scheduledWashesReducer from "./scheduledWashes";
 import introReducer from "./intro";
 import notificationsReducer from "./notifications";
+import appReducer from "./app";
 export default combineReducers({
   AuthReducer,
   servicesReducer,
@@ -22,4 +23,5 @@ export default combineReducers({
   scheduledWashesReducer,
   introReducer,
   notificationsReducer,
+  appReducer,
 });

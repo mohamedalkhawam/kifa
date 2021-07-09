@@ -19,6 +19,7 @@ export default function App() {
     AsyncStorage.getItem("lang", (err, res) => {
       localize.changeLanguage(res || "en");
     });
+    localize.changeLanguage("ar");
   }, []);
   return (
     <Provider store={store}>
