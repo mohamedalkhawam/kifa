@@ -4,7 +4,6 @@ import {
   USER_LOADED,
   FORGET_PASSWORD,
   LOGOUT,
-  GET_SUBSCRIPTIONS,
   START_AUTH_RELOAD,
   FINISHED_AUTH_RELOAD,
   SET_TOKEN,
@@ -17,48 +16,26 @@ const initialState = {
   user: {},
   error: {},
   loading: false,
-  services: [],
-  clientID: null,
-  info: null,
 };
-
-async function setValueFor(key, value) {
-  let result = await SecureStore.setItemAsync(key, value);
-  if (result) {
-    return result;
-  } else {
-    return;
+const storeData = async (value) => {
+  try {
+    await AsyncStorage.setItem("token", value);
+  } catch (e) {
+    alert(e);
   }
-}
-async function getValueFor(key) {
-  let result = await SecureStore.getItemAsync(key);
-  if (result) {
-    return result;
-  } else {
-    return;
-  }
-}
-export const AuthReducer = (state = initialState, action) => {
+};
+export default function AuthReducer(state = initialState, action) {
   const { type, payload } = action;
-
   switch (type) {
-    case REGISTER:
+    case FORGET_PASSWORD:
       return {
         ...state,
       };
     case LOGIN:
-      const storeData = async (value) => {
-        try {
-          await AsyncStorage.setItem("token", value);
-        } catch (e) {
-          // saving error
-        }
-      };
-      storeData(payload.data["x-access-token"]);
-
+      storeData(payload.data.token);
       return {
         ...state,
-        token: payload.data["x-access-token"],
+        token: payload.data.token,
       };
 
     case SET_TOKEN:
@@ -70,15 +47,13 @@ export const AuthReducer = (state = initialState, action) => {
       return {
         ...state,
         isAuthenticated: true,
-        user: payload.data,
+        user: payload.data.user,
       };
     case LOGOUT:
       const removeToken = async () => {
         try {
           await AsyncStorage.removeItem("token");
-        } catch (e) {
-          // saving error
-        }
+        } catch (e) {}
       };
       removeToken();
       return {
@@ -101,6 +76,4 @@ export const AuthReducer = (state = initialState, action) => {
     default:
       return state;
   }
-};
-
-export default AuthReducer;
+}

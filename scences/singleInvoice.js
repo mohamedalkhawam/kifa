@@ -33,7 +33,7 @@ export default function SingleInvoice({ navigation, route }) {
     id: 125121215,
     invoiceNumber: 121215,
     merchantName: "Othain",
-    merchantAddress: "33 Abas st. Cairo, Egypt ",
+    merchantAddress: "33 Abas Al Akkad st. Cairo, Egypt ",
     paymentMethod: "Cash",
     clientName: "MOHAMED ALKHAWAM",
     clientMobile: 1552263515,
@@ -130,19 +130,22 @@ export default function SingleInvoice({ navigation, route }) {
             styles.responsiveDirection,
           ]}
         >
+          <View style={[styles.flexCenter, { width: "5%" }]}>
+            <Text style={[styles.invoicesCardTitleStyle]}>#</Text>
+          </View>
           <View
             style={[
               styles.flexStart,
-              { width: "75%", borderWidth: 1, paddingLeft: 5 },
+              { width: "70%", paddingLeft: 5 },
               styles.responsiveDirection,
             ]}
           >
             <Text style={[styles.invoicesCardTitleStyle]}>{t("item")}</Text>
           </View>
-          <View style={[styles.flexCenter, { width: "10%", borderWidth: 1 }]}>
+          <View style={[styles.flexCenter, { width: "10%" }]}>
             <Text style={[styles.invoicesCardTitleStyle]}>{t("quantity")}</Text>
           </View>
-          <View style={[styles.flexCenter, { width: "15%", borderWidth: 1 }]}>
+          <View style={[styles.flexCenter, { width: "15%" }]}>
             <Text style={[styles.invoicesCardTitleStyle]}>{t("price")}</Text>
           </View>
         </View>
@@ -155,10 +158,13 @@ export default function SingleInvoice({ navigation, route }) {
               styles.responsiveDirection,
             ]}
           >
+            <View style={[styles.flexCenter, { width: "5%" }]}>
+              <Text style={[styles.invoicesCardInfoStyle]}>{index + 1}</Text>
+            </View>
             <View
               style={[
                 styles.flexStart,
-                { width: "75%" },
+                { width: "70%" },
                 styles.responsiveDirection,
               ]}
             >

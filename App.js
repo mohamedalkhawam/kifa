@@ -5,9 +5,12 @@ import { localize, AsyncStorage } from "./utils/allImports";
 import { RootStackScreen } from "./routes/index";
 import store from "./redux/store";
 import { Provider } from "react-redux";
-import { Text, View, StyleSheet, Dimensions, Button } from "react-native";
 import "./locales/i18n";
 
+import { loadUser, setToken } from "./redux/actions/Auth";
+import { readProducts } from "./redux/actions/products";
+import { readSettings } from "./redux/actions/settings";
+import { readCustomers } from "./redux/actions/customers";
 export default function App() {
   async function changeScreenOrientation() {
     await ScreenOrientation.lockAsync(
@@ -15,11 +18,17 @@ export default function App() {
     );
   }
   useEffect(() => {
+    AsyncStorage.getItem("token", (err, token) => {
+      store.dispatch(setToken(token));
+      store.dispatch(loadUser(token));
+      store.dispatch(readProducts(token));
+      store.dispatch(readSettings(token));
+      store.dispatch(readCustomers(token));
+    });
     changeScreenOrientation().catch((err) => alert(err));
     AsyncStorage.getItem("lang", (err, res) => {
       localize.changeLanguage(res || "en");
     });
-    localize.changeLanguage("ar");
   }, []);
   return (
     <Provider store={store}>

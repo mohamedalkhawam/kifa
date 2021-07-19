@@ -18,15 +18,19 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
 } from "react-native";
+import { loginUser, loadUser, setToken } from "../redux/actions/Auth";
 export default function SingIn({ navigation }) {
+  const authReducer = useSelector((state) => state.AuthReducer);
+
+  const dispatch = useDispatch();
   const { width: windowWidth, height: windowHeight } = useWindowDimensions();
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    username: "test",
+    password: "123456",
   });
 
   const [validation, setValidation] = useState({
-    email: {
+    username: {
       message: "",
     },
     password: {
@@ -39,6 +43,7 @@ export default function SingIn({ navigation }) {
     localize.changeLanguage(locale);
     AsyncStorage.setItem("lang", locale);
   };
+
   const styles = globalStyle();
   return (
     <View style={styles.splitContainer}>
@@ -60,30 +65,25 @@ export default function SingIn({ navigation }) {
             <nativeElement.Icon
               name="close"
               size={25}
-              onPress={() => setFormData({ ...formData, email: "" })}
+              onPress={() => setFormData({ ...formData, username: "" })}
             />
           }
-          // label="Email"
+          // label="username"
           inputStyle={styles.responsiveTextDirection}
-          placeholder={t("email")}
-          errorMessage={validation.email.message}
+          placeholder={t("userName")}
+          errorMessage={validation.username.message}
           inputContainerStyle={[
             styles.responsiveDirection,
             styles.AuthInputContainerStyle,
           ]}
-          value={formData.email}
+          value={formData.username}
           onChangeText={(text) => {
-            setFormData({ ...formData, email: text });
+            setFormData({ ...formData, username: text });
             setValidation({
               ...validation,
-              email: {
-                ...validation.email,
-                message:
-                  !validator.isEmail(text) && text.length > 0
-                    ? t("emailShouldBeValid")
-                    : text.length === 0
-                    ? t("emailRequired")
-                    : "",
+              username: {
+                ...validation.username,
+                message: text.length === 0 ? t("userNameRequired") : "",
               },
             });
           }}
@@ -107,7 +107,7 @@ export default function SingIn({ navigation }) {
               onPress={() => setToggleEye(!toggleEye)}
             />
           }
-          // label="Email"
+          // label="username"
           inputStyle={styles.responsiveTextDirection}
           placeholder={t("password")}
           errorMessage={validation.password.message}
@@ -125,7 +125,7 @@ export default function SingIn({ navigation }) {
               password: {
                 ...validation.password,
                 message:
-                  text.length < 8 && text.length > 0
+                  text.length < 6 && text.length > 0
                     ? t("passwordShouldBeMin8")
                     : text.length === 0
                     ? t("passwordRequired")
@@ -144,15 +144,40 @@ export default function SingIn({ navigation }) {
           <KeyboardAvoidingView style={[styles.flexStart, { width: "70%" }]}>
             <nativeElement.Button
               title={t("login")}
+              loading={authReducer.loading}
               disabled={
-                validation.email.message.length > 0 ||
+                validation.username.message.length > 0 ||
                 validation.password.message.length ||
-                formData.email.lenth === 0 ||
+                formData.username.length === 0 ||
                 formData.password.length === 0
               }
               buttonStyle={[styles.loginButton]}
               titleStyle={{ color: "#F8F8F8", fontWeight: "bold" }}
-              onPress={() => setLocale("en")}
+              onPress={() => {
+                debugger;
+                dispatch(loginUser(formData))
+                  .then((res) => {
+                    if (res.status === 200) {
+                      // getData().then((token) => {
+
+                      dispatch(setToken(res.data.data.token));
+                      dispatch(loadUser(res.data.data.token))
+                        .then((resp) => {
+                          if (resp.status === 200) {
+                            // alert(resp.status);
+                            alert("singin " + resp.status);
+                          } else {
+                            // alert(resp.status);
+                          }
+                        })
+                        .catch((err) => alert("someThing wrong"));
+                      // });
+                    }
+                  })
+                  .catch((err) => {
+                    alert(err);
+                  });
+              }}
               containerStyle={{
                 paddingHorizontal: 10,
                 paddingVertical: 7,
@@ -164,7 +189,7 @@ export default function SingIn({ navigation }) {
           <TouchableOpacity
             onPress={() =>
               navigation.navigate("forgetPassword", {
-                email: formData.email,
+                email: formData.username,
               })
             }
           >

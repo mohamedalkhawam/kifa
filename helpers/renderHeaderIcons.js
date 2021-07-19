@@ -32,12 +32,7 @@ export const renderHeaderIcons = (iconName) => {
       );
     default:
       return (
-        <Icon
-          name="receipt-outline"
-          size={35}
-          type="ionicon"
-          color={secondaryColor}
-        />
+        <Icon name="person" size={35} type="ionicon" color={secondaryColor} />
       );
   }
 };

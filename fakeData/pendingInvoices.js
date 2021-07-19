@@ -1,7 +1,7 @@
 export const pendingInvoices = [
   {
     id: 125121215,
-    invoiceNumber: 121215,
+    invoiceNumber: "121215",
     merchantName: "Othain",
     merchantAddress: "33 Abas st. Cairo, Egypt ",
     paymentMethod: "Cash",
@@ -13,7 +13,7 @@ export const pendingInvoices = [
   },
   {
     id: 125161215,
-    invoiceNumber: 121215,
+    invoiceNumber: "121215",
     merchantName: "Othain",
     merchantAddress: "33 Abas st. Cairo, Egypt ",
     paymentMethod: "Cash",
@@ -25,7 +25,7 @@ export const pendingInvoices = [
   },
   {
     id: 185121215,
-    invoiceNumber: 121215,
+    invoiceNumber: "121215",
     merchantName: "Othain",
     merchantAddress: "33 Abas st. Cairo, Egypt ",
     paymentMethod: "Cash",

@@ -72,4 +72,13 @@ export default {
   name: "Name",
   mobile: "Mobile",
   taxIncluded: "15% Tax included",
+  userName: "User name",
+  userNameRequired: "User name is required",
+  emailWasSent: "New password was sent successfully to your email!",
+  somethingWrongHappen: "Something went wrong, please try again later !!",
+  dataUpdatedSuc: "Data updated successfully",
+  customerCreated: "New customer is been created successfully!!",
+  ID: "ID",
+  updateCustomer: "Update customer information",
+  customerCreated: "Customer information is been updated successfully!!",
 };

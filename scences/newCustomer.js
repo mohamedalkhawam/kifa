@@ -21,45 +21,51 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import Header from "../components/header";
+import { createCustomer } from "../redux/actions/customers";
 export default function Customers({ navigation }) {
   const { width: windowWidth, height: windowHeight } = useWindowDimensions();
-
-  // useEffect(() => {
-  //   console.log(), [];
-  // });
+  const [cashOrCredit, setCashOrCredit] = useState(false);
+  const authReducer = useSelector((state) => state.AuthReducer);
+  const customersReducer = useSelector((state) => state.customersReducer);
+  const [showSnake, setShowSnake] = useState("");
+  const [classType, setClassType] = useState("green");
+  const dispatch = useDispatch();
+  useEffect(() => {
+    let timeout;
+    if (showSnake !== "") {
+      timeout = setTimeout(() => {
+        setShowSnake("");
+      }, 5000);
+    }
+    return () => clearTimeout(timeout);
+  }, [showSnake]);
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    phoneNumber: "",
-    email: "",
-    referenceId: "",
-    remarks: "",
-    nationalId: "",
-    cashOrCredit: false,
+    name: "sdfsdf",
+    phone: "3243242342324",
+    email: "ssdssfdf@dfgdfdfd.com",
+    reference_id: "32423423",
+    notes: "fsdf",
+    national_id: "32423423",
+    payment_method: cashOrCredit ? "credit" : "cash",
   });
   const [validation, setValidation] = useState({
-    firstName: {
+    name: {
       message: "",
     },
-    lastName: {
-      message: "",
-    },
-    phoneNumber: {
+
+    phone: {
       message: "",
     },
     email: {
       message: "",
     },
-    referenceId: {
+    reference_id: {
       message: "",
     },
-    remarks: {
+    notes: {
       message: "",
     },
-    nationalId: {
-      message: "",
-    },
-    cashOrCredit: {
+    national_id: {
       message: "",
     },
   });
@@ -74,10 +80,15 @@ export default function Customers({ navigation }) {
         iconType={"newUser"}
       />
       {/* <View></View> */}
+      <View
+        style={[styles.flexCenter, { margin: 25 }, styles.responsiveDirection]}
+      >
+        <Text style={{ color: classType }}>{showSnake}</Text>
+      </View>
       <ScrollView
         style={[
           {
-            paddingTop: windowHeight * 0.1,
+            paddingTop: windowHeight * 0.01,
             paddingHorizontal: 20,
             width: "100%",
           },
@@ -98,13 +109,13 @@ export default function Customers({ navigation }) {
               <nativeElement.Icon
                 name="close"
                 size={25}
-                onPress={() => setFormData({ ...formData, firstName: "" })}
+                onPress={() => setFormData({ ...formData, name: "" })}
               />
             }
             // label="Email"
             inputStyle={styles.responsiveTextDirection}
-            placeholder={t("firstName")}
-            errorMessage={validation.firstName.message}
+            placeholder={t("name")}
+            errorMessage={validation.name.message}
             inputContainerStyle={[
               styles.responsiveDirection,
               styles.AuthInputContainerStyle,
@@ -113,15 +124,15 @@ export default function Customers({ navigation }) {
               width: windowWidth * 0.45,
               justifyContent: "center",
             }}
-            value={formData.firstName}
+            value={formData.name}
             onChangeText={(text) => {
-              setFormData({ ...formData, firstName: text });
+              setFormData({ ...formData, name: text });
               setValidation({
                 ...validation,
-                firstName: {
-                  ...validation.firstName,
+                name: {
+                  ...validation.name,
                   message:
-                    text.lenth < 3 && text.length > 0
+                    text.length < 3 && text.length > 0
                       ? t("firstNameShouldNotBeLessThanThreeLetters")
                       : text.length === 0
                       ? t("firstNameRequired")
@@ -130,46 +141,7 @@ export default function Customers({ navigation }) {
               });
             }}
           />
-          <nativeElement.Input
-            leftIcon={
-              <nativeElement.Icon name="person" size={29} color="#4E7D9B" />
-            }
-            rightIcon={
-              <nativeElement.Icon
-                name="close"
-                size={25}
-                onPress={() => setFormData({ ...formData, lastName: "" })}
-              />
-            }
-            // label="Email"
-            inputStyle={styles.responsiveTextDirection}
-            placeholder={t("lastName")}
-            errorMessage={validation.lastName.message}
-            inputContainerStyle={[
-              styles.responsiveDirection,
-              styles.AuthInputContainerStyle,
-            ]}
-            containerStyle={{
-              width: windowWidth * 0.45,
-              justifyContent: "center",
-            }}
-            value={formData.lastName}
-            onChangeText={(text) => {
-              setFormData({ ...formData, lastName: text });
-              setValidation({
-                ...validation,
-                lastName: {
-                  ...validation.lastName,
-                  message:
-                    text.lenth < 3 && text.length > 0
-                      ? t("lastNameShouldNotBeLessThanThreeLetters")
-                      : text.length === 0
-                      ? t("lastNameRequired")
-                      : "",
-                },
-              });
-            }}
-          />
+
           <nativeElement.Input
             leftIcon={
               <nativeElement.Icon name="email" size={25} color="#4E7D9B" />
@@ -218,13 +190,13 @@ export default function Customers({ navigation }) {
               <nativeElement.Icon
                 name="close"
                 size={25}
-                onPress={() => setFormData({ ...formData, nationalId: "" })}
+                onPress={() => setFormData({ ...formData, national_id: "" })}
               />
             }
             // label="Email"
             inputStyle={styles.responsiveTextDirection}
             placeholder={t("nationalId")}
-            errorMessage={validation.nationalId.message}
+            errorMessage={validation.national_id.message}
             inputContainerStyle={[
               styles.responsiveDirection,
               styles.AuthInputContainerStyle,
@@ -235,17 +207,17 @@ export default function Customers({ navigation }) {
               width: windowWidth * 0.45,
               justifyContent: "center",
             }}
-            value={formData.nationalId}
+            value={formData.national_id}
             onChangeText={(text) => {
-              setFormData({ ...formData, nationalId: text });
+              setFormData({ ...formData, national_id: text });
               setValidation({
                 ...validation,
-                nationalId: {
-                  ...validation.nationalId,
+                national_id: {
+                  ...validation.national_id,
                   message:
                     !validator.isNumeric(text) && text.length > 0
                       ? t("nationalIdMustBeNumbers")
-                      : text.lenth < 10 && text.length > 0
+                      : text.length < 10 && text.length > 0
                       ? t("nationalIdShouldn'tBeLessThantenLetters")
                       : text.length === 0
                       ? t("nationalIdRequired")
@@ -262,13 +234,13 @@ export default function Customers({ navigation }) {
               <nativeElement.Icon
                 name="close"
                 size={25}
-                onPress={() => setFormData({ ...formData, referenceId: "" })}
+                onPress={() => setFormData({ ...formData, reference_id: "" })}
               />
             }
             // label="Email"
             inputStyle={styles.responsiveTextDirection}
             placeholder={t("referenceId")}
-            errorMessage={validation.referenceId.message}
+            errorMessage={validation.reference_id.message}
             inputContainerStyle={[
               styles.responsiveDirection,
               styles.AuthInputContainerStyle,
@@ -277,13 +249,13 @@ export default function Customers({ navigation }) {
               width: windowWidth * 0.45,
               justifyContent: "center",
             }}
-            value={formData.referenceId}
+            value={formData.reference_id}
             onChangeText={(text) => {
-              setFormData({ ...formData, referenceId: text });
+              setFormData({ ...formData, reference_id: text });
               setValidation({
                 ...validation,
-                referenceId: {
-                  ...validation.referenceId,
+                reference_id: {
+                  ...validation.reference_id,
                   message:
                     !validator.isNumeric(text) && text.length > 0
                       ? t("referenceNumberMustbeatlest")
@@ -302,13 +274,13 @@ export default function Customers({ navigation }) {
               <nativeElement.Icon
                 name="close"
                 size={25}
-                onPress={() => setFormData({ ...formData, phoneNumber: "" })}
+                onPress={() => setFormData({ ...formData, phone: "" })}
               />
             }
             // label="Email"
             inputStyle={styles.responsiveTextDirection}
             placeholder={t("phoneNumber")}
-            errorMessage={validation.nationalId.message}
+            errorMessage={validation.national_id.message}
             inputContainerStyle={[
               styles.responsiveDirection,
               styles.AuthInputContainerStyle,
@@ -319,17 +291,17 @@ export default function Customers({ navigation }) {
               width: windowWidth * 0.45,
               justifyContent: "center",
             }}
-            value={formData.phoneNumber}
+            value={formData.phone}
             onChangeText={(text) => {
-              setFormData({ ...formData, phoneNumber: text });
+              setFormData({ ...formData, phone: text });
               setValidation({
                 ...validation,
-                phoneNumber: {
-                  ...validation.phoneNumber,
+                phone: {
+                  ...validation.phone,
                   message:
                     !validator.isNumeric(text) && text.length > 0
                       ? t("PhoneNumberMustBeNumbers")
-                      : text.lenth < 10 && text.length > 0
+                      : text.length < 10 && text.length > 0
                       ? t("PhoneNumberShouldntBeLessThantenNumbers")
                       : text.length === 0
                       ? t("PhoneNumberRequired")
@@ -350,14 +322,9 @@ export default function Customers({ navigation }) {
               {t("cash")}
             </Text>
             <nativeElement.Switch
-              value={formData.cashOrCredit}
+              value={cashOrCredit}
               color={primaryColor}
-              onChange={() =>
-                setFormData({
-                  ...formData,
-                  cashOrCredit: !formData.cashOrCredit,
-                })
-              }
+              onChange={() => setCashOrCredit(!cashOrCredit)}
               style={{ marginHorizontal: 20 }}
             />
             <Text
@@ -381,7 +348,7 @@ export default function Customers({ navigation }) {
               <nativeElement.Icon
                 name="close"
                 size={25}
-                onPress={() => setFormData({ ...formData, remarks: "" })}
+                onPress={() => setFormData({ ...formData, notes: "" })}
               />
             }
             // label="Email"
@@ -396,13 +363,13 @@ export default function Customers({ navigation }) {
               width: windowWidth * 0.45,
               justifyContent: "center",
             }}
-            value={formData.remarks}
+            value={formData.notes}
             onChangeText={(text) => {
-              setFormData({ ...formData, remarks: text });
+              setFormData({ ...formData, notes: text });
               setValidation({
                 ...validation,
-                remarks: {
-                  ...validation.remarks,
+                notes: {
+                  ...validation.notes,
                   message: text.length === 0 ? t("nationalIdRequired") : "",
                 },
               });
@@ -422,21 +389,48 @@ export default function Customers({ navigation }) {
                 title={t("save")}
                 disabled={
                   validation.email.message.length > 0 ||
-                  validation.firstName.message.length ||
-                  validation.lastName.message.length ||
-                  validation.nationalId.message.length ||
-                  validation.referenceId.message.length ||
-                  validation.remarks.message.length ||
-                  formData.email.lenth === 0 ||
-                  formData.firstName.length === 0 ||
-                  formData.lastName.lenth === 0 ||
-                  formData.nationalId.length === 0 ||
-                  formData.referenceId.lenth === 0 ||
-                  formData.remarks.length === 0
+                  validation.name.message.length > 0 ||
+                  validation.national_id.message.length > 0 ||
+                  validation.reference_id.message.length > 0 ||
+                  validation.notes.message.length > 0 ||
+                  validation.phone.message.length > 0 ||
+                  formData.email.length === 0 ||
+                  formData.name.length === 0 ||
+                  formData.national_id.length === 0 ||
+                  formData.phone.length === 0 ||
+                  formData.reference_id.length === 0 ||
+                  formData.notes.length === 0
                 }
                 buttonStyle={[styles.loginButton, { width: "100%" }]}
                 titleStyle={{ color: "#F8F8F8", fontWeight: "bold" }}
-                onPress={() => alert(JSON.stringify(formData))}
+                onPress={() => {
+                  dispatch(
+                    createCustomer(
+                      {
+                        name: formData.name,
+                        phone: formData.phone,
+                        email: formData.email,
+                        national_id: formData.national_id,
+                        reference_id: formData.reference_id,
+                        notes_en: formData.notes,
+                        payment_method: formData.payment_method,
+                        username: "dsfd",
+                        copies_number: 0,
+                      },
+                      authReducer.token
+                    )
+                  )
+                    .then((res) => {
+                      if (res.status === 200) {
+                        setShowSnake(t("customerCreated"));
+                        setClassType("green");
+                      } else {
+                        setShowSnake(t("somethingWrongHappen"));
+                        setClassType("red");
+                      }
+                    })
+                    .catch((err) => alert(err));
+                }}
                 containerStyle={{
                   paddingHorizontal: 10,
                   paddingVertical: 7,

@@ -18,7 +18,10 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
 } from "react-native";
+import { forgetPassword } from "../redux/actions/Auth";
+
 export default function ForgetPassword({ navigation }) {
+  const [showSnake, setShowSnake] = useState("");
   const { width: windowWidth, height: windowHeight } = useWindowDimensions();
   const [formData, setFormData] = useState({
     email: "",
@@ -28,8 +31,20 @@ export default function ForgetPassword({ navigation }) {
       message: "",
     },
   });
-  const { t } = useTranslation();
+  const authReducer = useSelector((state) => state.AuthReducer);
 
+  const [classType, setClassType] = useState("green");
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    let timeout;
+    if (showSnake !== "") {
+      timeout = setTimeout(() => {
+        setShowSnake("");
+      }, 5000);
+    }
+    return () => clearTimeout(timeout);
+  }, [showSnake]);
   const styles = globalStyle();
   return (
     <View style={styles.splitContainer}>
@@ -98,17 +113,38 @@ export default function ForgetPassword({ navigation }) {
           }}
         />
         {/* ////////////////////////////////////////////////////////////////////////// */}
-
+        <View
+          style={[
+            styles.flexStart,
+            { marginHorizontal: 10 },
+            styles.responsiveDirection,
+          ]}
+        >
+          <Text style={{ color: classType }}>{showSnake}</Text>
+        </View>
         <View style={{ flex: 1 }}></View>
         <KeyboardAvoidingView style={[styles.flexBetween]}>
           <nativeElement.Button
+            loading={authReducer.loading}
             disabled={
               validation.email.message.length > 0 || formData.email.length === 0
             }
             title={t("getNewPassword")}
             buttonStyle={[styles.loginButton]}
             titleStyle={{ color: "#F8F8F8", fontWeight: "bold" }}
-            onPress={() => setLocale("en")}
+            onPress={() => {
+              dispatch(
+                forgetPassword({ email: formData.email.toLowerCase() })
+              ).then((res) => {
+                if (res.status === 200) {
+                  setShowSnake(t("emailWasSent"));
+                  setClassType("green");
+                } else {
+                  setShowSnake(t("somethingWrongHappen"));
+                  setClassType("red");
+                }
+              });
+            }}
             containerStyle={{
               paddingHorizontal: 10,
               paddingVertical: 7,
@@ -120,7 +156,7 @@ export default function ForgetPassword({ navigation }) {
       </View>
       <View style={[styles.partContainer, styles.logoView]}>
         <View style={[styles.logoCard]}>
-          <Text> Logo</Text>
+          <Text>Logo</Text>
         </View>
       </View>
     </View>

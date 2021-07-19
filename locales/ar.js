@@ -73,4 +73,13 @@ export default {
   name: "الاسم",
   mobile: "رقم الهاتف",
   taxIncluded: "الفاتورة متضمنة 15% ضريبة",
+  userName: "اسم المستخدم",
+  userNameRequired: "اسم المستخدم مطلوب",
+  emailWasSent: "تم ارسال كلمة المرور الجديدة الى البريد الالكتروني بنجاح",
+  somethingWrongHappen: "شيئ ما حدث, برجاء المحاولة مرة اخرى",
+  dataUpdatedSuc: "تم تحديث البيانات بنجاح",
+  customerCreated: "تم انشاء زبون جديد بنجاح",
+  ID: "ID",
+  updateCustomer: "تحديث بيانات الزبون",
+  customerCreated: "تم تحديث بيانات الزبون بنجاح",
 };

@@ -1,7 +1,7 @@
 export const invoices = [
   {
-    id: 125121215,
-    invoiceNumber: 121215,
+    id: 11111,
+    invoiceNumber: "121215",
     merchantName: "Othain",
     merchantAddress: "33 Abas st. Cairo, Egypt ",
     paymentMethod: "Cash",
@@ -12,8 +12,8 @@ export const invoices = [
     status: "pending",
   },
   {
-    id: 125161215,
-    invoiceNumber: 121215,
+    id: 22222,
+    invoiceNumber: "121215",
     merchantName: "Othain",
     merchantAddress: "33 Abas st. Cairo, Egypt ",
     paymentMethod: "Cash",
@@ -24,8 +24,8 @@ export const invoices = [
     status: "pending",
   },
   {
-    id: 185121215,
-    invoiceNumber: 121215,
+    id: 33333,
+    invoiceNumber: "121215",
     merchantName: "Othain",
     merchantAddress: "33 Abas st. Cairo, Egypt ",
     paymentMethod: "Cash",
@@ -36,8 +36,8 @@ export const invoices = [
     status: "pending",
   },
   {
-    id: 125121295,
-    invoiceNumber: 121215,
+    id: 44444,
+    invoiceNumber: "121215",
     merchantName: "Othain",
     merchantAddress: "33 Abas st. Cairo, Egypt ",
     paymentMethod: "Cash",
@@ -48,8 +48,8 @@ export const invoices = [
     status: "pending",
   },
   {
-    id: 235121215,
-    invoiceNumber: 121215,
+    id: 55555,
+    invoiceNumber: "121215",
     merchantName: "Othain",
     merchantAddress: "33 Abas st. Cairo, Egypt ",
     paymentMethod: "Cash",
@@ -60,8 +60,8 @@ export const invoices = [
     status: "completed",
   },
   {
-    id: 245121215,
-    invoiceNumber: 121215,
+    id: 66666,
+    invoiceNumber: "121215",
     merchantName: "Othain",
     merchantAddress: "33 Abas st. Cairo, Egypt ",
     paymentMethod: "Cash",
@@ -72,8 +72,8 @@ export const invoices = [
     status: "completed",
   },
   {
-    id: 255121215,
-    invoiceNumber: 121215,
+    id: 77777,
+    invoiceNumber: "121215",
     merchantName: "Othain",
     merchantAddress: "33 Abas st. Cairo, Egypt ",
     paymentMethod: "Cash",
@@ -84,8 +84,8 @@ export const invoices = [
     status: "completed",
   },
   {
-    id: 265121215,
-    invoiceNumber: 121215,
+    id: 88888,
+    invoiceNumber: "121215",
     merchantName: "Othain",
     merchantAddress: "33 Abas st. Cairo, Egypt ",
     paymentMethod: "Cash",

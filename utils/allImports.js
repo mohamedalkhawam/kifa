@@ -24,6 +24,9 @@ import {
   addOne,
   removeOne,
 } from "../redux/actions/app";
+import Loader from "../components/loader";
+import _objI from "./_objI";
+import _objO from "./_objO";
 export {
   localize,
   wp,
@@ -53,4 +56,7 @@ export {
   addOne,
   removeOne,
   renderHeaderIcons,
+  _objI,
+  _objO,
+  Loader,
 };

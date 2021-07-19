@@ -9,6 +9,7 @@ import Invoices from "../scences/invoices";
 import Settings from "../scences/settings";
 import Menu from "../scences/menu";
 import NewCustomer from "../scences/newCustomer";
+import UpdateCustomer from "../scences/updateCustomer";
 import Scanner from "../scences/scanner";
 const HomeStack = createStackNavigator();
 export const HomeStackScreen = () => {
@@ -67,6 +68,11 @@ export const HomeStackScreen = () => {
       <HomeStack.Screen
         name="newCustomer"
         component={NewCustomer}
+        options={horizontalAnimation}
+      />
+      <HomeStack.Screen
+        name="updateCustomer"
+        component={UpdateCustomer}
         options={horizontalAnimation}
       />
       <HomeStack.Screen

@@ -46,18 +46,18 @@ export default function ProductCard({ name, image, price, id }) {
       style={[styles.productCardStyle, animationStyle()]}
       onTouchStart={() => {
         triggerAnimation();
-        dispatch(addProduct({ id, name, price }));
+        dispatch(addProduct({ id, name, price: price * 1 }));
       }}
     >
       <View style={styles.productCardImageStyle}>
         <Image
-          source={require("../assets/product.png")}
+          source={{ uri: image ? image : "" }}
           style={{ width: "100%", height: "100%" }}
         />
       </View>
       <Text style={styles.productCardTitleStyle}>{name}</Text>
       <Text style={styles.productCardPriceStyle}>
-        {price.toFixed(3)}{" "}
+        {price ? (price * 1).toFixed(3) : ""}{" "}
         <Text style={[styles.tableTitleTextStyle, { fontSize: 9 }]}>SAR</Text>
       </Text>
     </Animated.View>

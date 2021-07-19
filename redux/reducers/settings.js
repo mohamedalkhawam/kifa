@@ -1,17 +1,13 @@
 import {
-  READ_PLANS,
-  READ_ONE_PLAN,
-  CREATE_PLAN,
-  UPDATE_PLAN,
-  DELETE_PLAN,
-  CLEAR_PLAN,
-  START_PLANS_RELOAD,
-  FINISHED_PLANS_RELOAD,
-} from "../types/plans";
+  READ_SETTINGS,
+  UPDATE_SETTING,
+  CLEAR_SETTING,
+  START_SETTINGS_RELOAD,
+  FINISHED_SETTINGS_RELOAD,
+} from "../types/settings";
 
 const initialState = {
-  plans: [],
-  plan: {},
+  settings: {},
   error: {},
   loading: false,
   readable: false,
@@ -21,29 +17,31 @@ export default function (state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
-    case READ_PLANS:
+    case READ_SETTINGS:
       return {
         ...state,
-        plans: payload.data,
+        settings: payload.data,
         readable: true,
       };
-    case READ_ONE_PLAN:
+    case UPDATE_SETTING:
       return {
         ...state,
-        plan: payload.data,
+        settings: { ...payload.data },
       };
-
-    case START_PLANS_RELOAD:
+    case CLEAR_SETTING:
+      return { ...state, settings: {} };
+    case START_SETTINGS_RELOAD:
       return {
         ...state,
         loading: true,
       };
 
-    case FINISHED_PLANS_RELOAD:
+    case FINISHED_SETTINGS_RELOAD:
       return {
         ...state,
         loading: false,
       };
+
     default:
       return state;
   }

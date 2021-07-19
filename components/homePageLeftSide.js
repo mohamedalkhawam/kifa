@@ -21,6 +21,10 @@ import {
   KeyboardAvoidingView,
   ScrollView,
 } from "react-native";
+import { logout } from "../redux/actions/Auth";
+import { readCustomers } from "../redux/actions/customers";
+
+import Autocomplete from "./autoComplete";
 export default function HomePageLeftSide({ navigation }) {
   const { width: windowWidth, height: windowHeight } = useWindowDimensions();
   const [formData, setFormData] = useState({});
@@ -32,6 +36,10 @@ export default function HomePageLeftSide({ navigation }) {
   const [searchValue, setSearchValue] = useState("");
   const { t } = useTranslation();
   const appReducer = useSelector((state) => state.appReducer);
+  const authReducer = useSelector((state) => state.AuthReducer);
+  useEffect(() => {
+    console.log(appReducer.list);
+  }, [appReducer.list]);
   useEffect(() => {
     let totalPrice = appReducer.list.map((el) => el.price * el.quantity);
     let totalquantity = appReducer.list.map((el) => el.quantity);
@@ -42,6 +50,9 @@ export default function HomePageLeftSide({ navigation }) {
     });
   }, [appReducer.list]);
   const styles = globalStyle();
+  useEffect(() => {
+    dispatch(readCustomers(authReducer.token));
+  }, []);
   return (
     <View style={styles.container}>
       {/* Header Start */}
@@ -247,7 +258,7 @@ export default function HomePageLeftSide({ navigation }) {
       <View style={styles.floatingActionButtonsContainer}>
         <nativeElement.Button
           title={t("print")}
-          onPress={() => navigation.navigate("menu")}
+          onPress={() => dispatch(logout())}
           type="solid"
           buttonStyle={styles.floatingActionButtonsStyle}
           icon={

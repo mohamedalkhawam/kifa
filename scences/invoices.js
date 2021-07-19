@@ -3,33 +3,28 @@ import {
   useSelector,
   useDispatch,
   useState,
-  useEffect,
-  localize,
-  nativeElement,
-  primaryColor,
-  secondaryColor,
   globalStyle,
-  validator,
-  invoicesCard,
+  useEffect,
 } from "../utils/allImports";
 import { useTranslation } from "react-i18next";
 import {
   View,
-  useWindowDimensions,
   Text,
   ScrollView,
-  KeyboardAvoidingView,
   Animated,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { invoices } from "../fakeData/invoices";
 import { pendingInvoices } from "../fakeData/pendingInvoices";
 import InvoicesCard from "../components/invoicesCard";
 import Header from "../components/header";
+import Autocomplete from "../components/autoComplete";
 export default function Invoices({ navigation }) {
-  const { width: windowWidth, height: windowHeight } = useWindowDimensions();
   const tab1 = useState(new Animated.Value(1))[0];
   const tab2 = useState(new Animated.Value(1))[0];
   const [currentTab, setCurrentTab] = useState(0);
+  const [query, setQuery] = useState("");
+  const [searchObject, setSearchObject] = useState({});
   const pushIn = (value) => {
     return Animated.timing(value, {
       toValue: 0.7,
@@ -60,9 +55,11 @@ export default function Invoices({ navigation }) {
       ],
     };
   };
+  useEffect(() => {
+    console.log(searchObject);
+  }, [searchObject]);
   const styles = globalStyle();
   const { t } = useTranslation();
-
   return (
     <View styles={styles.container}>
       <Header
@@ -107,6 +104,14 @@ export default function Invoices({ navigation }) {
           </Animated.Text>
         </View>
       </View>
+      <Autocomplete
+        data={currentTab === 0 ? invoices : pendingInvoices}
+        setQuery={setQuery}
+        query={query}
+        searchElement={"invoiceNumber"}
+        placeholder={t("Search...")}
+        pressHandler={setSearchObject}
+      />
       <ScrollView
         style={[
           {
@@ -116,39 +121,57 @@ export default function Invoices({ navigation }) {
           },
         ]}
       >
-        {currentTab === 0
-          ? invoices.map((item, index) => (
-              <InvoicesCard
-                key={index}
-                id={item.id}
-                invoiceNumber={item.invoiceNumber}
-                merchantName={item.merchantName}
-                merchantAddress={item.merchantAddress}
-                paymentMethod={item.paymentMethod}
-                clientName={item.clientName}
-                clientMobile={item.clientMobile}
-                totalPrice={item.totalPrice}
-                date={item.date}
-                status={item.status}
-                navigation={navigation}
-              />
-            ))
-          : pendingInvoices.map((item, index) => (
-              <InvoicesCard
-                key={index}
-                id={item.id}
-                invoiceNumber={item.invoiceNumber}
-                merchantName={item.merchantName}
-                merchantAddress={item.merchantAddress}
-                paymentMethod={item.paymentMethod}
-                clientName={item.clientName}
-                clientMobile={item.clientMobile}
-                totalPrice={item.totalPrice}
-                date={item.date}
-                status={item.status}
-                navigation={navigation}
-              />
-            ))}
+        {query && query !== "" && (currentTab === 1 || currentTab === 0) ? (
+          <InvoicesCard
+            id={searchObject.id}
+            invoiceNumber={searchObject.invoiceNumber}
+            merchantName={searchObject.merchantName}
+            merchantAddress={searchObject.merchantAddress}
+            paymentMethod={searchObject.paymentMethod}
+            clientName={searchObject.clientName}
+            clientMobile={searchObject.clientMobile}
+            totalPrice={searchObject.totalPrice}
+            date={searchObject.date}
+            status={searchObject.status}
+            navigation={navigation}
+          />
+        ) : currentTab === 0 && query === "" ? (
+          invoices.map((item, index) => (
+            <InvoicesCard
+              key={index}
+              id={item.id}
+              invoiceNumber={item.invoiceNumber}
+              merchantName={item.merchantName}
+              merchantAddress={item.merchantAddress}
+              paymentMethod={item.paymentMethod}
+              clientName={item.clientName}
+              clientMobile={item.clientMobile}
+              totalPrice={item.totalPrice}
+              date={item.date}
+              status={item.status}
+              navigation={navigation}
+            />
+          ))
+        ) : currentTab === 1 && query === "" ? (
+          pendingInvoices.map((item, index) => (
+            <InvoicesCard
+              key={index}
+              id={item.id}
+              invoiceNumber={item.invoiceNumber}
+              merchantName={item.merchantName}
+              merchantAddress={item.merchantAddress}
+              paymentMethod={item.paymentMethod}
+              clientName={item.clientName}
+              clientMobile={item.clientMobile}
+              totalPrice={item.totalPrice}
+              date={item.date}
+              status={item.status}
+              navigation={navigation}
+            />
+          ))
+        ) : (
+          <View></View>
+        )}
         <View style={{ padding: 150 }}></View>
       </ScrollView>
       <View style={{ padding: 20 }}></View>

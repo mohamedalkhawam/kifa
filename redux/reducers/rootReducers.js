@@ -1,27 +1,13 @@
 import { combineReducers } from "redux";
-import { AuthReducer } from "./Auth";
-import servicesReducer from "./services";
-import plansReducer from "./plans";
-import carsReducer from "./cars";
-import usersReducer from "./user";
-import citiesReducer from "./city";
-import buildingsReducer from "./buildings";
-import ordersReducer from "./orders";
-import scheduledWashesReducer from "./scheduledWashes";
-import introReducer from "./intro";
-import notificationsReducer from "./notifications";
+import AuthReducer from "./Auth";
+import productsReducer from "./products";
 import appReducer from "./app";
+import customersReducer from "./customers";
+import settingsReducer from "./settings";
 export default combineReducers({
   AuthReducer,
-  servicesReducer,
-  plansReducer,
-  carsReducer,
-  usersReducer,
-  citiesReducer,
-  buildingsReducer,
-  ordersReducer,
-  scheduledWashesReducer,
-  introReducer,
-  notificationsReducer,
   appReducer,
+  productsReducer,
+  customersReducer,
+  settingsReducer,
 });

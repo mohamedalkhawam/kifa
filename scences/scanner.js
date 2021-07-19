@@ -32,7 +32,11 @@ export default function App() {
     );
     alert(`Bar code with type ${type} and data ${data} has been scanned!`);
   };
-
+  useEffect(() => {
+    setTimeout(() => {
+      setScanned(false);
+    }, 1000);
+  }, [scanned]);
   if (hasPermission === null) {
     return <Text>Requesting for camera permission</Text>;
   }
@@ -45,10 +49,11 @@ export default function App() {
       <BarCodeScanner
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={{ position: "absolute", width: "100%", height: "100%" }}
+        barCodeTypes={["org.gs1.EAN-13"]}
       />
-      {scanned && (
+      {/* {scanned && (
         <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />
-      )}
+      )} */}
     </View>
   );
 }

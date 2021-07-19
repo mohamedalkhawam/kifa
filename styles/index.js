@@ -46,7 +46,7 @@ export const globalStyle = () => {
       alignItems: "center",
     },
     header: {
-      height: windowHeight * 0.13,
+      height: 100,
       width: windowWidth,
       backgroundColor: primaryColor,
       justifyContent: "center",
@@ -114,13 +114,14 @@ export const globalStyle = () => {
       borderRadius: 8,
     },
     shadow: {
+      shadowColor: "#000",
       shadowOffset: {
-        width: 5,
-        height: 5,
+        width: 0,
+        height: 0,
       },
-      shadowColor: "#212121",
       shadowOpacity: 0.1,
-      elevation: 2,
+      shadowRadius: 4,
+      elevation: 5,
     },
     flexBetween: {
       width: "100%",
@@ -555,7 +556,7 @@ export const globalStyle = () => {
       flexDirection: "row",
       justifyContent: "space-between",
       alignItems: "center",
-      marginVertical: 10,
+      marginTop: 15,
       backgroundColor: "#F8F8F8",
       shadowColor: "#000",
       shadowOffset: {
@@ -611,6 +612,74 @@ export const globalStyle = () => {
       fontSize: 22,
       fontWeight: "400",
       textDecorationLine: "underline",
+    },
+    autocompleteWrapper: {
+      width: "100%",
+      // flexDirection: "row",
+      // alignItems: "center",
+      // justifyContent: "center",
+      paddingHorizontal: 20,
+      zIndex: 1000,
+      paddingTop: 20,
+    },
+    autocompleteContainerView: {
+      width: "100%",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+
+      borderRadius: 5,
+      borderColor: primaryColor,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 0,
+      },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+      elevation: 5,
+      backgroundColor: "white",
+      position: "relative",
+    },
+    autocompleteContainer: {
+      width: "100%",
+    },
+    autoCompleteInputContainerStyle: {
+      borderWidth: 0,
+      padding: 7,
+    },
+    autoCompleteInput: {
+      height: 55,
+      marginHorizontal: 15,
+    },
+    snakeSuccesfully: {
+      color: "green",
+    },
+    someThingWentWrongSnake: {
+      color: "red",
+    },
+    customerCardHeaderStyle: {
+      marginTop: 25,
+      width: "100%",
+      backgroundColor: primaryColor,
+      borderTopLeftRadius: 5,
+      borderTopRightRadius: 5,
+      paddingHorizontal: 7,
+      paddingVertical: 5,
+    },
+    customerCardWrapper: {
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 0,
+      },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+      elevation: 5,
+    },
+    searchListStyle: {
+      justifyContent: "center",
+      maxHeight: windowHeight * 0.2,
     },
   });
 };

@@ -3,16 +3,10 @@ export const FINISHED_RELOAD = "FINISHED_RELOAD";
 export const TOGGLE_SIDEBAR = "TOGGLE_SIDEBAR";
 
 export const LOGIN = "LOGIN";
-export const REGISTER = "REGISTER";
 export const USER_LOADED = "USER_LOADED";
 export const LOGOUT = "LOGOUT";
 export const FORGET_PASSWORD = "FORGET_PASSWORD";
-export const RESET_PASSWORD = "RESET_PASSWORD";
 export const AUTH_ERROR = "AUTH_ERROR";
-export const SPREAD_LAWS = "SPREAD_LAWS";
 export const START_AUTH_RELOAD = "START_AUTH_RELOAD";
 export const FINISHED_AUTH_RELOAD = "FINISHED_AUTH_RELOAD";
-export const GET_SUBSCRIPTIONS = "GET_SUBSCRIPTIONS";
-export const EMAIL_EXIST = "EMAIL_EXIST";
-export const EMAIL_ERROR = "EMAIL_ERROR";
 export const SET_TOKEN = "SET_TOKEN";
