@@ -19,7 +19,7 @@ export const finishedInvoiceReload = () => (dispatch) => {
 
 export const readInvoices = (token) =>
   readItemsAsync({
-    url: "https://car-wash-uae.herokuapp.com/api/cars/all",
+    url: "http://139.162.165.250/kifa/api/get-invoices",
     successType: READ_INVOICES,
     errorType: INVOICE_ERROR,
     startReload: startInvoiceReload,

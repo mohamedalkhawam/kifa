@@ -6,13 +6,14 @@ import {
   useEffect,
   nativeElement,
   globalStyle,
+  localize,
+  AsyncStorage,
+  validator,
   addOne,
   removeOne,
   Loader,
   secondaryColor,
   primaryColor,
-  _objI,
-  _objO,
 } from "../utils/allImports";
 import { useTranslation } from "react-i18next";
 import {
@@ -25,6 +26,8 @@ import {
 } from "react-native";
 import { logout } from "../redux/actions/Auth";
 import { readCustomers } from "../redux/actions/customers";
+
+import Autocomplete from "./autoComplete";
 export default function HomePageLeftSide({ navigation }) {
   const { width: windowWidth, height: windowHeight } = useWindowDimensions();
   const [formData, setFormData] = useState({});
@@ -33,8 +36,8 @@ export default function HomePageLeftSide({ navigation }) {
     quantity: 0,
   });
   const dispatch = useDispatch();
+  const [searchValue, setSearchValue] = useState("");
   const { t } = useTranslation();
-  const [suggestions, setSuggestions] = useState([]);
   const appReducer = useSelector((state) => state.appReducer);
   const authReducer = useSelector((state) => state.AuthReducer);
   const customersReducer = useSelector((state) => state.customersReducer);
@@ -56,81 +59,6 @@ export default function HomePageLeftSide({ navigation }) {
   useEffect(() => {
     dispatch(readCustomers(authReducer.token));
   }, []);
-
-  ///////////////////////////////////////////////////////////////////////////////
-  const onTextChanged = (value) => {
-    let suggestions = [];
-    setQuery(value);
-    if (value.length > 0) {
-      const regex = new RegExp(`^${value}`, "i");
-      suggestions =
-        customersReducer.customers
-          .sort()
-          .filter((v) => regex.test(v["reference_id"])).length > 0
-          ? customersReducer.customers
-              .sort()
-              .filter((v) => regex.test(v["reference_id"]))
-          : [{ ["reference_id"]: "Not found..." }];
-    }
-    setSuggestions(suggestions);
-  };
-
-  //////////////////////////////////////////////////////////////////////
-  const suggestionSelected = (value, searchQeury) => {
-    setQuery(searchQeury);
-    setSuggestions([]);
-    setSearchObject(value);
-  };
-  ////////////////////////////////////////////////////////////////////////////
-  const renderSuggestions = () => {
-    if (suggestions.length === 0) {
-      return null;
-    }
-    return suggestions.map((item, index) => (
-      <TouchableOpacity
-        key={index}
-        style={styles.searchListStyle}
-        onPress={() => suggestionSelected(item, item["reference_id"])}
-      >
-        <nativeElement.Divider
-          orientation="horizontal"
-          width={1}
-          style={{ paddingVertical: 0, marginTop: 0 }}
-        />
-        <View style={{ padding: 15 }}>
-          {item["reference_id"] !== "Not found..." ? (
-            <Text
-              style={{
-                fontSize: 16,
-                paddingBottom: 5,
-                color: "#555",
-                fontWeight: "bold",
-              }}
-            >
-              {item["name"]}
-            </Text>
-          ) : (
-            <View></View>
-          )}
-
-          <Text
-            style={{
-              fontSize: 12,
-              color: "#666",
-            }}
-          >
-            {item["reference_id"]}
-          </Text>
-        </View>
-        <nativeElement.Divider
-          orientation="horizontal"
-          width={1}
-          style={{ paddingVertical: 0, marginBottom: 0 }}
-        />
-      </TouchableOpacity>
-    ));
-  };
-
   if (authReducer.loading || customersReducer.loading) {
     return <Loader bgc={secondaryColor} color={primaryColor} />;
   } else {
@@ -141,9 +69,7 @@ export default function HomePageLeftSide({ navigation }) {
           <View style={styles.flexCenter}>
             <Text style={styles.HomePageLeftSideTitleStyle}>Facility Name</Text>
           </View>
-          <View
-            style={[styles.flexBetween, { height: 50, position: "relative" }]}
-          >
+          <View style={[styles.flexBetween, { height: 50 }]}>
             <nativeElement.Button
               onPress={() => navigation.navigate("menu")}
               type="clear"
@@ -156,14 +82,21 @@ export default function HomePageLeftSide({ navigation }) {
                 />
               }
             />
-
-            <nativeElement.Input
-              onFocus={() => setSuggestions(customersReducer.customers)}
-              onPress={() => setSuggestions(customersReducer.customers)}
-              onBlur={() => {
-                let timeout = setTimeout(() => setSuggestions([]), 1000);
-                return () => clearTimeout(timeout);
-              }}
+            <Autocomplete
+              data={
+                customersReducer.customers.length > 0
+                  ? customersReducer.customers
+                  : []
+              }
+              setQuery={setQuery}
+              query={query}
+              searchElement={"reference_id"}
+              renderedData={""}
+              placeholder={t("Search...")}
+              name={"name"}
+              pressHandler={setSearchObject}
+            />
+            {/* <nativeElement.Input
               leftIcon={
                 <nativeElement.Icon
                   name={"search"}
@@ -172,14 +105,10 @@ export default function HomePageLeftSide({ navigation }) {
                   type="ionicon"
                 />
               }
-              value={query}
+              value={searchValue}
               rightIcon={
                 <nativeElement.Icon
-                  onPress={() => {
-                    setQuery("");
-                    setSuggestions([]);
-                    setSearchObject({});
-                  }}
+                  onPress={(text) => setSearchValue(text)}
                   name="close"
                   size={25}
                   color="#4E7D9B"
@@ -201,10 +130,9 @@ export default function HomePageLeftSide({ navigation }) {
                   height: 40,
                 },
               ]}
-              onChangeText={(text) => onTextChanged(text)}
+              onChangeText={(text) => setSearchValue(text)}
               // onFocus={() => alert("dd")}
-            />
-
+            /> */}
             <nativeElement.Button
               onPress={() => navigation.navigate("newCustomer")}
               type="clear"
@@ -218,52 +146,6 @@ export default function HomePageLeftSide({ navigation }) {
               }
             />
           </View>
-          {suggestions.length > 0 || _objI(searchObject) ? (
-            <View style={[styles.flexCenter]}>
-              <View
-                style={[
-                  styles.flexStart,
-                  {
-                    width: "66%",
-                    flexDirection: "column",
-                    position: "relative",
-                    flexWrap: "wrap",
-                    alignItems: "flex-start",
-                  },
-                ]}
-              >
-                {_objI(searchObject) && searchObject.name ? (
-                  <Text>
-                    <Text style={styles.bold}>Customer:{"  "} </Text>
-                    {searchObject.name}
-                  </Text>
-                ) : (
-                  <View></View>
-                )}
-                {_objI(searchObject) && searchObject.name ? (
-                  <Text>
-                    <Text style={styles.bold}>Phone: </Text>{" "}
-                    {searchObject.phone}
-                  </Text>
-                ) : (
-                  <View></View>
-                )}
-                <ScrollView
-                  style={{
-                    width: "100%",
-                    maxHeight: 213,
-                    position: "absolute",
-                    backgroundColor: "white",
-                    top: _objI(searchObject) ? -15 : -25,
-                  }}
-                >
-                  {renderSuggestions()}
-                </ScrollView>
-              </View>
-            </View>
-          ) : (
-            <></>
-          )}
         </View>
         {/* Header end */}
         {/* start page body */}
@@ -432,7 +314,7 @@ export default function HomePageLeftSide({ navigation }) {
           />
           <nativeElement.Button
             title={t("save")}
-            onPress={() => setSearchObject({})}
+            onPress={() => navigation.navigate("menu")}
             type="solid"
             buttonStyle={styles.floatingActionButtonsStyle}
             icon={

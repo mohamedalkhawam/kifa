@@ -95,12 +95,17 @@ export default function AutocompleteSearch({
   const styles = globalStyle();
   const { t } = useTranslation();
   return (
-    <View style={styles.autocompleteWrapper}>
+    <View style={[styles.autocompleteWrapper, { zIndex: 10000 }]}>
       <View style={styles.autocompleteContainerView}>
-        <View style={styles.autocompleteContainer}>
+        <View
+          style={[
+            styles.autocompleteContainer,
+            { position: "relative", backgroundColor: "white" },
+          ]}
+        >
           <TextInput
-            onPress={() => setSuggestions(data)}
             onFocus={() => setSuggestions(data)}
+            onPress={() => setSuggestions(data)}
             onBlur={() => {
               let timeout = setTimeout(() => setSuggestions([]), 1000);
               return () => clearTimeout(timeout);
@@ -117,6 +122,9 @@ export default function AutocompleteSearch({
             style={{
               width: "100%",
               maxHeight: name ? 213 : 150,
+              position: "absolute",
+              backgroundColor: "white",
+              top: 55,
             }}
           >
             {renderSuggestions()}

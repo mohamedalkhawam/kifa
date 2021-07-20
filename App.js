@@ -11,6 +11,7 @@ import { loadUser, setToken } from "./redux/actions/Auth";
 import { readProducts } from "./redux/actions/products";
 import { readSettings } from "./redux/actions/settings";
 import { readCustomers } from "./redux/actions/customers";
+import { readInvoices } from "./redux/actions/invoice";
 export default function App() {
   async function changeScreenOrientation() {
     await ScreenOrientation.lockAsync(
@@ -24,6 +25,11 @@ export default function App() {
       store.dispatch(readProducts(token));
       store.dispatch(readSettings(token));
       store.dispatch(readCustomers(token));
+      store
+        .dispatch(readInvoices(token))
+        .then((res) =>
+          console.log({ mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm: res.data })
+        );
     });
     changeScreenOrientation().catch((err) => alert(err));
     AsyncStorage.getItem("lang", (err, res) => {
