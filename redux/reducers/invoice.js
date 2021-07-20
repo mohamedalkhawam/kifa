@@ -1,14 +1,14 @@
 import {
-  READ_NOTIFICATIONS,
-  NOTIFICATIONS_ERROR,
-  START_NOTIFICATIONS_RELOAD,
-  FINISHED_NOTIFICATIONS_RELOAD,
-  DELETE_NOTIFICATIONS,
-} from "../types/notifications";
+  READ_INVOICES,
+  READ_ONE_INVOICE,
+  START_INVOICES_RELOAD,
+  FINISHED_INVOICES_RELOAD,
+} from "../types/invoice";
 
 const initialState = {
-  notifications: [],
-  user: {},
+  invoices: [],
+  pendingInvoices: [],
+  invoice: {},
   error: {},
   loading: false,
   readable: false,
@@ -18,24 +18,27 @@ export default function (state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
-    case READ_NOTIFICATIONS:
+    case READ_INVOICES:
       return {
         ...state,
-        notifications: payload.data,
+        invoices: payload.data.invoices,
+        pendingInvoices: payload.data.pendingInvoices,
         readable: true,
       };
-    case DELETE_NOTIFICATIONS:
+
+    case READ_ONE_INVOICE:
       return {
         ...state,
-        notifications: [],
+        invoice: payload.data,
       };
-    case START_NOTIFICATIONS_RELOAD:
+
+    case START_INVOICES_RELOAD:
       return {
         ...state,
         loading: true,
       };
 
-    case FINISHED_NOTIFICATIONS_RELOAD:
+    case FINISHED_INVOICES_RELOAD:
       return {
         ...state,
         loading: false,
