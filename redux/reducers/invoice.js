@@ -7,7 +7,6 @@ import {
 
 const initialState = {
   invoices: [],
-  pendingInvoices: [],
   invoice: {},
   error: {},
   loading: false,
@@ -21,8 +20,7 @@ export default function (state = initialState, action) {
     case READ_INVOICES:
       return {
         ...state,
-        invoices: payload.data.invoices,
-        pendingInvoices: payload.data.pendingInvoices,
+        invoices: payload.data,
         readable: true,
       };
 

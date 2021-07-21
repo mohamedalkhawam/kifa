@@ -25,11 +25,7 @@ export default function App() {
       store.dispatch(readProducts(token));
       store.dispatch(readSettings(token));
       store.dispatch(readCustomers(token));
-      store
-        .dispatch(readInvoices(token))
-        .then((res) =>
-          console.log({ mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm: res.data })
-        );
+      store.dispatch(readInvoices(token));
     });
     changeScreenOrientation().catch((err) => alert(err));
     AsyncStorage.getItem("lang", (err, res) => {

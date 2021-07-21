@@ -1,11 +1,11 @@
-import axios from 'axios';
-import { setAlert } from '../alert';
-import { setProgress } from '../app';
+import axios from "axios";
+import { setAlert } from "../alert";
+import { setProgress } from "../app";
 
 export const readOneItemAsync = (data) => {
   return async (dispatch) => {
     let config;
-    if (data.type === 'file') {
+    if (data.type === "file") {
       let percentCompleted;
       config = {
         onUploadProgress: (progressEvent) => {
@@ -27,14 +27,16 @@ export const readOneItemAsync = (data) => {
       return success;
     };
     const onError = (error) => {
-      dispatch(setAlert('error something went wrong', 'error'));
+      dispatch(setAlert("error something went wrong", "error"));
       dispatch({ type: data.errorType });
       !data.noReload && dispatch(data.finishedReload());
       return error;
     };
     try {
       !data.noReload && dispatch(data.startReload());
-      const success = await axios.get(`${data.url}/${data.id}`, config);
+      const success = data.id
+        ? await axios.get(`${data.url}/${data.id}`, config)
+        : await axios.get(`${data.url}`, data.formData, config);
       return onSuccess(success);
     } catch (error) {
       return onError(error);

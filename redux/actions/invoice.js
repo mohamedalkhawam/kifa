@@ -5,7 +5,7 @@ import {
   START_INVOICES_RELOAD,
   FINISHED_INVOICES_RELOAD,
 } from "../types/invoice";
-
+import axios from "axios";
 import { readItemsAsync } from "./equCurd/readItems";
 import { readOneItemAsync } from "./equCurd/readOneItem";
 
@@ -29,15 +29,16 @@ export const readInvoices = (token) =>
     },
   });
 
-export const readOneInvoice = (id, token) =>
-  readOneItemAsync({
-    url: `https://car-wash-uae.herokuapp.com/api/cars/`,
+export const readOneInvoice = (formData, token) => {
+  return readItemsAsync({
+    url: `http://139.162.165.250/kifa/api/invoice-details`,
     successType: READ_ONE_INVOICE,
     errorType: INVOICE_ERROR,
     startReload: startInvoiceReload,
     finishedReload: finishedInvoiceReload,
-    id,
+    formData,
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
+};

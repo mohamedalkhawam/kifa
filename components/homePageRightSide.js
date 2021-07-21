@@ -37,9 +37,7 @@ export default function HomePageLeftSide({ navigation }) {
   const dispatch = useDispatch();
   const styles = globalStyle();
   useEffect(() => {
-    dispatch(readProducts(authReducer.token))
-      .then((res) => console.log(res.data))
-      .catch((err) => alert(JSON.stringify("errrr")));
+    dispatch(readProducts(authReducer.token));
   }, []);
   ///////////////////////////////////////////////////////////////////////
   const onTextChanged = (value) => {

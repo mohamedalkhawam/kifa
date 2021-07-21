@@ -25,7 +25,7 @@ export default function SingIn({ navigation }) {
   const dispatch = useDispatch();
   const { width: windowWidth, height: windowHeight } = useWindowDimensions();
   const [formData, setFormData] = useState({
-    username: "test",
+    username: "cashier",
     password: "123456",
   });
 

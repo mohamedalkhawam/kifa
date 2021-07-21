@@ -30,9 +30,7 @@ export default function Customers({ navigation }) {
   useEffect(() => {
     dispatch(readCustomers(authReducer.token));
   }, []);
-  useEffect(() => {
-    console.log(searchObject);
-  }, [searchObject]);
+
   if (authReducer.loading || customersReducer.loading) {
     return <Loader bgc={secondaryColor} color={primaryColor} />;
   } else {
