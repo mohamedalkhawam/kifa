@@ -72,7 +72,7 @@ export default {
   customerInfo: "معلومات الزبون",
   name: "الاسم",
   mobile: "رقم الهاتف",
-  taxIncluded: "الفاتورة متضمنة 15% ضريبة",
+  taxIncluded: "الفاتورة متضمنة  ضريبة",
   userName: "اسم المستخدم",
   userNameRequired: "اسم المستخدم مطلوب",
   emailWasSent: "تم ارسال كلمة المرور الجديدة الى البريد الالكتروني بنجاح",
@@ -82,4 +82,7 @@ export default {
   ID: "ID",
   updateCustomer: "تحديث بيانات الزبون",
   customerCreated: "تم تحديث بيانات الزبون بنجاح",
+  dataSentSuc: "تم ارسال البيانات بنجاح",
+  productNotFound: "المنتج غير موجود!!",
+  scanned: "تم الادخال بنجاح",
 };

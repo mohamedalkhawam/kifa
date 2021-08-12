@@ -183,7 +183,6 @@ export default function HomePageLeftSide({ navigation }) {
                 },
               ]}
               onChangeText={(text) => onTextChanged(text)}
-              // onFocus={() => alert("dd")}
             />
             <nativeElement.Button
               onPress={() => navigation.navigate("scanner")}

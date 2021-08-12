@@ -4,10 +4,8 @@ import {
   useDispatch,
   useState,
   useEffect,
-  localize,
   nativeElement,
   primaryColor,
-  secondaryColor,
   globalStyle,
   validator,
 } from "../utils/allImports";
@@ -17,7 +15,6 @@ import {
   useWindowDimensions,
   Text,
   ScrollView,
-  TouchableOpacity,
   KeyboardAvoidingView,
 } from "react-native";
 import Header from "../components/header";
@@ -26,7 +23,6 @@ export default function Customers({ navigation }) {
   const { width: windowWidth, height: windowHeight } = useWindowDimensions();
   const [cashOrCredit, setCashOrCredit] = useState(false);
   const authReducer = useSelector((state) => state.AuthReducer);
-  const customersReducer = useSelector((state) => state.customersReducer);
   const [showSnake, setShowSnake] = useState("");
   const [classType, setClassType] = useState("green");
   const dispatch = useDispatch();
@@ -429,7 +425,7 @@ export default function Customers({ navigation }) {
                         setClassType("red");
                       }
                     })
-                    .catch((err) => alert(err));
+                    .catch((err) => {});
                 }}
                 containerStyle={{
                   paddingHorizontal: 10,

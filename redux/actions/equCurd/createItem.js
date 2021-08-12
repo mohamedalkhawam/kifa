@@ -8,12 +8,6 @@ export const createItemAsync = (data) => {
     if (data.type === "file") {
       let percentCompleted;
       config = {
-        // onUploadProgress: (progressEvent) => {
-        //   percentCompleted = Math.floor(
-        //     (progressEvent.loaded * 100) / progressEvent.total
-        //   );
-        //   dispatch(setProgress(percentCompleted));
-        // },
         headers: data.headers,
       };
     } else {

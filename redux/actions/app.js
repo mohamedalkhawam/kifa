@@ -1,4 +1,10 @@
-import { ADD_PRODUCT, REMOVE_PRODUCT, ADD_ONE, REMOVE_ONE } from "../types/app";
+import {
+  ADD_PRODUCT,
+  REMOVE_PRODUCT,
+  ADD_ONE,
+  REMOVE_ONE,
+  CLEAR_LIST,
+} from "../types/app";
 export const addProduct = (product) => {
   return {
     type: ADD_PRODUCT,
@@ -21,5 +27,10 @@ export const removeOne = (id) => {
   return {
     type: REMOVE_ONE,
     payload: id,
+  };
+};
+export const clearList = () => {
+  return {
+    type: CLEAR_LIST,
   };
 };

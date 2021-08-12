@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "react-native-elements";
 import { View } from "react-native";
 export default function Loader({ color, bgc }) {

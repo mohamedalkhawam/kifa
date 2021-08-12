@@ -7,11 +7,16 @@ import {
   globalStyle,
   useDispatch,
   addProduct,
+  useSelector,
+  _objI,
 } from "../utils/allImports";
+import { useTranslation } from "react-i18next";
 export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+  const productsReducer = useSelector((state) => state.productsReducer);
   const styles = globalStyle();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   useEffect(() => {
     (async () => {
@@ -22,15 +27,21 @@ export default function App() {
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    dispatch(
-      addProduct({
-        name: "Pants",
-        quantity: 13,
-        price: 15.0,
-        id: Math.floor(Math.random() * 10000) + 1,
-      })
-    );
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    if (
+      productsReducer.products.length > 0 &&
+      productsReducer.products.find((product) => product.barcode === data) &&
+      productsReducer.products.find((product) => product.barcode === data)
+        .barcode === data
+    ) {
+      dispatch(
+        addProduct(
+          productsReducer.products.find((product) => product.barcode === data)
+        )
+      );
+      alert(t("scanned"));
+    } else {
+      alert(t("productNotFound"));
+    }
   };
   useEffect(() => {
     setTimeout(() => {
@@ -49,7 +60,7 @@ export default function App() {
       <BarCodeScanner
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={{ position: "absolute", width: "100%", height: "100%" }}
-        barCodeTypes={["org.gs1.EAN-13"]}
+        barCodeTypes={["org.gs1.EAN-13", "org.gs1.EAN-8"]}
       />
       {/* {scanned && (
         <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />

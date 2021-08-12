@@ -13,7 +13,6 @@ import LeftSide from "../components/homePageLeftSide";
 import RightSide from "../components/homePageRightSide";
 export default function ForgetPassword({ navigation }) {
   const styles = globalStyle();
-  const dispatch = useDispatch();
   return (
     <View style={styles.splitContainer}>
       <View

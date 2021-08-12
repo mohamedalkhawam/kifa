@@ -1,17 +1,12 @@
-import { View, Text, Pressable } from "react-native";
+import { View } from "react-native";
 import {
   React,
-  useSelector,
-  useDispatch,
-  useState,
-  useEffect,
   globalStyle,
   nativeElement,
   secondaryColor,
   primaryColor,
 } from "../utils/allImports";
 import { useTranslation } from "react-i18next";
-
 import BackButton from "../components/backButton";
 export default function Settings({ navigation }) {
   const { t } = useTranslation();

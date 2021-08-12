@@ -27,7 +27,7 @@ export default function (state = initialState, action) {
     case READ_ONE_INVOICE:
       return {
         ...state,
-        invoice: payload.data,
+        invoice: { ...payload.data },
       };
 
     case START_INVOICES_RELOAD:

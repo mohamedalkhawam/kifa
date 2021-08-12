@@ -4,7 +4,6 @@ import {
   useDispatch,
   useState,
   useEffect,
-  localize,
   nativeElement,
   primaryColor,
   secondaryColor,
@@ -20,7 +19,6 @@ import {
   useWindowDimensions,
   Text,
   ScrollView,
-  TouchableOpacity,
   KeyboardAvoidingView,
 } from "react-native";
 
@@ -458,7 +456,7 @@ export default function Customers({ navigation, route }) {
                           setClassType("red");
                         }
                       })
-                      .catch((err) => alert(err));
+                      .catch((err) => {});
                   }}
                   containerStyle={{
                     paddingHorizontal: 10,

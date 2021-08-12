@@ -2,7 +2,6 @@ import {
   React,
   useSelector,
   useDispatch,
-  useState,
   useEffect,
   localize,
   nativeElement,
@@ -10,12 +9,11 @@ import {
   secondaryColor,
   globalStyle,
   Loader,
+  _objI,
+  _objO,
 } from "../utils/allImports";
 import { useTranslation } from "react-i18next";
 import { View, Text, ScrollView, Image } from "react-native";
-import axios from "axios";
-
-import { orderSummary } from "../fakeData/orderSummary";
 import Header from "../components/header";
 import { readOneInvoice } from "../redux/actions/invoice";
 export default function SingleInvoice({ navigation, route }) {
@@ -24,27 +22,16 @@ export default function SingleInvoice({ navigation, route }) {
   const invoicesReducer = useSelector((state) => state.invoicesReducer);
   const styles = globalStyle();
   const { t } = useTranslation();
-  const invoice = {
-    id: 125121215,
-    invoice_number: 121215,
-    merchant_name: "Othain",
-    merchant_address: "33 Abas Al Akkad st. Cairo, Egypt ",
-    paid_method: "Cash",
-    customer_name: "MOHAMED ALKHAWAM",
-    customer_phone: 1552263515,
-    total_price: 1254,
-    date: "2021/7/21",
-    is_paid: 1,
-    tax_number: "54545454",
-  };
   useEffect(() => {
     if (route.params.id) {
-      dispatch(readOneInvoice({ id: route.params.id }, authReducer.token)).then(
-        (res) => console.log(res)
-      );
+      dispatch(readOneInvoice({ id: route.params.id }, authReducer.token));
     }
   }, []);
-  if (authReducer.loading || invoicesReducer.loading) {
+  if (
+    authReducer.loading ||
+    invoicesReducer.loading ||
+    _objO(invoicesReducer.invoice)
+  ) {
     return <Loader bgc={secondaryColor} color={primaryColor} />;
   } else {
     return (
@@ -76,7 +63,7 @@ export default function SingleInvoice({ navigation, route }) {
                   {t("invoiceNumber")}:
                 </Text>
                 <Text style={[styles.invoicesCardInfoStyle]}>
-                  {invoice.invoice_number}
+                  {invoicesReducer.invoice.invoice_number}
                 </Text>
               </View>
               <View style={[styles.flexBetween, styles.responsiveDirection]}>
@@ -84,7 +71,7 @@ export default function SingleInvoice({ navigation, route }) {
                   {t("merchantName")}:
                 </Text>
                 <Text style={[styles.invoicesCardInfoStyle]}>
-                  {invoice.merchant_name}
+                  {invoicesReducer.invoice.merchant_name}
                 </Text>
               </View>
               <View style={[styles.flexBetween, styles.responsiveDirection]}>
@@ -92,7 +79,7 @@ export default function SingleInvoice({ navigation, route }) {
                   {t("merchantAddress")}:
                 </Text>
                 <Text style={[styles.invoicesCardInfoStyle]}>
-                  {invoice.merchant_address}
+                  {invoicesReducer.invoice.merchant_address}
                 </Text>
               </View>
             </View>
@@ -102,7 +89,7 @@ export default function SingleInvoice({ navigation, route }) {
                   {t("date")}:
                 </Text>
                 <Text style={[styles.invoicesCardInfoStyle]}>
-                  {invoice.date}
+                  {new Date(invoicesReducer.invoice.date).toLocaleDateString()}
                 </Text>
               </View>
               <View style={[styles.flexBetween, styles.responsiveDirection]}>
@@ -118,7 +105,7 @@ export default function SingleInvoice({ navigation, route }) {
                   {t("taxNumber")}:
                 </Text>
                 <Text style={[styles.invoicesCardInfoStyle]}>
-                  {545415455545454}
+                  {invoicesReducer.invoice.tax_number}
                 </Text>
               </View>
             </View>
@@ -149,7 +136,7 @@ export default function SingleInvoice({ navigation, route }) {
             <View
               style={[
                 styles.flexStart,
-                { width: "70%", paddingLeft: 5 },
+                { width: "55%", paddingLeft: 5 },
                 styles.responsiveDirection,
               ]}
             >
@@ -163,8 +150,13 @@ export default function SingleInvoice({ navigation, route }) {
             <View style={[styles.flexCenter, { width: "15%" }]}>
               <Text style={[styles.invoicesCardTitleStyle]}>{t("price")}</Text>
             </View>
+            <View style={[styles.flexCenter, { width: "15%" }]}>
+              <Text style={[styles.invoicesCardTitleStyle]}>
+                {t("totalPrice")}
+              </Text>
+            </View>
           </View>
-          {orderSummary.map((item, index) => (
+          {invoicesReducer.invoice.order_details.map((item, index) => (
             <View
               key={index}
               style={[
@@ -179,7 +171,7 @@ export default function SingleInvoice({ navigation, route }) {
               <View
                 style={[
                   styles.flexStart,
-                  { width: "70%" },
+                  { width: "55%" },
                   styles.responsiveDirection,
                 ]}
               >
@@ -193,7 +185,7 @@ export default function SingleInvoice({ navigation, route }) {
                     }}
                   >
                     <Image
-                      source={require("../assets/product.png")}
+                      source={{ uri: item.image }}
                       style={{ width: "100%", height: "100%" }}
                     />
                   </View>
@@ -209,7 +201,15 @@ export default function SingleInvoice({ navigation, route }) {
               </View>
               <View style={[styles.flexCenter, { width: "15%" }]}>
                 <Text style={[styles.invoicesCardInfoStyle]}>
-                  {item.price.toFixed(2)}{" "}
+                  {(item.price * 1).toFixed(2)}{" "}
+                  <Text style={[styles.tableBodyTextStyle, { fontSize: 9 }]}>
+                    SAR
+                  </Text>
+                </Text>
+              </View>
+              <View style={[styles.flexCenter, { width: "15%" }]}>
+                <Text style={[styles.invoicesCardInfoStyle]}>
+                  {(item.total_price * 1).toFixed(2)}{" "}
                   <Text style={[styles.tableBodyTextStyle, { fontSize: 9 }]}>
                     SAR
                   </Text>
@@ -240,7 +240,7 @@ export default function SingleInvoice({ navigation, route }) {
                   {t("subTotal")}
                 </Text>
                 <Text style={[styles.invoicesCardInfoStyle]}>
-                  {invoice.total_price.toFixed(2)}{" "}
+                  {(invoicesReducer.invoice.sub_total * 1).toFixed(2)}{" "}
                   <Text style={[styles.tableBodyTextStyle, { fontSize: 9 }]}>
                     SAR
                   </Text>
@@ -260,7 +260,7 @@ export default function SingleInvoice({ navigation, route }) {
               <View style={[styles.flexBetween, styles.responsiveDirection]}>
                 <Text style={[styles.invoicesCardTitleStyle]}>{t("tax")}</Text>
                 <Text style={[styles.invoicesCardInfoStyle]}>
-                  {invoice.total_price.toFixed(2)}{" "}
+                  {(invoicesReducer.invoice.tax_amount * 1).toFixed(2)}{" "}
                   <Text style={[styles.tableBodyTextStyle, { fontSize: 9 }]}>
                     SAR
                   </Text>
@@ -277,7 +277,7 @@ export default function SingleInvoice({ navigation, route }) {
                   {t("totals")}
                 </Text>
                 <Text style={[styles.invoicesCardInfoStyle]}>
-                  {invoice.total_price.toFixed(2) * 3}{" "}
+                  {(invoicesReducer.invoice.total_price * 1).toFixed(2)}{" "}
                   <Text style={[styles.tableBodyTextStyle, { fontSize: 9 }]}>
                     SAR
                   </Text>
@@ -320,7 +320,7 @@ export default function SingleInvoice({ navigation, route }) {
                   styles.responsiveTextDirection,
                 ]}
               >
-                MOHAMED AL-KHAWAM
+                {invoicesReducer.invoice.customer_name}
               </Text>
             </View>
 
@@ -339,7 +339,7 @@ export default function SingleInvoice({ navigation, route }) {
                   styles.responsiveTextDirection,
                 ]}
               >
-                {t("cash")}
+                {t(`${invoicesReducer.invoice.paid_method}`)}
               </Text>
             </View>
             <View style={{ width: "20%" }}>
@@ -373,7 +373,7 @@ export default function SingleInvoice({ navigation, route }) {
                   styles.responsiveTextDirection,
                 ]}
               >
-                0365656565
+                {invoicesReducer.invoice.customer_phone}
               </Text>
             </View>
           </View>
@@ -392,7 +392,10 @@ export default function SingleInvoice({ navigation, route }) {
             ]}
           >
             <View style={styles.flexCenter}>
-              <Text style={{ color: primaryColor }}>{t("taxIncluded")}</Text>
+              <Text style={{ color: primaryColor }}>
+                {invoicesReducer.invoice.tax_percentage}
+                {t("taxIncluded")}
+              </Text>
             </View>
             <View style={[styles.flexCenterm, { marginTop: 10 }]}>
               <View style={{ width: 150, height: 150 }}>

@@ -13,21 +13,14 @@ import {
   primaryColor,
   _objI,
   _objO,
+  clearList,
 } from "../utils/allImports";
 import { useTranslation } from "react-i18next";
-import {
-  View,
-  Text,
-  useWindowDimensions,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  ScrollView,
-} from "react-native";
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { logout } from "../redux/actions/Auth";
 import { readCustomers } from "../redux/actions/customers";
+import { createOrder } from "../redux/actions/order";
 export default function HomePageLeftSide({ navigation }) {
-  const { width: windowWidth, height: windowHeight } = useWindowDimensions();
-  const [formData, setFormData] = useState({});
   const [totals, setTotals] = useState({
     price: 0,
     quantity: 0,
@@ -40,9 +33,9 @@ export default function HomePageLeftSide({ navigation }) {
   const customersReducer = useSelector((state) => state.customersReducer);
   const [query, setQuery] = useState("");
   const [searchObject, setSearchObject] = useState({});
-  useEffect(() => {
-    console.log(appReducer.list);
-  }, [appReducer.list]);
+  // useEffect(() => {
+  //   console.log(appReducer.list);
+  // }, [appReducer.list]);
   useEffect(() => {
     let totalPrice = appReducer.list.map((el) => el.price * el.quantity);
     let totalquantity = appReducer.list.map((el) => el.quantity);
@@ -138,6 +131,25 @@ export default function HomePageLeftSide({ navigation }) {
       <View style={styles.container}>
         {/* Header Start */}
         <View style={styles.HomePageLeftSizeHeader}>
+          <View
+            style={{
+              position: "absolute",
+              left: 10,
+              top: 10,
+              flexDirection: "row",
+              alignItems: "center",
+              zIndex: 1000,
+            }}
+          >
+            <nativeElement.Button
+              onPress={() => dispatch(logout())}
+              type="clear"
+              icon={
+                <nativeElement.Icon name="logout" size={30} color="#4E7D9B" />
+              }
+            />
+            <Text style={{ color: primaryColor }}>Logout</Text>
+          </View>
           <View style={styles.flexCenter}>
             <Text style={styles.HomePageLeftSideTitleStyle}>Facility Name</Text>
           </View>
@@ -202,7 +214,6 @@ export default function HomePageLeftSide({ navigation }) {
                 },
               ]}
               onChangeText={(text) => onTextChanged(text)}
-              // onFocus={() => alert("dd")}
             />
 
             <nativeElement.Button
@@ -432,7 +443,37 @@ export default function HomePageLeftSide({ navigation }) {
           />
           <nativeElement.Button
             title={t("save")}
-            onPress={() => setSearchObject({})}
+            onPress={() => {
+              dispatch(
+                createOrder(
+                  {
+                    cashier_id: authReducer.user.id,
+                    customer_id: searchObject.id,
+                    cost_with_tax: totals.price + totals.price * 0.15,
+                    cost_without_tax: totals.price,
+                    tax: totals.price * 0.15,
+                    is_paid: 1,
+                    order_details: [...appReducer.list],
+                  },
+                  authReducer.token
+                )
+              )
+                .then((res) => {
+                  if (res.status === 200) {
+                    setSearchObject({});
+                    setQuery("");
+                    dispatch(clearList());
+                    alert(t("dataSentSuc"));
+                    setTotals({
+                      price: 0,
+                      quantity: 0,
+                    });
+                  } else {
+                    alert(t("somethingWrongHappen"));
+                  }
+                })
+                .catch((err) => {});
+            }}
             type="solid"
             buttonStyle={styles.floatingActionButtonsStyle}
             icon={
@@ -447,7 +488,37 @@ export default function HomePageLeftSide({ navigation }) {
           />
           <nativeElement.Button
             title={t("pending")}
-            onPress={() => navigation.navigate("menu")}
+            onPress={() => {
+              dispatch(
+                createOrder(
+                  {
+                    cashier_id: authReducer.user.id,
+                    customer_id: searchObject.id,
+                    cost_with_tax: totals.price + totals.price * 0.15,
+                    cost_without_tax: totals.price,
+                    tax: totals.price * 0.15,
+                    is_paid: 0,
+                    order_details: [...appReducer.list],
+                  },
+                  authReducer.token
+                )
+              )
+                .then((res) => {
+                  if (res.status === 200) {
+                    setSearchObject({});
+                    setQuery("");
+                    dispatch(clearList());
+                    alert(t("dataSentSuc"));
+                    setTotals({
+                      price: 0,
+                      quantity: 0,
+                    });
+                  } else {
+                    alert(t("somethingWrongHappen"));
+                  }
+                })
+                .catch((err) => {});
+            }}
             buttonStyle={styles.floatingActionButtonsStyle}
             type="solid"
             icon={

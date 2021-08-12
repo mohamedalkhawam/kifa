@@ -2,7 +2,6 @@ import {
   React,
   globalStyle,
   useState,
-  useEffect,
   useDispatch,
   addProduct,
 } from "../utils/allImports";

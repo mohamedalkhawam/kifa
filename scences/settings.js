@@ -11,6 +11,7 @@ import {
   globalStyle,
   validator,
   Loader,
+  AsyncStorage,
 } from "../utils/allImports";
 import { useTranslation } from "react-i18next";
 import {
@@ -324,6 +325,13 @@ export default function Customers({ navigation }) {
                         if (res.status === 200) {
                           setShowSnake(t("dataUpdatedSuc"));
                           setClassType("green");
+                          if (formData.isArabic === false) {
+                            localize.changeLanguage("en");
+                            AsyncStorage.setItem("lang", "en");
+                          } else {
+                            localize.changeLanguage("ar");
+                            AsyncStorage.setItem("lang", "ar");
+                          }
                         } else {
                           setShowSnake(t("somethingWrongHappen"));
                           setClassType("red");

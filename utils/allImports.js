@@ -4,7 +4,6 @@ import FastImage from "react-native-fast-image";
 import React, { useEffect, useState, useRef } from "react";
 import * as nativeElement from "react-native-elements";
 import { useSelector, useDispatch } from "react-redux";
-import * as icons from "../icons/index";
 import validator from "validator";
 import { renderHeaderIcons } from "../helpers/renderHeaderIcons";
 import {
@@ -23,6 +22,7 @@ import {
   removeProduct,
   addOne,
   removeOne,
+  clearList,
 } from "../redux/actions/app";
 import Loader from "../components/loader";
 import _objI from "./_objI";
@@ -39,7 +39,6 @@ export {
   normalize,
   RFPercentage,
   RFValue,
-  icons,
   useSelector,
   useDispatch,
   useEffect,
@@ -59,4 +58,5 @@ export {
   _objI,
   _objO,
   Loader,
+  clearList,
 };

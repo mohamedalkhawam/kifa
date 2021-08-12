@@ -3,8 +3,6 @@ import React from "react";
 import Home from "../scences/home";
 import Customers from "../scences/customers";
 import singleInvoice from "../scences/singleInvoice";
-import singleProduct from "../scences/singleProduct";
-import singleCustomer from "../scences/singleCustomer";
 import Invoices from "../scences/invoices";
 import Settings from "../scences/settings";
 import Menu from "../scences/menu";
@@ -81,20 +79,7 @@ export const HomeStackScreen = () => {
         options={horizontalAnimation}
       />
       <HomeStack.Screen name="singleInvoice" component={singleInvoice} />
-      <HomeStack.Screen
-        name="singleCustomer"
-        component={singleCustomer}
-        options={({ route }) => ({
-          title: route.params.name,
-        })}
-      />
-      <HomeStack.Screen
-        name="singleProduct"
-        component={singleProduct}
-        options={({ route }) => ({
-          title: route.params.name,
-        })}
-      />
+
       <HomeStack.Screen
         name="invoices"
         component={Invoices}

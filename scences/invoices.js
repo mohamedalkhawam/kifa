@@ -10,7 +10,7 @@ import {
   secondaryColor,
 } from "../utils/allImports";
 import { useTranslation } from "react-i18next";
-import { View, Text, ScrollView, Animated } from "react-native";
+import { View, ScrollView, Animated } from "react-native";
 import InvoicesCard from "../components/invoicesCard";
 import Header from "../components/header";
 import Autocomplete from "../components/autoComplete";
@@ -171,13 +171,13 @@ export default function Invoices({ navigation }) {
               <InvoicesCard
                 key={index}
                 id={item.id}
-                invoiceNumber={item.invoiceNumber}
-                merchantName={item.merchantName}
-                merchantAddress={item.merchantAddress}
-                paymentMethod={item.paymentMethod}
-                clientName={item.clientName}
-                clientMobile={item.clientMobile}
-                totalPrice={item.totalPrice}
+                invoiceNumber={item.invoice_number}
+                merchantName={item.merchant_name}
+                merchantAddress={item.merchant_address}
+                paymentMethod={item.paid_method}
+                clientName={item.customer_name}
+                clientMobile={item.customer_phone}
+                totalPrice={item.total_price}
                 date={item.date}
                 status={item.status}
                 navigation={navigation}

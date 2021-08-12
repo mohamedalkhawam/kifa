@@ -27,6 +27,7 @@
     "i18n-js": "^3.8.0",
     "i18next": "^20.3.2",
     "react": "16.13.1",
+    "react-devtools": "^4.14.0",
     "react-dom": "16.13.1",
     "react-i18next": "^11.11.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",

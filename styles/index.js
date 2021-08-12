@@ -680,6 +680,7 @@ export const globalStyle = () => {
     searchListStyle: {
       justifyContent: "center",
       maxHeight: windowHeight * 0.2,
+      zIndex: 1000,
     },
   });
 };

@@ -3,12 +3,10 @@ import {
   useSelector,
   useDispatch,
   useState,
-  useEffect,
   nativeElement,
   globalStyle,
   localize,
   AsyncStorage,
-  validator,
 } from "../utils/allImports";
 import { useTranslation } from "react-i18next";
 import {
@@ -68,7 +66,6 @@ export default function SingIn({ navigation }) {
               onPress={() => setFormData({ ...formData, username: "" })}
             />
           }
-          // label="username"
           inputStyle={styles.responsiveTextDirection}
           placeholder={t("userName")}
           errorMessage={validation.username.message}
@@ -117,7 +114,6 @@ export default function SingIn({ navigation }) {
           ]}
           value={formData.password}
           secureTextEntry={!toggleEye}
-          // onPress={() => alert("dd")}
           onChangeText={(text) => {
             setFormData({ ...formData, password: text });
             setValidation({
@@ -154,29 +150,12 @@ export default function SingIn({ navigation }) {
               buttonStyle={[styles.loginButton]}
               titleStyle={{ color: "#F8F8F8", fontWeight: "bold" }}
               onPress={() => {
-                debugger;
-                dispatch(loginUser(formData))
-                  .then((res) => {
-                    if (res.status === 200) {
-                      // getData().then((token) => {
-
-                      dispatch(setToken(res.data.data.token));
-                      dispatch(loadUser(res.data.data.token))
-                        .then((resp) => {
-                          if (resp.status === 200) {
-                            // alert(resp.status);
-                            alert("singin " + resp.status);
-                          } else {
-                            // alert(resp.status);
-                          }
-                        })
-                        .catch((err) => alert("someThing wrong"));
-                      // });
-                    }
-                  })
-                  .catch((err) => {
-                    alert(err);
-                  });
+                dispatch(loginUser(formData)).then((res) => {
+                  if (res.status === 200) {
+                    dispatch(setToken(res.data.data.token));
+                    dispatch(loadUser(res.data.data.token));
+                  }
+                });
               }}
               containerStyle={{
                 paddingHorizontal: 10,

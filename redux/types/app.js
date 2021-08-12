@@ -5,3 +5,4 @@ export const ADD_PRODUCT = "ADD_PRODUCT";
 export const REMOVE_PRODUCT = "REMOVE_PRODUCT";
 export const ADD_ONE = "ADD_ONE";
 export const REMOVE_ONE = "REMOVE_ONE";
+export const CLEAR_LIST = "CLEAR_LIST";

@@ -12,9 +12,6 @@ import {
 } from "../utils/allImports";
 import { useTranslation } from "react-i18next";
 import { View, Text, ScrollView, Animated } from "react-native";
-import { invoices } from "../fakeData/invoices";
-import { pendingInvoices } from "../fakeData/pendingInvoices";
-import InvoicesCard from "../components/invoicesCard";
 import Header from "../components/header";
 import Autocomplete from "../components/autoComplete";
 import { readCustomers } from "../redux/actions/customers";

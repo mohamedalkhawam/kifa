@@ -1,7 +1,5 @@
 import {
   React,
-  useSelector,
-  useDispatch,
   useState,
   globalStyle,
   nativeElement,
@@ -11,9 +9,6 @@ import {
   View,
   Text,
   ScrollView,
-  Animated,
-  TouchableWithoutFeedback,
-  useWindowDimensions,
   TextInput,
   TouchableOpacity,
 } from "react-native";
@@ -26,7 +21,6 @@ export default function AutocompleteSearch({
   name,
   pressHandler,
 }) {
-  const [closeSearchList, setCloseSearchList] = useState(true);
   const [suggestions, setSuggestions] = useState([]);
   const onTextChanged = (value) => {
     let suggestions = [];

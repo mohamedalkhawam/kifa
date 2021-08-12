@@ -1,11 +1,4 @@
-import {
-  React,
-  nativeElement,
-  secondaryColor,
-  globalStyle,
-  localize,
-  useEffect,
-} from "../utils/allImports";
+import { React, globalStyle, localize, useEffect } from "../utils/allImports";
 import { View, Text, TouchableOpacity } from "react-native";
 import { useTranslation } from "react-i18next";
 

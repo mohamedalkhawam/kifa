@@ -62,11 +62,6 @@ export default function InvoicesCard({
       </View>
       <TouchableOpacity
         style={[styles.invoiceCardContainerStyle, { marginTop: 0 }]}
-        // onPress={() =>
-        //   navigation.navigate("singleInvoice", {
-        //     id,
-        //   })
-        // }
       >
         <View style={[styles.invoicesHalfPart]}>
           <View style={[styles.flexBetween, styles.responsiveDirection]}>

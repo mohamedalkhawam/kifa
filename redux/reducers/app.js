@@ -1,4 +1,10 @@
-import { ADD_PRODUCT, REMOVE_PRODUCT, ADD_ONE, REMOVE_ONE } from "../types/app";
+import {
+  ADD_PRODUCT,
+  REMOVE_PRODUCT,
+  ADD_ONE,
+  REMOVE_ONE,
+  CLEAR_LIST,
+} from "../types/app";
 
 const initialState = {
   list: [],
@@ -23,7 +29,10 @@ export default appReducer = (state = initialState, action) => {
                 {
                   id: payload.id,
                   name: payload.name,
-                  price: payload.price,
+                  price:
+                    typeof payload.price === "undefined"
+                      ? payload.buying_price
+                      : payload.price,
                   quantity: 1,
                 },
               ],
@@ -53,6 +62,8 @@ export default appReducer = (state = initialState, action) => {
             : item.quantity
         ),
       };
+    case CLEAR_LIST:
+      return { ...state, list: [] };
     default:
       return state;
   }
