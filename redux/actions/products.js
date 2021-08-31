@@ -17,7 +17,7 @@ export const finishedProductsReload = () => (dispatch) => {
 
 export const readProducts = (token) =>
   readItemsAsync({
-    url: "http://139.162.165.250/kifa/api/products",
+    url: "http://www.kifapos.com/api/products",
     successType: READ_PRODUCTS,
     errorType: PRODUCTS_ERROR,
     startReload: startProductsReload,

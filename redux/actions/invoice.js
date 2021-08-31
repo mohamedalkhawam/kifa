@@ -4,6 +4,7 @@ import {
   INVOICE_ERROR,
   START_INVOICES_RELOAD,
   FINISHED_INVOICES_RELOAD,
+  CHANGE_INVOICE_STATUS,
 } from "../types/invoice";
 import { readItemsAsync } from "./equCurd/readItems";
 import { readOneItemAsync } from "./equCurd/readOneItem";
@@ -15,10 +16,11 @@ export const startInvoiceReload = () => (dispatch) => {
 export const finishedInvoiceReload = () => (dispatch) => {
   dispatch({ type: FINISHED_INVOICES_RELOAD });
 };
+import { createItemAsync } from "./equCurd/createItem";
 
 export const readInvoices = (token) =>
   readItemsAsync({
-    url: "http://139.162.165.250/kifa/api/get-invoices",
+    url: "http://www.kifapos.com/api/get-invoices",
     successType: READ_INVOICES,
     errorType: INVOICE_ERROR,
     startReload: startInvoiceReload,
@@ -30,12 +32,25 @@ export const readInvoices = (token) =>
 
 export const readOneInvoice = (formData, token) =>
   readOneItemAsync({
-    url: `http://139.162.165.250/kifa/api/invoice-details`,
+    url: `http://www.kifapos.com/api/invoice-details`,
     successType: READ_ONE_INVOICE,
     errorType: INVOICE_ERROR,
     startReload: startInvoiceReload,
     finishedReload: finishedInvoiceReload,
     id: formData.id,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+export const changeInvoiceStatus = (formData, token) =>
+  createItemAsync({
+    url: "http://www.kifapos.com/api/change-invoice-status",
+    successType: CHANGE_INVOICE_STATUS,
+    errorType: INVOICE_ERROR,
+    startReload: startInvoiceReload,
+    finishedReload: finishedInvoiceReload,
+    title: "Orders",
+    formData,
     headers: {
       Authorization: `Bearer ${token}`,
     },

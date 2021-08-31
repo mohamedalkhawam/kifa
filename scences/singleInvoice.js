@@ -1,5 +1,6 @@
 import {
   React,
+  useState,
   useSelector,
   useDispatch,
   useEffect,
@@ -12,21 +13,36 @@ import {
   _objI,
   _objO,
 } from "../utils/allImports";
+import {
+  Select,
+  VStack,
+  CheckIcon,
+  Center,
+  NativeBaseProvider,
+} from "native-base";
 import { useTranslation } from "react-i18next";
 import { View, Text, ScrollView, Image } from "react-native";
 import Header from "../components/header";
-import { readOneInvoice } from "../redux/actions/invoice";
+import {
+  readOneInvoice,
+  changeInvoiceStatus,
+  readInvoices,
+} from "../redux/actions/invoice";
 export default function SingleInvoice({ navigation, route }) {
   const dispatch = useDispatch();
   const authReducer = useSelector((state) => state.AuthReducer);
   const invoicesReducer = useSelector((state) => state.invoicesReducer);
   const styles = globalStyle();
   const { t } = useTranslation();
+  const [status, setStatus] = useState(invoicesReducer.invoice.is_paid);
   useEffect(() => {
     if (route.params.id) {
       dispatch(readOneInvoice({ id: route.params.id }, authReducer.token));
     }
   }, []);
+  // useEffect(() => {
+
+  // }, [status]);
   if (
     authReducer.loading ||
     invoicesReducer.loading ||
@@ -41,6 +57,7 @@ export default function SingleInvoice({ navigation, route }) {
           navigation={navigation}
           iconType={"invoices"}
         />
+
         <ScrollView
           style={[
             {
@@ -82,6 +99,14 @@ export default function SingleInvoice({ navigation, route }) {
                   {invoicesReducer.invoice.merchant_address}
                 </Text>
               </View>
+              <View style={[styles.flexBetween, styles.responsiveDirection]}>
+                <Text style={[styles.invoicesCardTitleStyle]}>
+                  {t("cashierName")}:
+                </Text>
+                <Text style={[styles.invoicesCardInfoStyle]}>
+                  {invoicesReducer.invoice.cashier_name}
+                </Text>
+              </View>
             </View>
             <View style={styles.invoicesHalfPart}>
               <View style={[styles.flexBetween, styles.responsiveDirection]}>
@@ -107,6 +132,56 @@ export default function SingleInvoice({ navigation, route }) {
                 <Text style={[styles.invoicesCardInfoStyle]}>
                   {invoicesReducer.invoice.tax_number}
                 </Text>
+              </View>
+              <View style={[styles.flexBetween, styles.responsiveDirection]}>
+                <Text style={[styles.invoicesCardTitleStyle]}>
+                  {t("status")}:
+                </Text>
+
+                <Text style={[styles.invoicesCardInfoStyle]}>
+                  {status === 0 ? t("pending") : t("paid")}
+                </Text>
+                {/* <nativeElement.Icon name="edit" color="#4E7D9B" size={20} /> */}
+                <View>
+                  <NativeBaseProvider>
+                    <VStack alignItems="center" space={10}>
+                      <Select
+                        selectedValue={status}
+                        minWidth={200}
+                        accessibilityLabel="change invoice status"
+                        placeholder="change status"
+                        onValueChange={(itemValue) => {
+                          setStatus(itemValue);
+                          dispatch(
+                            changeInvoiceStatus(
+                              { id: route.params.id, is_paid: itemValue },
+                              authReducer.token
+                            )
+                          ).then((res) => {
+                            alert(res.status);
+                            if (res.status === 200) {
+                              dispatch(readInvoices(authReducer.token));
+                              dispatch(
+                                readOneInvoice(
+                                  { id: route.params.id },
+                                  authReducer.token
+                                )
+                              );
+                            }
+                          });
+                        }}
+                        _selectedItem={{
+                          bg: "cyan.700",
+                          endIcon: <CheckIcon size={4} />,
+                        }}
+                      >
+                        <Select.Item label="pending" value={0} />
+                        <Select.Item label="paid" value={1} />
+                        <Select.Item label="Returned" value={2} />
+                      </Select>
+                    </VStack>
+                  </NativeBaseProvider>
+                </View>
               </View>
             </View>
           </View>

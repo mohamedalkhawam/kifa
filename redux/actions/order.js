@@ -14,7 +14,7 @@ export const finishedOrderReload = () => (dispatch) => {
 
 export const createOrder = (formData, token) =>
   createItemAsync({
-    url: "http://139.162.165.250/kifa/api/add-order",
+    url: "http://www.kifapos.com/api/add-order",
     successType: CREATE_ORDER,
     errorType: ORDER_ERROR,
     startReload: startorderReload,

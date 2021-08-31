@@ -44,10 +44,10 @@ export default function Customers({ navigation, route }) {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
-    email: "",
-    reference_id: "",
+    // email: "",
+    // reference_id: "",
     notes: "",
-    national_id: "",
+    // national_id: "",
     payment_method: "",
   });
   useEffect(() => {
@@ -68,18 +68,18 @@ export default function Customers({ navigation, route }) {
     phone: {
       message: "",
     },
-    email: {
-      message: "",
-    },
-    reference_id: {
-      message: "",
-    },
+    // email: {
+    //   message: "",
+    // },
+    // reference_id: {
+    //   message: "",
+    // },
     notes: {
       message: "",
     },
-    national_id: {
-      message: "",
-    },
+    // national_id: {
+    //   message: "",
+    // },
   });
   const styles = globalStyle();
   const { t } = useTranslation();
@@ -164,7 +164,7 @@ export default function Customers({ navigation, route }) {
               }}
             />
 
-            <nativeElement.Input
+            {/* <nativeElement.Input
               leftIcon={
                 <nativeElement.Icon name="email" size={25} color="#4E7D9B" />
               }
@@ -287,7 +287,7 @@ export default function Customers({ navigation, route }) {
                   },
                 });
               }}
-            />
+            /> */}
             <nativeElement.Input
               leftIcon={
                 <nativeElement.Icon name="dialpad" size={25} color="#4E7D9B" />
@@ -302,7 +302,7 @@ export default function Customers({ navigation, route }) {
               // label="Email"
               inputStyle={styles.responsiveTextDirection}
               placeholder={t("phoneNumber")}
-              errorMessage={validation.national_id.message}
+              errorMessage={validation.phone.message}
               inputContainerStyle={[
                 styles.responsiveDirection,
                 styles.AuthInputContainerStyle,
@@ -332,7 +332,7 @@ export default function Customers({ navigation, route }) {
                 });
               }}
             />
-            <View
+            {/* <View
               style={[
                 styles.flexStart,
                 { width: "45%", paddingHorizontal: 10 },
@@ -360,7 +360,7 @@ export default function Customers({ navigation, route }) {
               >
                 {t("credit")}
               </Text>
-            </View>
+            </View> */}
             <nativeElement.Input
               leftIcon={
                 <nativeElement.Icon
@@ -416,15 +416,15 @@ export default function Customers({ navigation, route }) {
                 <nativeElement.Button
                   title={t("save")}
                   disabled={
-                    validation.email.message.length > 0 ||
+                    // validation.email.message.length > 0 ||
                     validation.name.message.length > 0 ||
-                    validation.national_id.message.length > 0 ||
-                    validation.reference_id.message.length > 0 ||
-                    validation.notes.message.length > 0 ||
+                    // validation.national_id.message.length > 0 ||
+                    // validation.reference_id.message.length > 0 ||
+                    // validation.notes.message.length > 0 ||
                     validation.phone.message.length > 0 ||
-                    formData.email.length === 0 ||
-                    // formData.name.length === 0 ||
-                    formData.national_id.length === 0 ||
+                    // formData.email.length === 0 ||
+                    formData.name.length === 0 ||
+                    // formData.national_id.length === 0 ||
                     formData.phone.length === 0
                     // formData.reference_id.length === 0
                     // formData.notes.length === 0
@@ -438,11 +438,11 @@ export default function Customers({ navigation, route }) {
                           id: formData.id,
                           name: formData.name,
                           phone: formData.phone,
-                          email: formData.email,
-                          national_id: formData.national_id,
-                          reference_id: formData.reference_id,
+                          // email: formData.email,
+                          // national_id: formData.national_id,
+                          // reference_id: formData.reference_id,
                           notes_en: formData.notes,
-                          payment_method: cashOrCredit ? "credit" : "cash",
+                          // payment_method: cashOrCredit ? "credit" : "cash",
                         },
                         authReducer.token
                       )

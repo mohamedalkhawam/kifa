@@ -38,11 +38,11 @@ export default function Customers({ navigation }) {
   const [formData, setFormData] = useState({
     name: "sdfsdf",
     phone: "3243242342324",
-    email: "ssdssfdf@dfgdfdfd.com",
-    reference_id: "32423423",
+    // email: "ssdssfdf@dfgdfdfd.com",
+    // reference_id: "32423423",
     notes: "fsdf",
-    national_id: "32423423",
-    payment_method: cashOrCredit ? "credit" : "cash",
+    // national_id: "32423423",
+    // payment_method: cashOrCredit ? "credit" : "cash",
   });
   const [validation, setValidation] = useState({
     name: {
@@ -52,18 +52,18 @@ export default function Customers({ navigation }) {
     phone: {
       message: "",
     },
-    email: {
-      message: "",
-    },
-    reference_id: {
-      message: "",
-    },
+    // email: {
+    //   message: "",
+    // },
+    // reference_id: {
+    //   message: "",
+    // },
     notes: {
       message: "",
     },
-    national_id: {
-      message: "",
-    },
+    // national_id: {
+    //   message: "",
+    // },
   });
   const styles = globalStyle();
   const { t } = useTranslation();
@@ -138,7 +138,7 @@ export default function Customers({ navigation }) {
             }}
           />
 
-          <nativeElement.Input
+          {/* <nativeElement.Input
             leftIcon={
               <nativeElement.Icon name="email" size={25} color="#4E7D9B" />
             }
@@ -177,8 +177,8 @@ export default function Customers({ navigation }) {
                 },
               });
             }}
-          />
-          <nativeElement.Input
+          /> */}
+          {/* <nativeElement.Input
             leftIcon={
               <nativeElement.Icon name="dialpad" size={25} color="#4E7D9B" />
             }
@@ -221,8 +221,8 @@ export default function Customers({ navigation }) {
                 },
               });
             }}
-          />
-          <nativeElement.Input
+          /> */}
+          {/* <nativeElement.Input
             leftIcon={
               <nativeElement.Icon name="dialpad" size={25} color="#4E7D9B" />
             }
@@ -261,7 +261,7 @@ export default function Customers({ navigation }) {
                 },
               });
             }}
-          />
+          /> */}
           <nativeElement.Input
             leftIcon={
               <nativeElement.Icon name="dialpad" size={25} color="#4E7D9B" />
@@ -276,7 +276,7 @@ export default function Customers({ navigation }) {
             // label="Email"
             inputStyle={styles.responsiveTextDirection}
             placeholder={t("phoneNumber")}
-            errorMessage={validation.national_id.message}
+            // errorMessage={validation.national_id.message}
             inputContainerStyle={[
               styles.responsiveDirection,
               styles.AuthInputContainerStyle,
@@ -306,7 +306,7 @@ export default function Customers({ navigation }) {
               });
             }}
           />
-          <View
+          {/* <View
             style={[styles.flexStart, { width: "45%", paddingHorizontal: 10 }]}
           >
             <Text
@@ -331,7 +331,7 @@ export default function Customers({ navigation }) {
             >
               {t("credit")}
             </Text>
-          </View>
+          </View> */}
           <nativeElement.Input
             leftIcon={
               <nativeElement.Icon
@@ -384,18 +384,18 @@ export default function Customers({ navigation }) {
               <nativeElement.Button
                 title={t("save")}
                 disabled={
-                  validation.email.message.length > 0 ||
+                  // validation.email.message.length > 0 ||
                   validation.name.message.length > 0 ||
-                  validation.national_id.message.length > 0 ||
-                  validation.reference_id.message.length > 0 ||
-                  validation.notes.message.length > 0 ||
+                  // validation.national_id.message.length > 0 ||
+                  // validation.reference_id.message.length > 0 ||
+                  // validation.notes.message.length > 0 ||
                   validation.phone.message.length > 0 ||
-                  formData.email.length === 0 ||
+                  // formData.email.length === 0 ||
                   formData.name.length === 0 ||
-                  formData.national_id.length === 0 ||
-                  formData.phone.length === 0 ||
-                  formData.reference_id.length === 0 ||
-                  formData.notes.length === 0
+                  // formData.national_id.length === 0 ||
+                  formData.phone.length === 0
+                  // formData.reference_id.length === 0 ||
+                  // formData.notes.length === 0
                 }
                 buttonStyle={[styles.loginButton, { width: "100%" }]}
                 titleStyle={{ color: "#F8F8F8", fontWeight: "bold" }}
@@ -405,13 +405,13 @@ export default function Customers({ navigation }) {
                       {
                         name: formData.name,
                         phone: formData.phone,
-                        email: formData.email,
-                        national_id: formData.national_id,
-                        reference_id: formData.reference_id,
+                        // email: formData.email,
+                        // national_id: formData.national_id,
+                        // reference_id: formData.reference_id,
                         notes_en: formData.notes,
-                        payment_method: formData.payment_method,
-                        username: "dsfd",
-                        copies_number: 0,
+                        // payment_method: formData.payment_method,
+                        // username: "dsfd",
+                        // copies_number: 0,
                       },
                       authReducer.token
                     )

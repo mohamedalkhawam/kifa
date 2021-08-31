@@ -115,16 +115,17 @@ export default function Customers({ navigation }) {
             ]}
           >
             <nativeElement.Input
+              disabled
               leftIcon={
                 <nativeElement.Icon name="email" size={25} color="#4E7D9B" />
               }
-              rightIcon={
-                <nativeElement.Icon
-                  name="close"
-                  size={25}
-                  onPress={() => setFormData({ ...formData, email: "" })}
-                />
-              }
+              // rightIcon={
+              //   <nativeElement.Icon
+              //     name="close"
+              //     size={25}
+              //     onPress={() => setFormData({ ...formData, email: "" })}
+              //   />
+              // }
               // label="Email"
               inputStyle={styles.responsiveTextDirection}
               placeholder={t("email")}

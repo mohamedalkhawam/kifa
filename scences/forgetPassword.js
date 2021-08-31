@@ -17,6 +17,7 @@ import {
   useWindowDimensions,
   TouchableOpacity,
   KeyboardAvoidingView,
+  Image,
 } from "react-native";
 import { forgetPassword } from "../redux/actions/Auth";
 
@@ -156,7 +157,14 @@ export default function ForgetPassword({ navigation }) {
       </View>
       <View style={[styles.partContainer, styles.logoView]}>
         <View style={[styles.logoCard]}>
-          <Text>Logo</Text>
+          <Image
+            source={require("../assets/logo2.png")}
+            style={{ width: 135, height: 135 }}
+          />
+          <Image
+            source={require("../assets/logo3.png")}
+            style={{ width: 115, height: 37, marginTop: 20 }}
+          />
         </View>
       </View>
     </View>

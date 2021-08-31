@@ -15,6 +15,7 @@ import {
   useWindowDimensions,
   KeyboardAvoidingView,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import { loginUser, loadUser, setToken } from "../redux/actions/Auth";
 export default function SingIn({ navigation }) {
@@ -52,7 +53,6 @@ export default function SingIn({ navigation }) {
           color="#4E7D9B"
           type="ionicon"
           size={windowHeight * 0.2}
-          containerStyle={styles.shadow}
         />
         <View style={{ marginVertical: "5%" }}></View>
         <nativeElement.Input
@@ -154,6 +154,8 @@ export default function SingIn({ navigation }) {
                   if (res.status === 200) {
                     dispatch(setToken(res.data.data.token));
                     dispatch(loadUser(res.data.data.token));
+                  } else {
+                    alert(res);
                   }
                 });
               }}
@@ -191,19 +193,24 @@ export default function SingIn({ navigation }) {
             buttonStyle={[styles.englishButton]}
             titleStyle={{ color: "#4E7D9B", fontWeight: "bold" }}
             onPress={() => setLocale("en")}
-            containerStyle={styles.shadow}
           />
           <nativeElement.Button
             type="outline"
             title={"العربية"}
             buttonStyle={[styles.arabicButton]}
             titleStyle={{ color: "#F8F8F8", fontWeight: "bold" }}
-            containerStyle={styles.shadow}
             onPress={() => setLocale("ar")}
           />
         </View>
         <View style={[styles.logoCard]}>
-          <Text> Logo</Text>
+          <Image
+            source={require("../assets/logo2.png")}
+            style={{ width: 135, height: 135 }}
+          />
+          <Image
+            source={require("../assets/logo3.png")}
+            style={{ width: 115, height: 37, marginTop: 20 }}
+          />
         </View>
       </View>
     </View>

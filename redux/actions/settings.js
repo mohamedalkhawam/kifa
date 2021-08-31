@@ -19,7 +19,7 @@ export const finishedSettingsReload = () => (dispatch) => {
 
 export const readSettings = (token) =>
   readItemsAsync({
-    url: "http://139.162.165.250/kifa/api/settings",
+    url: "http://www.kifapos.com/api/settings",
     successType: READ_SETTINGS,
     errorType: SETTING_ERROR,
     startReload: startSettingsReload,
@@ -31,7 +31,7 @@ export const readSettings = (token) =>
 
 export const updateSettings = (token, formData) =>
   updateItemAsync({
-    url: "http://139.162.165.250/kifa/api/settings",
+    url: "http://www.kifapos.com/api/settings",
     successType: UPDATE_SETTING,
     errorType: SETTING_ERROR,
     startReload: startSettingsReload,

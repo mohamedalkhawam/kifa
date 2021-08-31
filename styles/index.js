@@ -59,17 +59,17 @@ export const globalStyle = () => {
       fontWeight: "bold",
     },
     logoCard: {
-      backgroundColor: "#F8F8F8",
-      width: windowWidth * 0.2,
-      height: windowWidth * 0.2,
+      // backgroundColor: "#F8F8F8",
+      width: windowWidth * 0.3,
+      height: windowWidth * 0.25,
       borderRadius: windowWidth * 0.005,
-      shadowOffset: {
-        width: 10,
-        height: 10,
-      },
-      shadowColor: "#212121",
-      shadowOpacity: 0.11,
-      elevation: 2,
+      // shadowOffset: {
+      //   width: 10,
+      //   height: 10,
+      // },
+      // shadowColor: "#212121",
+      // shadowOpacity: 0.11,
+      // elevation: 2,
       justifyContent: "center",
       alignItems: "center",
     },
@@ -82,21 +82,23 @@ export const globalStyle = () => {
       justifyContent: "space-evenly",
     },
     englishButton: {
+      borderRadius: 15,
       backgroundColor: "#F8F8F8",
-      width: windowHeight * 0.15,
+      width: windowHeight * 0.2,
       height: 50,
       alignItems: "center",
       justifyContent: "center",
-      shadowOffset: {
-        width: 10,
-        height: 10,
-      },
-      shadowColor: "#212121",
-      shadowOpacity: 0.11,
-      elevation: 2,
+      // shadowOffset: {
+      //   width: 10,
+      //   height: 10,
+      // },
+      // shadowColor: "#212121",
+      // shadowOpacity: 0.11,
+      // elevation: 2,
     },
     arabicButton: {
-      width: windowHeight * 0.15,
+      borderRadius: 15,
+      width: windowHeight * 0.2,
       height: 50,
       borderColor: "#F8F8F8",
       borderWidth: 1.5,
@@ -111,7 +113,7 @@ export const globalStyle = () => {
       justifyContent: "center",
 
       flexDirection: "row",
-      borderRadius: 8,
+      borderRadius: 15,
     },
     shadow: {
       shadowColor: "#000",
@@ -207,7 +209,7 @@ export const globalStyle = () => {
     },
     HomePageLeftSizeHeader: {
       width: "100%",
-      height: windowHeight * 0.18,
+      height: 140,
       justifyContent: "space-around",
       borderBottomWidth: 5,
       borderBottomColor: primaryColor,
@@ -216,7 +218,7 @@ export const globalStyle = () => {
     },
     HomePageRightSizeHeader: {
       width: "100%",
-      height: windowHeight * 0.18,
+      height: 140,
       justifyContent: "space-around",
       borderBottomWidth: 5,
       borderBottomColor: secondaryColor,
@@ -680,7 +682,7 @@ export const globalStyle = () => {
     searchListStyle: {
       justifyContent: "center",
       maxHeight: windowHeight * 0.2,
-      zIndex: 1000,
+      zIndex: 10000000000000,
     },
   });
 };

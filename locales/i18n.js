@@ -3,7 +3,7 @@
 // // import * as RNLocalize from "react-native-localize";
 import en from "./en";
 import ar from "./ar";
-// import { I18nManager } from "react-native";
+import { I18nManager } from "react-native";
 
 // const locales = RNLocalize.locales;
 // if (Array.isArray(locales)) {
@@ -32,9 +32,9 @@ import { initReactI18next } from "react-i18next";
 // don't want to use this?
 // have a look at the Quick start guide
 // for passing in lng and translations on init
+// I18nManager.allowRTL(false);
 
 i18n
-
   .use(initReactI18next)
   // init i18next
   // for all options read: https://www.i18next.com/overview/configuration-options

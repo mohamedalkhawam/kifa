@@ -3,6 +3,7 @@ import {
   READ_ONE_INVOICE,
   START_INVOICES_RELOAD,
   FINISHED_INVOICES_RELOAD,
+  CHANGE_INVOICE_STATUS,
 } from "../types/invoice";
 
 const initialState = {
@@ -28,6 +29,10 @@ export default function (state = initialState, action) {
       return {
         ...state,
         invoice: { ...payload.data },
+      };
+    case CHANGE_INVOICE_STATUS:
+      return {
+        ...state,
       };
 
     case START_INVOICES_RELOAD:

@@ -69,7 +69,7 @@ export default function Invoices({ navigation }) {
         );
       }
     });
-  }, []);
+  }, [currentTab]);
 
   if (authReducer.loading || invoicesReducer.loading) {
     return <Loader bgc={secondaryColor} color={primaryColor} />;

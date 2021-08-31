@@ -83,7 +83,9 @@ export default function HomePageLeftSide({ navigation }) {
       <TouchableOpacity
         key={index}
         style={styles.searchListStyle}
-        onPress={() => suggestionSelected(item, item["reference_id"])}
+        onPress={() => {
+          suggestionSelected(item, item["reference_id"]);
+        }}
       >
         <nativeElement.Divider
           orientation="horizontal"
@@ -151,7 +153,7 @@ export default function HomePageLeftSide({ navigation }) {
             <Text style={{ color: primaryColor }}>Logout</Text>
           </View>
           <View style={styles.flexCenter}>
-            <Text style={styles.HomePageLeftSideTitleStyle}>Facility Name</Text>
+            <Text style={styles.HomePageLeftSideTitleStyle}>Kifa pos</Text>
           </View>
           <View
             style={[styles.flexBetween, { height: 50, position: "relative" }]}
@@ -527,6 +529,20 @@ export default function HomePageLeftSide({ navigation }) {
                 size={21}
                 color="#F8F8F8"
                 style={{ paddingRight: 7 }}
+              />
+            }
+          />
+          <nativeElement.Button
+            title={t("clear")}
+            onPress={() => dispatch(clearList())}
+            type="solid"
+            buttonStyle={styles.floatingActionButtonsStyle}
+            icon={
+              <nativeElement.Icon
+                name="clear"
+                size={20}
+                color="#F8F8F8"
+                style={{ paddingRight: 4 }}
               />
             }
           />

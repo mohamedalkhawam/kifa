@@ -21,6 +21,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   ScrollView,
+  FlatList,
 } from "react-native";
 import ProductCard from "./productCard";
 import { readProducts } from "../redux/actions/products";
@@ -56,7 +57,7 @@ export default function HomePageLeftSide({ navigation }) {
     setSuggestions(suggestions);
   };
   ///////////////////////////////////////////////////////////////////////
-  const suggestionSelected = (value, searchQeury) => {
+  const suggestionSelected = async (value, searchQeury) => {
     setQuery(searchQeury);
     setSuggestions([]);
     setSearchObject(value);
@@ -68,6 +69,7 @@ export default function HomePageLeftSide({ navigation }) {
         id: value.id,
       })
     );
+    return () => {};
   };
   ////////////////////////////////////////////////////////////////////////////
   const renderSuggestions = () => {
@@ -78,7 +80,13 @@ export default function HomePageLeftSide({ navigation }) {
       <TouchableOpacity
         key={index}
         style={styles.searchListStyle}
-        onPress={() => suggestionSelected(item, item["barcode"])}
+        onPress={() => {
+          suggestionSelected(item, item["barcode"]).then((res) => {
+            setQuery("");
+            setSuggestions([]);
+            setSearchObject({});
+          });
+        }}
       >
         <nativeElement.Divider
           orientation="horizontal"
@@ -199,27 +207,41 @@ export default function HomePageLeftSide({ navigation }) {
             />
           </View>
           {suggestions.length > 0 || _objI(searchObject) ? (
-            <View style={[styles.flexCenter]}>
+            <View
+              style={[
+                styles.flexCenter,
+                {
+                  position: "absolute",
+                  zIndex: 10000000000000,
+                  top: 140,
+                  left: -30,
+                },
+              ]}
+            >
               <View
                 style={[
                   styles.flexStart,
                   {
                     width: "81%",
                     flexDirection: "column",
-                    position: "relative",
                     flexWrap: "wrap",
                     alignItems: "flex-start",
+                    zIndex: 10000000000000,
                   },
                 ]}
               >
+                {/* <FlatList
+                  data={suggestions}
+                  renderItem={renderSuggestions}
+                  keyExtractor={(item) => item.id}
+                /> */}
                 <ScrollView
                   style={{
                     width: "100%",
-                    maxHeight: 213,
-                    position: "absolute",
+                    maxHeight: 215,
                     backgroundColor: "white",
-                    top: _objI(searchObject) ? -15 : -25,
-                    left: -39,
+                    top: _objI(searchObject) ? -15 : -20,
+                    zIndex: 10000000000000,
                   }}
                 >
                   {renderSuggestions()}

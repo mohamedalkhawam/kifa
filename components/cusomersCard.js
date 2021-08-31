@@ -65,22 +65,16 @@ export default function InvoicesCard({
       >
         <View style={[styles.invoicesHalfPart]}>
           <View style={[styles.flexBetween, styles.responsiveDirection]}>
-            <Text style={[styles.invoicesCardTitleStyle]}>{t("name")}</Text>
-            <Text style={[styles.invoicesCardInfoStyle]}>
-              {name ? name : ""}
-            </Text>
-          </View>
-          <View style={[styles.flexBetween, styles.responsiveDirection]}>
             <Text style={[styles.invoicesCardTitleStyle]}>{t("ID")}</Text>
             <Text style={[styles.invoicesCardInfoStyle]}>{id ? id : ""}</Text>
           </View>
 
-          <View style={[styles.flexBetween, styles.responsiveDirection]}>
+          {/* <View style={[styles.flexBetween, styles.responsiveDirection]}>
             <Text style={[styles.invoicesCardTitleStyle]}>{t("email")}</Text>
             <Text style={[styles.invoicesCardInfoStyle]}>
               {email ? email : ""}
             </Text>
-          </View>
+          </View> */}
           <View style={[styles.flexBetween, styles.responsiveDirection]}>
             <Text style={[styles.invoicesCardTitleStyle]}>
               {t("phoneNumber")}
@@ -91,20 +85,26 @@ export default function InvoicesCard({
           </View>
         </View>
         <View style={[styles.invoicesHalfPart]}>
-          <View style={[styles.flexBetween, styles.responsiveDirection]}>
+          {/* <View style={[styles.flexBetween, styles.responsiveDirection]}>
             <Text style={[styles.invoicesCardTitleStyle]}>
               {t("nationalId")}
             </Text>
             <Text style={[styles.invoicesCardInfoStyle]}>
               {national_id ? national_id : ""}
             </Text>
-          </View>
-          <View style={[styles.flexBetween, styles.responsiveDirection]}>
+          </View> */}
+          {/* <View style={[styles.flexBetween, styles.responsiveDirection]}>
             <Text style={[styles.invoicesCardTitleStyle]}>
               {t("referenceId")}
             </Text>
             <Text style={[styles.invoicesCardInfoStyle]}>
               {reference_id ? reference_id : ""}
+            </Text>
+          </View> */}
+          <View style={[styles.flexBetween, styles.responsiveDirection]}>
+            <Text style={[styles.invoicesCardTitleStyle]}>{t("name")}</Text>
+            <Text style={[styles.invoicesCardInfoStyle]}>
+              {name ? name : ""}
             </Text>
           </View>
           <View style={[styles.flexBetween, styles.responsiveDirection]}>
@@ -113,14 +113,14 @@ export default function InvoicesCard({
               {notes ? notes : notes}
             </Text>
           </View>
-          <View style={[styles.flexBetween, styles.responsiveDirection]}>
+          {/* <View style={[styles.flexBetween, styles.responsiveDirection]}>
             <Text style={[styles.invoicesCardTitleStyle]}>
               {t("paymentMethod")}
             </Text>
             <Text style={[styles.invoicesCardInfoStyle]}>
               {payment_method ? payment_method : ""}
             </Text>
-          </View>
+          </View> */}
         </View>
       </TouchableOpacity>
     </View>

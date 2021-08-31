@@ -21,7 +21,7 @@ export const finishedAuthReload = () => (dispatch) => {
 
 export const loginUser = (formData) =>
   createItemAsync({
-    url: "http://139.162.165.250/kifa/api/login",
+    url: "http://www.kifapos.com/api/login",
     successType: LOGIN,
     errorType: AUTH_ERROR,
     successMsg: "Login Succsess",
@@ -38,7 +38,7 @@ export const loginUser = (formData) =>
   });
 export const loadUser = (token) =>
   readItemsAsync({
-    url: "http://139.162.165.250/kifa/api/load-user",
+    url: "http://www.kifapos.com/api/load-user",
     successType: USER_LOADED,
     errorType: AUTH_ERROR,
     startReload: startAuthReload,
@@ -50,7 +50,7 @@ export const loadUser = (token) =>
 
 export const forgetPassword = (formData) =>
   createItemAsync({
-    url: "http://139.162.165.250/kifa/api/forget-password",
+    url: "http://www.kifapos.com/api/forget-password",
     successType: FORGET_PASSWORD,
     errorType: AUTH_ERROR,
     successMsg: "Register Succsess",
