@@ -20,7 +20,7 @@ import { createItemAsync } from "./equCurd/createItem";
 
 export const readInvoices = (token) =>
   readItemsAsync({
-    url: "http://www.kifapos.com/api/get-invoices",
+    url: "https://www.kifapos.com/api/get-invoices",
     successType: READ_INVOICES,
     errorType: INVOICE_ERROR,
     startReload: startInvoiceReload,
@@ -32,7 +32,7 @@ export const readInvoices = (token) =>
 
 export const readOneInvoice = (formData, token) =>
   readOneItemAsync({
-    url: `http://www.kifapos.com/api/invoice-details`,
+    url: `https://www.kifapos.com/api/invoice-details`,
     successType: READ_ONE_INVOICE,
     errorType: INVOICE_ERROR,
     startReload: startInvoiceReload,
@@ -44,7 +44,7 @@ export const readOneInvoice = (formData, token) =>
   });
 export const changeInvoiceStatus = (formData, token) =>
   createItemAsync({
-    url: "http://www.kifapos.com/api/change-invoice-status",
+    url: "https://www.kifapos.com/api/change-invoice-status",
     successType: CHANGE_INVOICE_STATUS,
     errorType: INVOICE_ERROR,
     startReload: startInvoiceReload,

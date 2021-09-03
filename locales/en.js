@@ -84,4 +84,9 @@ export default {
   customerCreated: "Customer information is been updated successfully!!",
   productNotFound: "Product not found!!",
   scanned: "Scanned!!",
+  searchBy: "Search By",
+  barcode: "Barcode",
+  reference_id: "Reference ID",
+  phone: "Phone",
+  clear: "Clear",
 };

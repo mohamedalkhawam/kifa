@@ -16,6 +16,7 @@ import {
   clearList,
 } from "../utils/allImports";
 import { useTranslation } from "react-i18next";
+import AutoComplete from "./newAutoComplete";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { logout } from "../redux/actions/Auth";
 import { readCustomers } from "../redux/actions/customers";
@@ -28,14 +29,12 @@ export default function HomePageLeftSide({ navigation }) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [suggestions, setSuggestions] = useState([]);
+  const [searchBy, setSearchBy] = useState(["name", "phone", "reference_id"]);
   const appReducer = useSelector((state) => state.appReducer);
   const authReducer = useSelector((state) => state.AuthReducer);
   const customersReducer = useSelector((state) => state.customersReducer);
   const [query, setQuery] = useState("");
   const [searchObject, setSearchObject] = useState({});
-  // useEffect(() => {
-  //   console.log(appReducer.list);
-  // }, [appReducer.list]);
   useEffect(() => {
     let totalPrice = appReducer.list.map((el) => el.price * el.quantity);
     let totalquantity = appReducer.list.map((el) => el.quantity);
@@ -49,82 +48,6 @@ export default function HomePageLeftSide({ navigation }) {
   useEffect(() => {
     dispatch(readCustomers(authReducer.token));
   }, []);
-
-  ///////////////////////////////////////////////////////////////////////////////
-  const onTextChanged = (value) => {
-    let suggestions = [];
-    setQuery(value);
-    if (value.length > 0) {
-      const regex = new RegExp(`^${value}`, "i");
-      suggestions =
-        customersReducer.customers
-          .sort()
-          .filter((v) => regex.test(v["reference_id"])).length > 0
-          ? customersReducer.customers
-              .sort()
-              .filter((v) => regex.test(v["reference_id"]))
-          : [{ ["reference_id"]: "Not found..." }];
-    }
-    setSuggestions(suggestions);
-  };
-
-  //////////////////////////////////////////////////////////////////////
-  const suggestionSelected = (value, searchQeury) => {
-    setQuery(searchQeury);
-    setSuggestions([]);
-    setSearchObject(value);
-  };
-  ////////////////////////////////////////////////////////////////////////////
-  const renderSuggestions = () => {
-    if (suggestions.length === 0) {
-      return null;
-    }
-    return suggestions.map((item, index) => (
-      <TouchableOpacity
-        key={index}
-        style={styles.searchListStyle}
-        onPress={() => {
-          suggestionSelected(item, item["reference_id"]);
-        }}
-      >
-        <nativeElement.Divider
-          orientation="horizontal"
-          width={1}
-          style={{ paddingVertical: 0, marginTop: 0 }}
-        />
-        <View style={{ padding: 15 }}>
-          {item["reference_id"] !== "Not found..." ? (
-            <Text
-              style={{
-                fontSize: 16,
-                paddingBottom: 5,
-                color: "#555",
-                fontWeight: "bold",
-              }}
-            >
-              {item["name"]}
-            </Text>
-          ) : (
-            <View></View>
-          )}
-
-          <Text
-            style={{
-              fontSize: 12,
-              color: "#666",
-            }}
-          >
-            {item["reference_id"]}
-          </Text>
-        </View>
-        <nativeElement.Divider
-          orientation="horizontal"
-          width={1}
-          style={{ paddingVertical: 0, marginBottom: 0 }}
-        />
-      </TouchableOpacity>
-    ));
-  };
 
   if (authReducer.loading || customersReducer.loading) {
     return <Loader bgc={secondaryColor} color={primaryColor} />;
@@ -155,9 +78,7 @@ export default function HomePageLeftSide({ navigation }) {
           <View style={styles.flexCenter}>
             <Text style={styles.HomePageLeftSideTitleStyle}>Kifa pos</Text>
           </View>
-          <View
-            style={[styles.flexBetween, { height: 50, position: "relative" }]}
-          >
+          <View style={[styles.flexBetween, { height: 50 }]}>
             <nativeElement.Button
               onPress={() => navigation.navigate("menu")}
               type="clear"
@@ -171,53 +92,26 @@ export default function HomePageLeftSide({ navigation }) {
               }
             />
 
-            <nativeElement.Input
-              onFocus={() => setSuggestions(customersReducer.customers)}
-              onPress={() => setSuggestions(customersReducer.customers)}
-              onBlur={() => {
-                let timeout = setTimeout(() => setSuggestions([]), 1000);
-                return () => clearTimeout(timeout);
-              }}
-              leftIcon={
-                <nativeElement.Icon
-                  name={"search"}
-                  color="#4E7D9B"
-                  size={25}
-                  type="ionicon"
-                />
-              }
-              value={query}
-              rightIcon={
-                <nativeElement.Icon
-                  onPress={() => {
-                    setQuery("");
-                    setSuggestions([]);
-                    setSearchObject({});
-                  }}
-                  name="close"
-                  size={25}
-                  color="#4E7D9B"
-                />
-              }
+            <AutoComplete
+              data={customersReducer.customers}
+              btnWidth="70%"
+              setQuery={setQuery}
+              query={query}
+              searchElement={"reference_id"}
+              renderedData={""}
               placeholder={t("searchCustomer")}
-              containerStyle={{
-                height: 43,
-                width: "70%",
-              }}
-              inputStyle={[
-                styles.responsiveTextDirection,
-                { color: "#4E7D9B" },
-              ]}
-              inputContainerStyle={[
-                styles.responsiveDirection,
-                styles.AuthInputContainerStyle,
-                {
-                  height: 40,
-                },
-              ]}
-              onChangeText={(text) => onTextChanged(text)}
+              name={"name"}
+              pressHandler={setSearchObject}
+              overlayWidth="50%"
+              overLayHeight="100%"
+              left="-25%"
+              btnBorderColor={primaryColor}
+              btnTextColor={primaryColor}
+              btnBorderWidth={1}
+              btnBorderRad={15}
+              containerMarginTop={0}
+              searchBy={searchBy}
             />
-
             <nativeElement.Button
               onPress={() => navigation.navigate("newCustomer")}
               type="clear"
@@ -246,32 +140,31 @@ export default function HomePageLeftSide({ navigation }) {
                 ]}
               >
                 {_objI(searchObject) && searchObject.name ? (
-                  <Text>
-                    <Text style={styles.bold}>Customer:{"  "} </Text>
-                    {searchObject.name}
-                  </Text>
+                  <View style={[styles.flexBetween]}>
+                    <Text style={styles.bold}>
+                      Customer:{"  "}{" "}
+                      <Text style={{ fontWeight: "400" }}>
+                        {searchObject.name}
+                      </Text>
+                    </Text>
+                    <nativeElement.Button
+                      style={{ margin: 0, padding: 0 }}
+                      containerStyle={{ margin: 0, padding: 0 }}
+                      onPress={() => setSearchObject({})}
+                      type="clear"
+                      icon={
+                        <nativeElement.Icon
+                          name="close"
+                          size={25}
+                          type="ionicon"
+                          color="#4E7D9B"
+                        />
+                      }
+                    />
+                  </View>
                 ) : (
-                  <View></View>
+                  <></>
                 )}
-                {_objI(searchObject) && searchObject.name ? (
-                  <Text>
-                    <Text style={styles.bold}>Phone: </Text>{" "}
-                    {searchObject.phone}
-                  </Text>
-                ) : (
-                  <View></View>
-                )}
-                <ScrollView
-                  style={{
-                    width: "100%",
-                    maxHeight: 213,
-                    position: "absolute",
-                    backgroundColor: "white",
-                    top: _objI(searchObject) ? -15 : -25,
-                  }}
-                >
-                  {renderSuggestions()}
-                </ScrollView>
               </View>
             </View>
           ) : (

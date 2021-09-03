@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 import { View, ScrollView, Animated } from "react-native";
 import InvoicesCard from "../components/invoicesCard";
 import Header from "../components/header";
-import Autocomplete from "../components/autoComplete";
+import Autocomplete from "../components/newAutoComplete";
 import { readInvoices } from "../redux/actions/invoice";
 export default function Invoices({ navigation }) {
   const tab1 = useState(new Animated.Value(1))[0];

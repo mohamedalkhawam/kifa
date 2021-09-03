@@ -155,7 +155,7 @@ export default function SingIn({ navigation }) {
                     dispatch(setToken(res.data.data.token));
                     dispatch(loadUser(res.data.data.token));
                   } else {
-                    alert(res);
+                    alert(JSON.stringify(res));
                   }
                 });
               }}

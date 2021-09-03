@@ -85,4 +85,9 @@ export default {
   dataSentSuc: "تم ارسال البيانات بنجاح",
   productNotFound: "المنتج غير موجود!!",
   scanned: "تم الادخال بنجاح",
+  searchBy: "البحث بواسطة",
+  barcode: "الباركود",
+  reference_id: "الرقم المرجعي",
+  phone: "رقم الموبايل",
+  clear: "مسح",
 };

@@ -23,7 +23,7 @@ export const finishedCustomersReload = () => (dispatch) => {
 
 export const readCustomers = (token) =>
   readItemsAsync({
-    url: "http://www.kifapos.com/api/list-customers",
+    url: "https://www.kifapos.com/api/list-customers",
     successType: READ_CUSTOMERS,
     errorType: CUSTOMER_ERROR,
     startReload: startCustomersReload,
@@ -35,7 +35,7 @@ export const readCustomers = (token) =>
 
 export const readOneCustomer = (id, token) =>
   readOneItemAsync({
-    url: `http://www.kifapos.com/api/list-customers`,
+    url: `https://www.kifapos.com/api/list-customers`,
     successType: READ_ONE_CUSTOMER,
     errorType: CUSTOMER_ERROR,
     startReload: startCustomersReload,
@@ -48,7 +48,7 @@ export const readOneCustomer = (id, token) =>
 
 export const createCustomer = (formData, token) =>
   createItemAsync({
-    url: "http://www.kifapos.com/api/create-customer",
+    url: "https://www.kifapos.com/api/create-customer",
     successType: CREATE_CUSTOMER,
     errorType: CUSTOMER_ERROR,
     startReload: startCustomersReload,
@@ -62,7 +62,7 @@ export const createCustomer = (formData, token) =>
 
 export const updateCustomer = (formData, token) =>
   updateItemAsync({
-    url: "http://www.kifapos.com/api/update-customer",
+    url: "https://www.kifapos.com/api/update-customer",
     successType: UPDATE_CUSTOMER,
     errorType: CUSTOMER_ERROR,
     startReload: startCustomersReload,

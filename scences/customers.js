@@ -13,7 +13,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { View, Text, ScrollView, Animated } from "react-native";
 import Header from "../components/header";
-import Autocomplete from "../components/autoComplete";
+import Autocomplete from "../components/newAutoComplete";
 import { readCustomers } from "../redux/actions/customers";
 import CustomersCard from "../components/cusomersCard";
 export default function Customers({ navigation }) {
@@ -23,6 +23,7 @@ export default function Customers({ navigation }) {
   const authReducer = useSelector((state) => state.AuthReducer);
   const dispatch = useDispatch();
   const [query, setQuery] = useState("");
+  const [searchBy, setSearchBy] = useState(["name", "phone", "reference_id"]);
   const [searchObject, setSearchObject] = useState({});
   useEffect(() => {
     dispatch(readCustomers(authReducer.token));
@@ -51,6 +52,8 @@ export default function Customers({ navigation }) {
           placeholder={t("Search...")}
           name={"name"}
           pressHandler={setSearchObject}
+          containerMarginTop={20}
+          searchBy={searchBy}
         />
         <ScrollView
           style={[

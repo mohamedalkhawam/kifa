@@ -622,7 +622,6 @@ export const globalStyle = () => {
       // justifyContent: "center",
       paddingHorizontal: 20,
       zIndex: 1000,
-      paddingTop: 20,
     },
     autocompleteContainerView: {
       width: "100%",
@@ -630,7 +629,7 @@ export const globalStyle = () => {
       alignItems: "center",
       justifyContent: "center",
 
-      borderRadius: 5,
+      borderRadius: 15,
       borderColor: primaryColor,
       shadowColor: "#000",
       shadowOffset: {
@@ -651,7 +650,7 @@ export const globalStyle = () => {
       padding: 7,
     },
     autoCompleteInput: {
-      height: 55,
+      height: 40,
       marginHorizontal: 15,
     },
     snakeSuccesfully: {
