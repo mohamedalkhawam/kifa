@@ -4435,6 +4435,11 @@ expo-localization@~10.1.0:
   dependencies:
     rtl-detect "^1.0.2"
 
+expo-print@~10.1.0:
+  version "10.1.0"
+  resolved "https://registry.yarnpkg.com/expo-print/-/expo-print-10.1.0.tgz#7a24d52af0f9bfcabd96cb4c1b542b8c19cf2835"
+  integrity sha512-Kewebb4bq4mzc+kl98hEiJfy0BsC5a91NkYVMJ3cswQkJviOJbYR0cK2julVJXh22DpidgJ43FxHMIjsN/aPsg==
+
 expo-screen-orientation@~3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/expo-screen-orientation/-/expo-screen-orientation-3.1.0.tgz#7df254a7f5778e89eafa9a1b8e3b3f4798b41f90"
@@ -6965,6 +6970,13 @@ react-native-autocomplete-input@^5.0.1:
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/react-native-autocomplete-input/-/react-native-autocomplete-input-5.0.2.tgz#82556823b534dd1a9aabe222fda8579b3a14d011"
   integrity sha512-CL20a5Rg/jsiuavlG6cm8MRFyH1nICXFrvtlVMrJ3IKUa6AW/Ge4QqCFa7AjZKzEus1uDeMzcHC+bOhcgSudUQ==
+
+react-native-custom-qr-codes-expo@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-custom-qr-codes-expo/-/react-native-custom-qr-codes-expo-2.2.0.tgz#0286713160d9db13c82718ba3c4786ac7dfeb076"
+  integrity sha512-NWZqkdyZfdYlZcCqejshWRJJik7MVl+9r8AvsPPRxXsKfdEaqalQ2sb78Zyh3BELnyqr3ptP7CSxjtXiN77SjA==
+  dependencies:
+    prop-types "^15.7.2"
 
 react-native-elements@^3.4.2:
   version "3.4.2"

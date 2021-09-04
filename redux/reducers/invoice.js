@@ -9,6 +9,8 @@ import {
 const initialState = {
   invoices: [],
   invoice: {},
+  pendingInvoices: [],
+  completedInvoices: [],
   error: {},
   loading: false,
   readable: false,
@@ -23,6 +25,8 @@ export default function (state = initialState, action) {
         ...state,
         invoices: payload.data,
         readable: true,
+        pendingInvoices: payload.data.filter((item) => item.is_paid === 0),
+        completedInvoices: payload.data.filter((item) => item.is_paid === 1),
       };
 
     case READ_ONE_INVOICE:
@@ -33,6 +37,11 @@ export default function (state = initialState, action) {
     case CHANGE_INVOICE_STATUS:
       return {
         ...state,
+        invoices: [
+          ...state.invoices.map((invoice) =>
+            invoice.id === payload.invoice.id ? payload.invoice : invoice
+          ),
+        ],
       };
 
     case START_INVOICES_RELOAD:

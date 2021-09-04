@@ -20,6 +20,7 @@ import {
   Center,
   NativeBaseProvider,
 } from "native-base";
+import { QRCode } from "react-native-custom-qr-codes-expo";
 import { useTranslation } from "react-i18next";
 import { View, Text, ScrollView, Image } from "react-native";
 import Header from "../components/header";
@@ -28,6 +29,7 @@ import {
   changeInvoiceStatus,
   readInvoices,
 } from "../redux/actions/invoice";
+import invoice from "../redux/reducers/invoice";
 export default function SingleInvoice({ navigation, route }) {
   const dispatch = useDispatch();
   const authReducer = useSelector((state) => state.AuthReducer);
@@ -37,9 +39,11 @@ export default function SingleInvoice({ navigation, route }) {
   const [status, setStatus] = useState(invoicesReducer.invoice.is_paid);
   useEffect(() => {
     if (route.params.id) {
-      dispatch(readOneInvoice({ id: route.params.id }, authReducer.token));
+      dispatch(readOneInvoice({ id: route.params.id }, authReducer.token)).then(
+        (invoice) => setStatus(invoicesReducer.invoice.is_paid)
+      );
     }
-  }, []);
+  }, [route.params.id]);
   // useEffect(() => {
 
   // }, [status]);
@@ -474,10 +478,17 @@ export default function SingleInvoice({ navigation, route }) {
             </View>
             <View style={[styles.flexCenterm, { marginTop: 10 }]}>
               <View style={{ width: 150, height: 150 }}>
-                <Image
+                {/* <Image
                   resizeMode="contain"
                   source={require("../assets/parcode.png")}
                   style={{ width: "100%", height: "100%" }}
+                /> */}
+                <QRCode
+                  content={
+                    invoicesReducer.invoice.invoice_link ||
+                    "https://reactnative.com"
+                  }
+                  size={150}
                 />
               </View>
             </View>

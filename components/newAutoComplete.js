@@ -134,7 +134,7 @@ export default function AutocompleteSearch({
               styles.autoCompleteInput,
               {
                 flexDirection: "row",
-                justifyContent: "start",
+                justifyContent: "flex-start",
                 alignItems: "center",
               },
               styles.responsiveDirection,

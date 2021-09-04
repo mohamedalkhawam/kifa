@@ -61,12 +61,8 @@ export default function Invoices({ navigation }) {
   useEffect(() => {
     dispatch(readInvoices(authReducer.token)).then((res) => {
       if (res.status === 200) {
-        setInvoices(
-          invoicesReducer.invoices.filter((item) => item.is_paid === 1)
-        );
-        setPendingInvoices(
-          invoicesReducer.invoices.filter((item) => item.is_paid === 0)
-        );
+        setInvoices(invoicesReducer.completedInvoices);
+        setPendingInvoices(invoicesReducer.pendingInvoices);
       }
     });
   }, [currentTab]);
@@ -150,10 +146,11 @@ export default function Invoices({ navigation }) {
               navigation={navigation}
             />
           ) : currentTab === 0 && query === "" ? (
-            invoices.map((item, index) => (
+            invoicesReducer.completedInvoices.map((item, index) => (
               <InvoicesCard
                 key={index}
                 id={item.id}
+                num={index}
                 invoiceNumber={item.invoice_number}
                 merchantName={item.merchant_name}
                 merchantAddress={item.merchant_address}
@@ -167,10 +164,11 @@ export default function Invoices({ navigation }) {
               />
             ))
           ) : currentTab === 1 && query === "" ? (
-            pendingInvoices.map((item, index) => (
+            invoicesReducer.pendingInvoices.map((item, index) => (
               <InvoicesCard
                 key={index}
                 id={item.id}
+                num={index}
                 invoiceNumber={item.invoice_number}
                 merchantName={item.merchant_name}
                 merchantAddress={item.merchant_address}

@@ -15,6 +15,7 @@ import {
   _objO,
   clearList,
 } from "../utils/allImports";
+import * as Print from "expo-print";
 import { useTranslation } from "react-i18next";
 import AutoComplete from "./newAutoComplete";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
@@ -48,7 +49,12 @@ export default function HomePageLeftSide({ navigation }) {
   useEffect(() => {
     dispatch(readCustomers(authReducer.token));
   }, []);
-
+  useEffect(() => {
+    Print.selectPrinterAsync()
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+    Print.printAsync({});
+  }, []);
   if (authReducer.loading || customersReducer.loading) {
     return <Loader bgc={secondaryColor} color={primaryColor} />;
   } else {

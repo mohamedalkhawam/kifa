@@ -13,6 +13,7 @@ export default function InvoicesCard({
   totalPrice,
   date,
   navigation,
+  num,
 }) {
   const styles = globalStyle();
   const { t } = useTranslation();
@@ -45,7 +46,7 @@ export default function InvoicesCard({
           <Text style={[styles.invoicesCardTitleStyle]}>
             {t("merchantAddress")}
           </Text>
-          <Text style={[styles.invoicesCardInfoStyle]}>{merchantAddress}</Text>
+          <Text style={[styles.invoicesCardInfoStyle]}>{num + 1}</Text>
         </View>
         <View style={[styles.flexBetween, styles.responsiveDirection]}>
           <Text style={[styles.invoicesCardTitleStyle]}>
