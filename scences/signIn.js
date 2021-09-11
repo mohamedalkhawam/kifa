@@ -16,6 +16,7 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
   Image,
+  ScrollView,
 } from "react-native";
 import { loginUser, loadUser, setToken } from "../redux/actions/Auth";
 export default function SingIn({ navigation }) {
@@ -46,8 +47,8 @@ export default function SingIn({ navigation }) {
   const styles = globalStyle();
   return (
     <View style={styles.splitContainer}>
-      <View style={[styles.partContainer, styles.loginView]}>
-        <View style={{ marginVertical: "6%" }}></View>
+      <ScrollView style={[styles.partContainer, styles.loginView]}>
+        <View style={{ marginVertical: "5%" }}></View>
         <nativeElement.Icon
           name="person"
           color="#4E7D9B"
@@ -66,6 +67,7 @@ export default function SingIn({ navigation }) {
               onPress={() => setFormData({ ...formData, username: "" })}
             />
           }
+          returnKeyType="next"
           inputStyle={styles.responsiveTextDirection}
           placeholder={t("userName")}
           errorMessage={validation.username.message}
@@ -131,13 +133,14 @@ export default function SingIn({ navigation }) {
           }}
         />
         <View style={{ flex: 1 }}></View>
+        <View style={{ marginVertical: 40 }}></View>
         <View
           style={[
             styles.flexBetween,
             { direction: localize.language === "en" ? "ltr" : "rtl" },
           ]}
         >
-          <KeyboardAvoidingView style={[styles.flexStart, { width: "70%" }]}>
+          <View style={[styles.flexStart, { width: "70%" }]}>
             <nativeElement.Button
               title={t("login")}
               loading={authReducer.loading}
@@ -166,7 +169,7 @@ export default function SingIn({ navigation }) {
                 width: "40%",
               }}
             />
-          </KeyboardAvoidingView>
+          </View>
           <TouchableOpacity
             onPress={() =>
               navigation.navigate("forgetPassword", {
@@ -185,7 +188,8 @@ export default function SingIn({ navigation }) {
             </Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </ScrollView>
+
       <View style={[styles.partContainer, styles.logoView]}>
         <View style={[styles.languageButtonsContainer]}>
           <nativeElement.Button

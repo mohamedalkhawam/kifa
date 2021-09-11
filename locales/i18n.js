@@ -63,5 +63,4 @@ i18n
     cleanCode: true,
     saveMissingTo: "all",
   });
-i18n.cha;
 export default i18n;

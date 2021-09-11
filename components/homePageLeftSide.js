@@ -15,10 +15,10 @@ import {
   _objO,
   clearList,
 } from "../utils/allImports";
-import * as Print from "expo-print";
+import PrintButton from "../components/printButton";
 import { useTranslation } from "react-i18next";
 import AutoComplete from "./newAutoComplete";
-import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import { logout } from "../redux/actions/Auth";
 import { readCustomers } from "../redux/actions/customers";
 import { createOrder } from "../redux/actions/order";
@@ -49,12 +49,7 @@ export default function HomePageLeftSide({ navigation }) {
   useEffect(() => {
     dispatch(readCustomers(authReducer.token));
   }, []);
-  useEffect(() => {
-    Print.selectPrinterAsync()
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
-    Print.printAsync({});
-  }, []);
+
   if (authReducer.loading || customersReducer.loading) {
     return <Loader bgc={secondaryColor} color={primaryColor} />;
   } else {
@@ -327,7 +322,7 @@ export default function HomePageLeftSide({ navigation }) {
 
         {/* start action Buttons */}
         <View style={styles.floatingActionButtonsContainer}>
-          <nativeElement.Button
+          {/* <nativeElement.Button
             title={t("print")}
             onPress={() => dispatch(logout())}
             type="solid"
@@ -341,7 +336,8 @@ export default function HomePageLeftSide({ navigation }) {
                 style={{ paddingRight: 7 }}
               />
             }
-          />
+          /> */}
+          <PrintButton />
           <nativeElement.Button
             title={t("save")}
             onPress={() => {
