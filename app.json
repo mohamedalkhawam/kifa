@@ -6,18 +6,17 @@
     "orientation": "landscape",
     "icon": "./assets/icon.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/logo33.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
+      "icon": "./assets/logo33.png",
       "infoPlist": {
         "CFBundleAllowMixedLocalizations": true
       },
@@ -28,8 +27,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "foregroundImage": "./assets/logo33.png",
+        "backgroundColor": "#F8F8F8"
       },
       "package": "com.softech.kifa"
     },

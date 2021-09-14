@@ -16,11 +16,11 @@ export default function PrintButton() {
   const { t } = useTranslation();
   const print = async () => {
     if (Platform.OS === "android") {
-      // Print.printAsync({})
-      //   .then((res) => {
-      //     console.log(res);
-      //   })
-      //   .catch((err) => console.log(err));
+      Print.printAsync({})
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => console.log(err));
     } else {
       Print.selectPrinterAsync()
         .then((res) => console.log(res))

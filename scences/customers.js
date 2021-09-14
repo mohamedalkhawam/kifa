@@ -52,7 +52,7 @@ export default function Customers({ navigation }) {
           placeholder={t("Search...")}
           name={"name"}
           pressHandler={setSearchObject}
-          containerMarginTop={20}
+          containerMarginTop={0}
           searchBy={searchBy}
         />
         <ScrollView

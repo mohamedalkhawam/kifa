@@ -44,9 +44,7 @@ export default function SingleInvoice({ navigation, route }) {
       );
     }
   }, [route.params.id]);
-  // useEffect(() => {
 
-  // }, [status]);
   if (
     authReducer.loading ||
     invoicesReducer.loading ||
@@ -126,7 +124,7 @@ export default function SingleInvoice({ navigation, route }) {
                   {t("time")}:
                 </Text>
                 <Text style={[styles.invoicesCardInfoStyle]}>
-                  {"3:30"} {localize.language === "en" ? "PM" : "مساءً"}
+                  {new Date(invoicesReducer.invoice.date).toLocaleTimeString()}
                 </Text>
               </View>
               <View style={[styles.flexBetween, styles.responsiveDirection]}>
@@ -150,10 +148,12 @@ export default function SingleInvoice({ navigation, route }) {
                   <NativeBaseProvider>
                     <VStack alignItems="center" space={10}>
                       <Select
-                        selectedValue={status}
+                        selectedValue={
+                          status || invoicesReducer.invoice.is_paid
+                        }
                         minWidth={200}
                         accessibilityLabel="change invoice status"
-                        placeholder="change status"
+                        placeholder={t("changeStatus")}
                         onValueChange={(itemValue) => {
                           setStatus(itemValue);
                           dispatch(
@@ -162,7 +162,6 @@ export default function SingleInvoice({ navigation, route }) {
                               authReducer.token
                             )
                           ).then((res) => {
-                            alert(res.status);
                             if (res.status === 200) {
                               dispatch(readInvoices(authReducer.token));
                               dispatch(
@@ -179,9 +178,9 @@ export default function SingleInvoice({ navigation, route }) {
                           endIcon: <CheckIcon size={4} />,
                         }}
                       >
-                        <Select.Item label="pending" value={0} />
-                        <Select.Item label="paid" value={1} />
-                        <Select.Item label="Returned" value={2} />
+                        <Select.Item label={t("pending")} value={0} />
+                        <Select.Item label={t("paid")} value={1} />
+                        <Select.Item label={t("returned")} value={2} />
                       </Select>
                     </VStack>
                   </NativeBaseProvider>
@@ -235,7 +234,7 @@ export default function SingleInvoice({ navigation, route }) {
               </Text>
             </View>
           </View>
-          {invoicesReducer.invoice.order_details.map((item, index) => (
+          {invoicesReducer.invoice?.order_details?.map?.((item, index) => (
             <View
               key={index}
               style={[
@@ -295,7 +294,7 @@ export default function SingleInvoice({ navigation, route }) {
                 </Text>
               </View>
             </View>
-          ))}
+          )) ?? <></>}
           <nativeElement.Divider
             orientation="horizontal"
             width={4}

@@ -24,9 +24,7 @@ export default function InvoicesCard({
 }) {
   const styles = globalStyle();
   const { t } = useTranslation();
-  useEffect(() => {
-    localize.changeLanguage("en");
-  }, []);
+
   return (
     <View style={styles.customerCardWrapper}>
       <View style={[styles.flexBetween, styles.customerCardHeaderStyle]}>

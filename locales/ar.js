@@ -90,4 +90,11 @@ export default {
   reference_id: "الرقم المرجعي",
   phone: "رقم الموبايل",
   clear: "مسح",
+  "Search...": "بحث...",
+  status: "الحالة",
+  paid: "تم الدفع",
+  pending: "معلق",
+  returned: "مرتجع",
+  cashierName: "اسم الكاشير",
+  changeStatus: "غير الحالة",
 };

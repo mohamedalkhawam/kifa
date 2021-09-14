@@ -8,6 +8,7 @@ import {
   Loader,
   primaryColor,
   secondaryColor,
+  localize,
 } from "../utils/allImports";
 import { useTranslation } from "react-i18next";
 import { View, ScrollView, Animated } from "react-native";
@@ -58,7 +59,9 @@ export default function Invoices({ navigation }) {
       ],
     };
   };
+
   useEffect(() => {
+    localize.changeLanguage("ar");
     dispatch(readInvoices(authReducer.token)).then((res) => {
       if (res.status === 200) {
         setInvoices(invoicesReducer.completedInvoices);

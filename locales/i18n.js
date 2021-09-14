@@ -3,7 +3,6 @@
 // // import * as RNLocalize from "react-native-localize";
 import en from "./en";
 import ar from "./ar";
-import { I18nManager } from "react-native";
 
 // const locales = RNLocalize.locales;
 // if (Array.isArray(locales)) {

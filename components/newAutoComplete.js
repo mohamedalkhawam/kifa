@@ -65,17 +65,21 @@ export default function AutocompleteSearch({
     return suggestions.map((item, index) => (
       <TouchableOpacity
         key={index}
-        style={[styles.searchListStyle]}
+        style={[styles.searchListStyle, { paddingHorizontal: 10 }]}
         onPress={() => suggestionSelected(item, item[filterBy])}
       >
-        <nativeElement.Divider
-          orientation="horizontal"
-          width={1}
-          style={{
-            paddingVertical: 0,
-            marginTop: containerMarginTop ? containerMarginTop : 0,
-          }}
-        />
+        {index === 0 ? (
+          <nativeElement.Divider
+            orientation="horizontal"
+            width={1}
+            style={{
+              paddingVertical: 0,
+              marginTop: containerMarginTop ? containerMarginTop : 0,
+            }}
+          />
+        ) : (
+          <View></View>
+        )}
         <View style={[{ padding: 15 }]}>
           {name && item[filterBy] !== "Not found..." ? (
             <Text
@@ -84,6 +88,7 @@ export default function AutocompleteSearch({
                 paddingBottom: 5,
                 color: "#555",
                 fontWeight: "bold",
+                textAlign: "left",
               }}
             >
               {item[name]}
@@ -93,7 +98,11 @@ export default function AutocompleteSearch({
           )}
 
           <Text
-            style={{ fontSize: name ? 12 : 15, color: name ? "#666" : "#444" }}
+            style={{
+              fontSize: name ? 12 : 15,
+              color: name ? "#666" : "#444",
+              textAlign: "left",
+            }}
           >
             {item[filterBy]}
           </Text>

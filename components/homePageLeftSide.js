@@ -18,7 +18,7 @@ import {
 import PrintButton from "../components/printButton";
 import { useTranslation } from "react-i18next";
 import AutoComplete from "./newAutoComplete";
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, Platform } from "react-native";
 import { logout } from "../redux/actions/Auth";
 import { readCustomers } from "../redux/actions/customers";
 import { createOrder } from "../redux/actions/order";
@@ -49,7 +49,7 @@ export default function HomePageLeftSide({ navigation }) {
   useEffect(() => {
     dispatch(readCustomers(authReducer.token));
   }, []);
-
+  useEffect(() => {}, []);
   if (authReducer.loading || customersReducer.loading) {
     return <Loader bgc={secondaryColor} color={primaryColor} />;
   } else {

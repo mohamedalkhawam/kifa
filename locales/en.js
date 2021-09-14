@@ -89,4 +89,11 @@ export default {
   reference_id: "Reference ID",
   phone: "Phone",
   clear: "Clear",
+  "Search...": "Search...",
+  status: "Status",
+  paid: "Paid",
+  pending: "Pending",
+  returned: "Returned",
+  cashierName: "Cashier name",
+  changeStatus: "Change status",
 };
