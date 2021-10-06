@@ -12,18 +12,28 @@ import {
 import { Platform } from "react-native";
 import * as Print from "expo-print";
 import { useTranslation } from "react-i18next";
-export default function PrintButton() {
+import PrintPaper from "./print";
+export default function PrintButton({ data, tax, total }) {
   const { t } = useTranslation();
   const print = async () => {
     if (Platform.OS === "android") {
-      Print.printAsync({})
+      Print.printAsync({
+        html: PrintPaper(data, tax, total),
+      })
         .then((res) => {
           console.log(res);
         })
         .catch((err) => console.log(err));
     } else {
       Print.selectPrinterAsync()
-        .then((res) => console.log(res))
+        .then((res) => {
+          Print.printAsync({
+            printerUrl: res.url,
+            html: PrintPaper(data, tax, total),
+          }).then((res) => {
+            console.log(res);
+          });
+        })
         .catch((err) => console.log(err));
     }
   };

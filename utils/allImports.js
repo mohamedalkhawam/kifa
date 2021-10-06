@@ -1,22 +1,15 @@
 // Pages
 import localize from "../locales/i18n";
-import FastImage from "react-native-fast-image";
 import React, { useEffect, useState, useRef } from "react";
 import * as nativeElement from "react-native-elements";
 import { useSelector, useDispatch } from "react-redux";
 import validator from "validator";
 import { renderHeaderIcons } from "../helpers/renderHeaderIcons";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
 import { globalStyle, primaryColor, secondaryColor } from "../styles/index";
 import colors from "../theme/colors/colors";
 import fontsType from "../theme/fonts/fonts";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import LinearGradient from "react-native-linear-gradient";
 import normalize from "./normalizeSize";
-import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import {
   addProduct,
   removeProduct,
@@ -29,16 +22,10 @@ import _objI from "./_objI";
 import _objO from "./_objO";
 export {
   localize,
-  wp,
-  hp,
   colors,
   fontsType,
-  FastImage,
   AsyncStorage,
-  LinearGradient,
   normalize,
-  RFPercentage,
-  RFValue,
   useSelector,
   useDispatch,
   useEffect,

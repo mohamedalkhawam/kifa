@@ -1,18 +1,18 @@
-import axios from 'axios';
-import { setAlert } from '../alert';
-import { setProgress } from '../app';
+import axios from "axios";
+import { setAlert } from "../alert";
+import { setProgress } from "../app";
 
 export const searchItemsAsync = (data) => {
   return async (dispatch) => {
     let config;
-    if (data.type === 'file') {
+    if (data.type === "file") {
       let percentCompleted;
       config = {
         onUploadProgress: (progressEvent) => {
           percentCompleted = Math.floor(
             (progressEvent.loaded * 100) / progressEvent.total
           );
-          dispatch(setProgress(percentCompleted));
+          // dispatch(setProgress(percentCompleted));
         },
         headers: data.headers,
       };
@@ -27,7 +27,7 @@ export const searchItemsAsync = (data) => {
       return success;
     };
     const onError = (error) => {
-      dispatch(setAlert('error something went wrong', 'error'));
+      dispatch(setAlert("error something went wrong", "error"));
       dispatch({ type: data.errorType });
       !data.noReload && dispatch(data.finishedReload());
       return error;

@@ -18,6 +18,7 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import PrintButton from "../components/printButton";
 import { loginUser, loadUser, setToken } from "../redux/actions/Auth";
 export default function SingIn({ navigation }) {
   const authReducer = useSelector((state) => state.AuthReducer);
@@ -25,8 +26,8 @@ export default function SingIn({ navigation }) {
   const dispatch = useDispatch();
   const { width: windowWidth, height: windowHeight } = useWindowDimensions();
   const [formData, setFormData] = useState({
-    username: "cashier",
-    password: "123456",
+    username: "",
+    password: "",
   });
 
   const [validation, setValidation] = useState({
@@ -170,6 +171,7 @@ export default function SingIn({ navigation }) {
               }}
             />
           </View>
+          {/* <PrintButton /> */}
           <TouchableOpacity
             onPress={() =>
               navigation.navigate("forgetPassword", {

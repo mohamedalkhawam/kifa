@@ -6,7 +6,6 @@ import { RootStackScreen } from "./routes/index";
 import store from "./redux/store";
 import { Provider } from "react-redux";
 import "./locales/i18n";
-import RNRestart from "react-native-restart";
 import { loadUser, setToken } from "./redux/actions/Auth";
 import { readProducts } from "./redux/actions/products";
 import { readSettings } from "./redux/actions/settings";
@@ -25,7 +24,7 @@ export default function App() {
       try {
         I18nManager.allowRTL(false);
         I18nManager.forceRTL(false);
-        RNRestart?.Restart();
+        // RNRestart?.Restart();
       } catch (error) {
         console.log(error);
       }

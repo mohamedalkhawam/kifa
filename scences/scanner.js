@@ -8,15 +8,23 @@ import {
   useDispatch,
   addProduct,
   useSelector,
+  nativeElement,
   _objI,
+  localize,
 } from "../utils/allImports";
+import BackButton from "../components/backButton";
 import { useTranslation } from "react-i18next";
-export default function App() {
+
+export default function Scanner({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+  const { t } = useTranslation();
+  const [scannerState, setScannerState] = useState({
+    type: "red",
+    message: t("productNotFound"),
+  });
   const productsReducer = useSelector((state) => state.productsReducer);
   const styles = globalStyle();
-  const { t } = useTranslation();
   const dispatch = useDispatch();
   useEffect(() => {
     (async () => {
@@ -24,7 +32,9 @@ export default function App() {
       setHasPermission(status === "granted");
     })();
   }, []);
-
+  useEffect(() => {
+    localize.changeLanguage("en");
+  }, []);
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     if (
@@ -38,15 +48,21 @@ export default function App() {
           productsReducer.products.find((product) => product.barcode === data)
         )
       );
-      alert(t("scanned"));
+      s;
+      setScannerState({ type: "green", message: t("scanned") });
     } else {
-      alert(t("productNotFound"));
+      setScannerState({ type: "red", message: t("productNotFound") });
     }
   };
   useEffect(() => {
-    setTimeout(() => {
+    let timeout = setTimeout(() => {
       setScanned(false);
-    }, 1000);
+      setScannerState({
+        type: "",
+        message: "",
+      });
+    }, 1500);
+    return () => clearTimeout(timeout);
   }, [scanned]);
   if (hasPermission === null) {
     return <Text>Requesting for camera permission</Text>;
@@ -57,6 +73,46 @@ export default function App() {
 
   return (
     <View style={styles.container}>
+      <BackButton Icon={nativeElement.Icon} navigation={navigation} top={35} />
+      {scanned && (
+        <nativeElement.Overlay isVisible={true}>
+          <View
+            style={[
+              styles.flexStart,
+              styles.responsiveDirection,
+              { padding: 15, width: 320 },
+            ]}
+          >
+            {scannerState.type === "green" ? (
+              <nativeElement.Icon
+                name="checkmark-circle-outline"
+                size={35}
+                type="ionicon"
+                color="green"
+                style={{
+                  paddingLeft: localize.language === "en" ? 0 : 10,
+                  paddingRight: localize.language === "en" ? 10 : 0,
+                }}
+              />
+            ) : scannerState.type === "red" ? (
+              <nativeElement.Icon
+                name="alert-circle-outline"
+                size={35}
+                type="ionicon"
+                color="red"
+                style={{
+                  paddingLeft: localize.language === "en" ? 0 : 10,
+                  paddingRight: localize.language === "en" ? 10 : 0,
+                }}
+              />
+            ) : (
+              <></>
+            )}
+
+            <Text>{scannerState.message}</Text>
+          </View>
+        </nativeElement.Overlay>
+      )}
       <BarCodeScanner
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={{ position: "absolute", width: "100%", height: "100%" }}
@@ -68,3 +124,5 @@ export default function App() {
     </View>
   );
 }
+// task_alt;
+// alert - circle - outline;

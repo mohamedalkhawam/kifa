@@ -22,6 +22,11 @@ import { View, Text, ScrollView, Platform } from "react-native";
 import { logout } from "../redux/actions/Auth";
 import { readCustomers } from "../redux/actions/customers";
 import { createOrder } from "../redux/actions/order";
+import { useRef } from "react";
+import * as Print from "expo-print";
+import PrintPaper from "../components/print";
+import { QRCode } from "react-native-custom-qr-codes-expo";
+
 export default function HomePageLeftSide({ navigation }) {
   const [totals, setTotals] = useState({
     price: 0,
@@ -36,6 +41,28 @@ export default function HomePageLeftSide({ navigation }) {
   const customersReducer = useSelector((state) => state.customersReducer);
   const [query, setQuery] = useState("");
   const [searchObject, setSearchObject] = useState({});
+  const print = async (data, tax, total, invoiceNumber, qrCodeImage) => {
+    if (Platform.OS === "android") {
+      Print.printAsync({
+        html: PrintPaper(data, tax, total, invoiceNumber, qrCodeImage),
+      })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => console.log(err));
+    } else {
+      Print.selectPrinterAsync()
+        .then((res) => {
+          Print.printAsync({
+            printerUrl: res.url,
+            html: PrintPaper(data, tax, total, invoiceNumber, qrCodeImage),
+          }).then((res) => {
+            console.log(res);
+          });
+        })
+        .catch((err) => console.log(err));
+    }
+  };
   useEffect(() => {
     let totalPrice = appReducer.list.map((el) => el.price * el.quantity);
     let totalquantity = appReducer.list.map((el) => el.quantity);
@@ -49,7 +76,10 @@ export default function HomePageLeftSide({ navigation }) {
   useEffect(() => {
     dispatch(readCustomers(authReducer.token));
   }, []);
-  useEffect(() => {}, []);
+  const callback = (dataURL) => {
+    console.log(dataURL);
+  };
+
   if (authReducer.loading || customersReducer.loading) {
     return <Loader bgc={secondaryColor} color={primaryColor} />;
   } else {
@@ -337,9 +367,13 @@ export default function HomePageLeftSide({ navigation }) {
               />
             }
           /> */}
-          <PrintButton />
+          {/* <PrintButton
+            data={appReducer.list}
+            tax={totals.price * 0.15}
+            total={totals.price + totals.price * 0.15}
+          /> */}
           <nativeElement.Button
-            title={t("save")}
+            title={t("save&print")}
             onPress={() => {
               dispatch(
                 createOrder(
@@ -357,6 +391,15 @@ export default function HomePageLeftSide({ navigation }) {
               )
                 .then((res) => {
                   if (res.status === 200) {
+                    print(
+                      appReducer.list,
+                      totals.price * 0.15,
+                      totals.price + totals.price * 0.15,
+                      "54545451",
+                      "dfdf",
+                      `marchen tName`,
+                      "marchant address"
+                    );
                     setSearchObject({});
                     setQuery("");
                     dispatch(clearList());
@@ -367,6 +410,7 @@ export default function HomePageLeftSide({ navigation }) {
                     });
                   } else {
                     alert(t("somethingWrongHappen"));
+                    console.log(res);
                   }
                 })
                 .catch((err) => {});

@@ -12,7 +12,7 @@ export const readOneItemAsync = (data) => {
           percentCompleted = Math.floor(
             (progressEvent.loaded * 100) / progressEvent.total
           );
-          dispatch(setProgress(percentCompleted));
+          // dispatch(setProgress(percentCompleted));
         },
         headers: data.headers,
       };

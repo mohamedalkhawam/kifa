@@ -477,11 +477,6 @@ export default function SingleInvoice({ navigation, route }) {
             </View>
             <View style={[styles.flexCenterm, { marginTop: 10 }]}>
               <View style={{ width: 150, height: 150 }}>
-                {/* <Image
-                  resizeMode="contain"
-                  source={require("../assets/parcode.png")}
-                  style={{ width: "100%", height: "100%" }}
-                /> */}
                 <QRCode
                   content={
                     invoicesReducer.invoice.invoice_link ||

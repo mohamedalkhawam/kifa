@@ -317,12 +317,12 @@ export default function Customers({ navigation }) {
                     dispatch(
                       updateSettings(authReducer.token, {
                         phone: formData.phone,
-                        email: formData.email.toLowerCase(),
                         copies_number: formData.copies_number,
                         language: formData.isArabic === false ? "en" : "ar",
                       })
                     )
                       .then((res) => {
+                        console.log(res);
                         if (res.status === 200) {
                           setShowSnake(t("dataUpdatedSuc"));
                           setClassType("green");
@@ -341,12 +341,10 @@ export default function Customers({ navigation }) {
                       .catch((err) => {});
                   }}
                   disabled={
-                    validation.email.message.length > 0 ||
                     validation.phone.message.length > 0 ||
                     validation.copies_number.message.length > 0 ||
                     formData.copies_number === null ||
-                    formData.phone.length === 0 ||
-                    formData.email.length === 0
+                    formData.phone.length === 0
                   }
                   loading={settingsReducer.loading}
                   buttonStyle={[styles.loginButton, { width: "100%" }]}
