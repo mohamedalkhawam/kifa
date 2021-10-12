@@ -34,6 +34,9 @@ export default appReducer = (state = initialState, action) => {
                       ? payload.buying_price
                       : payload.price,
                   quantity: 1,
+                  discount: payload.discount,
+                  buying_price_after_discount:
+                    payload.buying_price_after_discount,
                 },
               ],
       };

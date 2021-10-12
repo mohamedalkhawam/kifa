@@ -96,4 +96,5 @@ export default {
   returned: "Returned",
   cashierName: "Cashier name",
   changeStatus: "Change status",
+  save: "Save",
 };

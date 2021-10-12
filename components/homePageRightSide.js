@@ -34,6 +34,8 @@ export default function HomePageLeftSide({ navigation }) {
         quantity: value.quantity,
         price: value.price * 1 || value.buying_price * 1,
         id: value.id,
+        discount: value.discount,
+        buying_price_after_discount: value.buying_price_after_discount,
       })
     );
   };
@@ -98,6 +100,8 @@ export default function HomePageLeftSide({ navigation }) {
                 price={item.buying_price}
                 id={item.id}
                 image={item.image}
+                discount={item.discount}
+                buying_price_after_discount={item.buying_price_after_discount}
               />
             ))}
           </View>

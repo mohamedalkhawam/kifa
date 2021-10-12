@@ -6,7 +6,14 @@ import {
   addProduct,
 } from "../utils/allImports";
 import { View, Text, Image, Animated } from "react-native";
-export default function ProductCard({ name, image, price, id }) {
+export default function ProductCard({
+  name,
+  image,
+  price,
+  id,
+  discount,
+  buying_price_after_discount,
+}) {
   const dispatch = useDispatch();
   const value = useState(new Animated.Value(1))[0];
   const pushIn = () => {
@@ -45,7 +52,15 @@ export default function ProductCard({ name, image, price, id }) {
       style={[styles.productCardStyle, animationStyle()]}
       onTouchStart={() => {
         triggerAnimation();
-        dispatch(addProduct({ id, name, price: price * 1 }));
+        dispatch(
+          addProduct({
+            id,
+            name,
+            price: price * 1,
+            discount,
+            buying_price_after_discount,
+          })
+        );
       }}
     >
       <View style={styles.productCardImageStyle}>

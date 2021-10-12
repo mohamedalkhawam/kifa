@@ -21,9 +21,8 @@ import {
   ScrollView,
   KeyboardAvoidingView,
 } from "react-native";
-
 import Header from "../components/header";
-import { readCustomers, updateCustomer } from "../redux/actions/customers";
+import { updateCustomer } from "../redux/actions/customers";
 export default function Customers({ navigation, route }) {
   const { width: windowWidth, height: windowHeight } = useWindowDimensions();
   const [cashOrCredit, setCashOrCredit] = useState(false);
@@ -44,11 +43,8 @@ export default function Customers({ navigation, route }) {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
-    // email: "",
-    // reference_id: "",
     notes: "",
-    // national_id: "",
-    payment_method: "",
+    // payment_method: "",
   });
   useEffect(() => {
     if (_objI(route.params.customer)) {

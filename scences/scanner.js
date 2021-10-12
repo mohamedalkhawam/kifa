@@ -48,7 +48,7 @@ export default function Scanner({ navigation }) {
           productsReducer.products.find((product) => product.barcode === data)
         )
       );
-      s;
+
       setScannerState({ type: "green", message: t("scanned") });
     } else {
       setScannerState({ type: "red", message: t("productNotFound") });

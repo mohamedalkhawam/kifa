@@ -35,7 +35,7 @@ export default function Customers({ navigation }) {
     phone: "",
     email: "",
     branch: "",
-    copies_number: null,
+    // copies_number: null,
     language: localize.language,
     isArabic: false,
   });
@@ -55,9 +55,9 @@ export default function Customers({ navigation }) {
     email: {
       message: "",
     },
-    copies_number: {
-      message: "",
-    },
+    // copies_number: {
+    //   message: "",
+    // },
   });
   useEffect(() => {
     dispatch(readSettings(authReducer.token))
@@ -67,7 +67,7 @@ export default function Customers({ navigation }) {
             ...formData,
             phone: res.data.data.phone,
             email: res.data.data.email,
-            copies_number: res.data.data.copies_number.toString(),
+            // copies_number: res.data.data.copies_number.toString(),
             branch: res.data.data.branch,
             language: res.data.data.language,
             isArabic: res.data.data.language === "en" ? false : true,
@@ -200,7 +200,7 @@ export default function Customers({ navigation }) {
                 });
               }}
             />
-            <nativeElement.Input
+            {/* <nativeElement.Input
               disabled
               inputStyle={[
                 styles.responsiveTextDirection,
@@ -216,8 +216,8 @@ export default function Customers({ navigation }) {
                 justifyContent: "center",
               }}
               value={formData.branch}
-            />
-            <nativeElement.Input
+            /> */}
+            {/* <nativeElement.Input
               leftIcon={
                 <nativeElement.Icon name="dialpad" size={25} color="#4E7D9B" />
               }
@@ -261,7 +261,7 @@ export default function Customers({ navigation }) {
                   },
                 });
               }}
-            />
+            /> */}
             <View
               style={[
                 styles.flexStart,
@@ -317,7 +317,7 @@ export default function Customers({ navigation }) {
                     dispatch(
                       updateSettings(authReducer.token, {
                         phone: formData.phone,
-                        copies_number: formData.copies_number,
+                        // copies_number: formData.copies_number,
                         language: formData.isArabic === false ? "en" : "ar",
                       })
                     )
@@ -342,8 +342,8 @@ export default function Customers({ navigation }) {
                   }}
                   disabled={
                     validation.phone.message.length > 0 ||
-                    validation.copies_number.message.length > 0 ||
-                    formData.copies_number === null ||
+                    // validation.copies_number.message.length > 0 ||
+                    // formData.copies_number === null ||
                     formData.phone.length === 0
                   }
                   loading={settingsReducer.loading}

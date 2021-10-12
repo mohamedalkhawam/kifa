@@ -15,22 +15,20 @@ import {
   _objO,
   clearList,
 } from "../utils/allImports";
-import PrintButton from "../components/printButton";
 import { useTranslation } from "react-i18next";
 import AutoComplete from "./newAutoComplete";
 import { View, Text, ScrollView, Platform } from "react-native";
 import { logout } from "../redux/actions/Auth";
 import { readCustomers } from "../redux/actions/customers";
 import { createOrder } from "../redux/actions/order";
-import { useRef } from "react";
 import * as Print from "expo-print";
-import PrintPaper from "../components/print";
-import { QRCode } from "react-native-custom-qr-codes-expo";
+import { readSettings, updateSettings } from "../redux/actions/settings";
 
 export default function HomePageLeftSide({ navigation }) {
   const [totals, setTotals] = useState({
     price: 0,
     quantity: 0,
+    totalPriceWithDiscount: 0,
   });
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -39,12 +37,13 @@ export default function HomePageLeftSide({ navigation }) {
   const appReducer = useSelector((state) => state.appReducer);
   const authReducer = useSelector((state) => state.AuthReducer);
   const customersReducer = useSelector((state) => state.customersReducer);
+  const settingsReducer = useSelector((state) => state.settingsReducer);
   const [query, setQuery] = useState("");
   const [searchObject, setSearchObject] = useState({});
-  const print = async (data, tax, total, invoiceNumber, qrCodeImage) => {
+  const print = async (uri) => {
     if (Platform.OS === "android") {
       Print.printAsync({
-        html: PrintPaper(data, tax, total, invoiceNumber, qrCodeImage),
+        uri: uri,
       })
         .then((res) => {
           console.log(res);
@@ -55,7 +54,7 @@ export default function HomePageLeftSide({ navigation }) {
         .then((res) => {
           Print.printAsync({
             printerUrl: res.url,
-            html: PrintPaper(data, tax, total, invoiceNumber, qrCodeImage),
+            uri: uri,
           }).then((res) => {
             console.log(res);
           });
@@ -64,21 +63,25 @@ export default function HomePageLeftSide({ navigation }) {
     }
   };
   useEffect(() => {
+    dispatch(readSettings(authReducer.token));
+  }, []);
+  useEffect(() => {
     let totalPrice = appReducer.list.map((el) => el.price * el.quantity);
+    let totalPriceWithDiscount = appReducer.list.map(
+      (el) => el.buying_price_after_discount * el.quantity
+    );
     let totalquantity = appReducer.list.map((el) => el.quantity);
     setTotals({
       ...totals,
       quantity: totalquantity.reduce((a, b) => a + b, 0),
       price: totalPrice.reduce((a, b) => a + b, 0),
+      totalPriceWithDiscount: totalPriceWithDiscount.reduce((a, b) => a + b, 0),
     });
   }, [appReducer.list]);
   const styles = globalStyle();
   useEffect(() => {
     dispatch(readCustomers(authReducer.token));
   }, []);
-  const callback = (dataURL) => {
-    console.log(dataURL);
-  };
 
   if (authReducer.loading || customersReducer.loading) {
     return <Loader bgc={secondaryColor} color={primaryColor} />;
@@ -316,28 +319,173 @@ export default function HomePageLeftSide({ navigation }) {
                     {t("totals")}
                   </Text>
                 </View>
-                <View style={{ width: "45%", alignItems: "center" }}>
+                <View style={{ width: "23%", alignItems: "center" }}>
                   <Text style={[styles.tableBodyTextStyle]}></Text>
                 </View>
 
                 <View
-                  style={{
-                    width: "25%",
+                  style={[
+                    styles.between,
 
-                    alignItems: "center",
-                  }}
+                    {
+                      width: "45%",
+                      flexDirection: "column",
+                      justifyContent: "space-between",
+                      padding: 5,
+                    },
+                  ]}
                 >
-                  <Text style={[styles.tableBodyTextStyle]}>
-                    {totals.quantity}
-                  </Text>
-                </View>
-                <View style={{ width: "20%", alignItems: "center" }}>
-                  <Text style={[styles.tableBodyTextStyle, { flexShrink: 1 }]}>
-                    {totals.price}{" "}
-                    <Text style={[styles.tableBodyTextStyle, { fontSize: 9 }]}>
-                      SAR
+                  <View
+                    style={[styles.flexBetween, styles.responsiveDirection]}
+                  >
+                    <Text
+                      style={[
+                        styles.tableBodyTextStyle,
+                        {
+                          flexShrink: 1,
+                          paddingVertical: 2,
+                          color: primaryColor,
+                        },
+                      ]}
+                    >
+                      SubTotal
                     </Text>
-                  </Text>
+                    <Text
+                      style={[
+                        styles.tableBodyTextStyle,
+                        {
+                          flexShrink: 1,
+                          paddingVertical: 2,
+                        },
+                      ]}
+                    >
+                      {totals.price}
+                      <Text
+                        style={[styles.tableBodyTextStyle, { fontSize: 9 }]}
+                      >
+                        {` `}SAR
+                      </Text>
+                    </Text>
+                  </View>
+                  {/* <View
+                    style={[styles.flexBetween, styles.responsiveDirection]}
+                  >
+                    <Text
+                      style={[
+                        styles.tableBodyTextStyle,
+                        {
+                          flexShrink: 1,
+                          paddingVertical: 2,
+                          color: primaryColor,
+                        },
+                      ]}
+                    >
+                      Total pieces
+                    </Text>
+                    <Text
+                      style={[
+                        styles.tableBodyTextStyle,
+                        { flexShrink: 1, paddingVertical: 2 },
+                      ]}
+                    >
+                      {totals.quantity}
+                      <Text
+                        style={[styles.tableBodyTextStyle, { fontSize: 9 }]}
+                      >
+                        {` `}P
+                      </Text>
+                    </Text>
+                  </View> */}
+                  <View
+                    style={[styles.flexBetween, styles.responsiveDirection]}
+                  >
+                    <Text
+                      style={[
+                        styles.tableBodyTextStyle,
+                        {
+                          flexShrink: 1,
+                          paddingVertical: 2,
+                          color: primaryColor,
+                        },
+                      ]}
+                    >
+                      Discount Amount
+                    </Text>
+                    <Text
+                      style={[
+                        styles.tableBodyTextStyle,
+                        { flexShrink: 1, paddingVertical: 2 },
+                      ]}
+                    >
+                      {totals.price - totals.totalPriceWithDiscount}
+                      <Text
+                        style={[styles.tableBodyTextStyle, { fontSize: 9 }]}
+                      >
+                        {` `}SAR
+                      </Text>
+                    </Text>
+                  </View>
+                  <View
+                    style={[styles.flexBetween, styles.responsiveDirection]}
+                  >
+                    <Text
+                      style={[
+                        styles.tableBodyTextStyle,
+                        {
+                          flexShrink: 1,
+                          paddingVertical: 2,
+                          color: primaryColor,
+                        },
+                      ]}
+                    >
+                      Tax Amount
+                    </Text>
+                    <Text
+                      style={[
+                        styles.tableBodyTextStyle,
+                        { flexShrink: 1, paddingVertical: 2 },
+                      ]}
+                    >
+                      {totals.totalPriceWithDiscount *
+                        (Number(settingsReducer.settings.tax.value) / 100)}
+                      <Text
+                        style={[styles.tableBodyTextStyle, { fontSize: 9 }]}
+                      >
+                        {` `}SAR
+                      </Text>
+                    </Text>
+                  </View>
+                  <View
+                    style={[styles.flexBetween, styles.responsiveDirection]}
+                  >
+                    <Text
+                      style={[
+                        styles.tableBodyTextStyle,
+                        {
+                          flexShrink: 1,
+                          paddingVertical: 2,
+                          color: primaryColor,
+                        },
+                      ]}
+                    >
+                      Total
+                    </Text>
+                    <Text
+                      style={[
+                        styles.tableBodyTextStyle,
+                        { flexShrink: 1, paddingVertical: 2 },
+                      ]}
+                    >
+                      {totals.totalPriceWithDiscount +
+                        totals.totalPriceWithDiscount *
+                          (Number(settingsReducer.settings.tax.value) / 100)}
+                      <Text
+                        style={[styles.tableBodyTextStyle, { fontSize: 9 }]}
+                      >
+                        {` `}SAR
+                      </Text>
+                    </Text>
+                  </View>
                 </View>
               </View>
             </>
@@ -352,26 +500,6 @@ export default function HomePageLeftSide({ navigation }) {
 
         {/* start action Buttons */}
         <View style={styles.floatingActionButtonsContainer}>
-          {/* <nativeElement.Button
-            title={t("print")}
-            onPress={() => dispatch(logout())}
-            type="solid"
-            buttonStyle={styles.floatingActionButtonsStyle}
-            icon={
-              <nativeElement.Icon
-                name="print"
-                size={20}
-                type="ionicon"
-                color="#F8F8F8"
-                style={{ paddingRight: 7 }}
-              />
-            }
-          /> */}
-          {/* <PrintButton
-            data={appReducer.list}
-            tax={totals.price * 0.15}
-            total={totals.price + totals.price * 0.15}
-          /> */}
           <nativeElement.Button
             title={t("save&print")}
             onPress={() => {
@@ -391,15 +519,8 @@ export default function HomePageLeftSide({ navigation }) {
               )
                 .then((res) => {
                   if (res.status === 200) {
-                    print(
-                      appReducer.list,
-                      totals.price * 0.15,
-                      totals.price + totals.price * 0.15,
-                      "54545451",
-                      "dfdf",
-                      `marchen tName`,
-                      "marchant address"
-                    );
+                    console.log({ res });
+                    print(res.data.data.invoice_link);
                     setSearchObject({});
                     setQuery("");
                     dispatch(clearList());
@@ -446,6 +567,7 @@ export default function HomePageLeftSide({ navigation }) {
               )
                 .then((res) => {
                   if (res.status === 200) {
+                    print(res.data.data.invoice_link);
                     setSearchObject({});
                     setQuery("");
                     dispatch(clearList());

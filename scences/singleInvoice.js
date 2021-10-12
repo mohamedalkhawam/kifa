@@ -22,14 +22,15 @@ import {
 } from "native-base";
 import { QRCode } from "react-native-custom-qr-codes-expo";
 import { useTranslation } from "react-i18next";
-import { View, Text, ScrollView, Image } from "react-native";
+import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
 import Header from "../components/header";
 import {
   readOneInvoice,
   changeInvoiceStatus,
   readInvoices,
 } from "../redux/actions/invoice";
-import invoice from "../redux/reducers/invoice";
+import * as Print from "expo-print";
+import { readSettings, updateSettings } from "../redux/actions/settings";
 export default function SingleInvoice({ navigation, route }) {
   const dispatch = useDispatch();
   const authReducer = useSelector((state) => state.AuthReducer);
@@ -37,10 +38,55 @@ export default function SingleInvoice({ navigation, route }) {
   const styles = globalStyle();
   const { t } = useTranslation();
   const [status, setStatus] = useState(invoicesReducer.invoice.is_paid);
+  const [totals, setTotals] = useState({
+    price: 0,
+    quantity: 0,
+    totalPriceWithDiscount: 0,
+  });
+  const settingsReducer = useSelector((state) => state.settingsReducer);
+
+  useEffect(() => {
+    dispatch(readSettings(authReducer.token));
+  }, []);
+  const print = async (uri) => {
+    if (Platform.OS === "android") {
+      Print.printAsync({
+        uri: uri,
+      })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => console.log(err));
+    } else {
+      Print.selectPrinterAsync()
+        .then((res) => {
+          Print.printAsync({
+            printerUrl: res.url,
+            uri: uri,
+          }).then((res) => {
+            console.log(res);
+          });
+        })
+        .catch((err) => console.log(err));
+    }
+  };
   useEffect(() => {
     if (route.params.id) {
       dispatch(readOneInvoice({ id: route.params.id }, authReducer.token)).then(
-        (invoice) => setStatus(invoicesReducer.invoice.is_paid)
+        (invoice) => {
+          setStatus(invoicesReducer.invoice.is_paid);
+          let totalPriceWithDiscount =
+            invoicesReducer.invoice?.order_details?.map(
+              (el) => el.buying_price_after_discount * el.quantity
+            );
+          setTotals({
+            ...totals,
+            totalPriceWithDiscount: totalPriceWithDiscount.reduce(
+              (a, b) => a + b,
+              0
+            ),
+          });
+        }
       );
     }
   }, [route.params.id]);
@@ -229,9 +275,7 @@ export default function SingleInvoice({ navigation, route }) {
               <Text style={[styles.invoicesCardTitleStyle]}>{t("price")}</Text>
             </View>
             <View style={[styles.flexCenter, { width: "15%" }]}>
-              <Text style={[styles.invoicesCardTitleStyle]}>
-                {t("totalPrice")}
-              </Text>
+              <Text style={[styles.invoicesCardTitleStyle]}>{t("price")}</Text>
             </View>
           </View>
           {invoicesReducer.invoice?.order_details?.map?.((item, index) => (
@@ -324,21 +368,30 @@ export default function SingleInvoice({ navigation, route }) {
                   </Text>
                 </Text>
               </View>
-              {/* <View style={[styles.flexBetween, styles.responsiveDirection]}>
-              <Text style={[styles.invoicesCardTitleStyle]}>
-                {t("shipping")}
-              </Text>
-              <Text style={[styles.invoicesCardInfoStyle]}>
-                {invoice.total_price.toFixed(2)}{" "}
-                <Text style={[styles.tableBodyTextStyle, { fontSize: 9 }]}>
-                  SAR
-                </Text>
-              </Text>
-            </View> */}
               <View style={[styles.flexBetween, styles.responsiveDirection]}>
-                <Text style={[styles.invoicesCardTitleStyle]}>{t("tax")}</Text>
+                <Text style={[styles.invoicesCardTitleStyle]}>
+                  {t("discountAmount")}
+                </Text>
                 <Text style={[styles.invoicesCardInfoStyle]}>
-                  {(invoicesReducer.invoice.tax_amount * 1).toFixed(2)}{" "}
+                  {
+                    (
+                      invoicesReducer.invoice.sub_total * 1 -
+                      totals.totalPriceWithDiscount
+                    ).to
+                  }
+                  <Text style={[styles.tableBodyTextStyle, { fontSize: 9 }]}>
+                    SAR
+                  </Text>
+                </Text>
+              </View>
+
+              <View style={[styles.flexBetween, styles.responsiveDirection]}>
+                <Text style={[styles.invoicesCardTitleStyle]}>
+                  {t("tax Amount")}
+                </Text>
+                <Text style={[styles.invoicesCardInfoStyle]}>
+                  {totals.totalPriceWithDiscount *
+                    (Number(settingsReducer.settings.tax.value) / 100)}
                   <Text style={[styles.tableBodyTextStyle, { fontSize: 9 }]}>
                     SAR
                   </Text>
@@ -421,12 +474,16 @@ export default function SingleInvoice({ navigation, route }) {
               </Text>
             </View>
             <View style={{ width: "20%" }}>
-              <nativeElement.Icon
-                name="print"
-                size={80}
-                type="ionicon"
-                color={primaryColor}
-              />
+              <TouchableOpacity
+                onPress={() => print(invoicesReducer.invoice.invoice_link)}
+              >
+                <nativeElement.Icon
+                  name="print"
+                  size={80}
+                  type="ionicon"
+                  color={primaryColor}
+                />
+              </TouchableOpacity>
             </View>
           </View>
           <View

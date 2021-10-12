@@ -97,4 +97,5 @@ export default {
   returned: "مرتجع",
   cashierName: "اسم الكاشير",
   changeStatus: "غير الحالة",
+  save: "حفظ",
 };

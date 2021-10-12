@@ -36,38 +36,23 @@ export default function Customers({ navigation }) {
     return () => clearTimeout(timeout);
   }, [showSnake]);
   const [formData, setFormData] = useState({
-    name: "sdfsdf",
-    phone: "3243242342324",
-    // email: "ssdssfdf@dfgdfdfd.com",
-    // reference_id: "32423423",
-    notes: "fsdf",
-    // national_id: "32423423",
-    // payment_method: cashOrCredit ? "credit" : "cash",
+    name: "",
+    phone: "",
+    notes: "",
   });
   const [validation, setValidation] = useState({
     name: {
       message: "",
     },
-
     phone: {
       message: "",
     },
-    // email: {
-    //   message: "",
-    // },
-    // reference_id: {
-    //   message: "",
-    // },
     notes: {
       message: "",
     },
-    // national_id: {
-    //   message: "",
-    // },
   });
   const styles = globalStyle();
   const { t } = useTranslation();
-
   return (
     <View styles={styles.container}>
       <Header
