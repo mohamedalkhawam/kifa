@@ -377,7 +377,7 @@ export default function SingleInvoice({ navigation, route }) {
                     (
                       invoicesReducer.invoice.sub_total * 1 -
                       totals.totalPriceWithDiscount
-                    ).to
+                    ).toFixed(2)
                   }
                   <Text style={[styles.tableBodyTextStyle, { fontSize: 9 }]}>
                     SAR
@@ -390,8 +390,8 @@ export default function SingleInvoice({ navigation, route }) {
                   {t("tax Amount")}
                 </Text>
                 <Text style={[styles.invoicesCardInfoStyle]}>
-                  {totals.totalPriceWithDiscount *
-                    (Number(settingsReducer.settings.tax.value) / 100)}
+                  {(totals.totalPriceWithDiscount *
+                    (Number(settingsReducer.settings.tax.value) / 100)).toFixed(2)}
                   <Text style={[styles.tableBodyTextStyle, { fontSize: 9 }]}>
                     SAR
                   </Text>
