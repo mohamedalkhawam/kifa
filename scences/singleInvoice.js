@@ -387,7 +387,7 @@ export default function SingleInvoice({ navigation, route }) {
 
               <View style={[styles.flexBetween, styles.responsiveDirection]}>
                 <Text style={[styles.invoicesCardTitleStyle]}>
-                  {t("tax Amount")}
+                  {t("taxAmount")}
                 </Text>
                 <Text style={[styles.invoicesCardInfoStyle]}>
                   {(totals.totalPriceWithDiscount *

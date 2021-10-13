@@ -348,7 +348,7 @@ export default function HomePageLeftSide({ navigation }) {
                         },
                       ]}
                     >
-                      SubTotal
+                      {t("subTotal")}
                     </Text>
                     <Text
                       style={[
@@ -409,7 +409,7 @@ export default function HomePageLeftSide({ navigation }) {
                         },
                       ]}
                     >
-                      Discount Amount
+                       {t("discountAmount")}
                     </Text>
                     <Text
                       style={[
@@ -438,7 +438,7 @@ export default function HomePageLeftSide({ navigation }) {
                         },
                       ]}
                     >
-                      Tax Amount
+                      {t("taxAmount")}
                     </Text>
                     <Text
                       style={[

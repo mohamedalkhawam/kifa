@@ -97,4 +97,6 @@ export default {
   cashierName: "Cashier name",
   changeStatus: "Change status",
   save: "Save",
+  discountAmount:"Discount Amount",
+  taxAmount:"Tax Amount"
 };

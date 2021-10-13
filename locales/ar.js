@@ -98,4 +98,6 @@ export default {
   cashierName: "اسم الكاشير",
   changeStatus: "غير الحالة",
   save: "حفظ",
+  discountAmount:"قيمة الخصم",
+  taxAmount:"الضريبة"
 };
