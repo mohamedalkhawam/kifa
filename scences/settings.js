@@ -322,7 +322,6 @@ export default function Customers({ navigation }) {
                       })
                     )
                       .then((res) => {
-                        console.log(res);
                         if (res.status === 200) {
                           setShowSnake(t("dataUpdatedSuc"));
                           setClassType("green");

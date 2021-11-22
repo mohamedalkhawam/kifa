@@ -36,10 +36,10 @@ export default function App() {
       store.dispatch(loadUser(token));
       store.dispatch(readProducts(token));
       store.dispatch(readSettings(token));
-      store.dispatch(readCustomers(token));
+      // store.dispatch(readCustomers(token));
       store.dispatch(readInvoices(token));
     });
-    changeScreenOrientation().catch((err) => alert(err));
+    changeScreenOrientation().catch((err) => console.log(err));
     AsyncStorage.getItem("lang", (err, res) => {
       localize.changeLanguage(res || "en");
     });

@@ -11,14 +11,22 @@ import {
   localize,
 } from "../utils/allImports";
 import { useTranslation } from "react-i18next";
-import { View, ScrollView, Animated } from "react-native";
+import {
+  View,
+  ScrollView,
+  Animated,
+  FlatList,
+  useWindowDimensions,
+} from "react-native";
 import InvoicesCard from "../components/invoicesCard";
 import Header from "../components/header";
 import Autocomplete from "../components/newAutoComplete";
 import { readInvoices } from "../redux/actions/invoice";
 export default function Invoices({ navigation }) {
+  const { width: windowWidth, height: windowHeight } = useWindowDimensions();
   const tab1 = useState(new Animated.Value(1))[0];
   const tab2 = useState(new Animated.Value(1))[0];
+  const [page, setPage] = useState(10);
   const [currentTab, setCurrentTab] = useState(0);
   const dispatch = useDispatch();
   const [query, setQuery] = useState("");
@@ -48,7 +56,6 @@ export default function Invoices({ navigation }) {
   };
   const animationStyle = (value) => {
     return {
-      // opacity: value,
       transform: [
         {
           scale: value.interpolate({
@@ -61,15 +68,20 @@ export default function Invoices({ navigation }) {
   };
 
   useEffect(() => {
-    localize.changeLanguage("ar");
     dispatch(readInvoices(authReducer.token)).then((res) => {
       if (res.status === 200) {
         setInvoices(invoicesReducer.completedInvoices);
         setPendingInvoices(invoicesReducer.pendingInvoices);
       }
     });
-  }, [currentTab]);
-
+    return () => {
+      setInvoices({});
+      setPendingInvoices({});
+    };
+  }, []);
+  const doThis = (props) => {
+    <InvoicesCard {...props} />;
+  };
   if (authReducer.loading || invoicesReducer.loading) {
     return <Loader bgc={secondaryColor} color={primaryColor} />;
   } else {
@@ -86,6 +98,7 @@ export default function Invoices({ navigation }) {
             style={[styles.invoicesTabsStyle, styles.invoicesTabsSeperator]}
             onTouchStart={() => {
               setCurrentTab(0);
+              setPage(10);
               triggerAnimation(tab1);
             }}
           >
@@ -102,8 +115,9 @@ export default function Invoices({ navigation }) {
           <View
             style={styles.invoicesTabsStyle}
             onTouchStart={() => {
-              triggerAnimation(tab2);
               setCurrentTab(1);
+              setPage(10);
+              triggerAnimation(tab2);
             }}
           >
             <Animated.Text
@@ -125,6 +139,7 @@ export default function Invoices({ navigation }) {
           placeholder={t("Search...")}
           pressHandler={setSearchObject}
         />
+
         <ScrollView
           style={[
             {
@@ -149,47 +164,50 @@ export default function Invoices({ navigation }) {
               navigation={navigation}
             />
           ) : currentTab === 0 && query === "" ? (
-            invoicesReducer.completedInvoices.map((item, index) => (
-              <InvoicesCard
-                key={index}
-                id={item.id}
-                num={index}
-                invoiceNumber={item.invoice_number}
-                merchantName={item.merchant_name}
-                merchantAddress={item.merchant_address}
-                paymentMethod={item.paid_method}
-                clientName={item.customer_name}
-                clientMobile={item.customer_phone}
-                totalPrice={item.total_price}
-                date={item.date}
-                status={item.status}
-                navigation={navigation}
-              />
-            ))
+            invoicesReducer.completedInvoices
+              ?.slice(0, 40)
+              ?.map?.((item, index) => (
+                <InvoicesCard
+                  key={index}
+                  id={item.id}
+                  num={index}
+                  invoiceNumber={item.invoice_number}
+                  merchantName={item.merchant_name}
+                  merchantAddress={item.merchant_address}
+                  paymentMethod={item.paid_method}
+                  clientName={item.customer_name}
+                  clientMobile={item.customer_phone}
+                  totalPrice={item.total_price}
+                  date={item.date}
+                  status={item.status}
+                  navigation={navigation}
+                />
+              ))
           ) : currentTab === 1 && query === "" ? (
-            invoicesReducer.pendingInvoices.map((item, index) => (
-              <InvoicesCard
-                key={index}
-                id={item.id}
-                num={index}
-                invoiceNumber={item.invoice_number}
-                merchantName={item.merchant_name}
-                merchantAddress={item.merchant_address}
-                paymentMethod={item.paid_method}
-                clientName={item.customer_name}
-                clientMobile={item.customer_phone}
-                totalPrice={item.total_price}
-                date={item.date}
-                status={item.status}
-                navigation={navigation}
-              />
-            ))
+            invoicesReducer.pendingInvoices
+              ?.slice(0, 40)
+              ?.map((item, index) => (
+                <InvoicesCard
+                  key={index}
+                  id={item.id}
+                  num={index}
+                  invoiceNumber={item.invoice_number}
+                  merchantName={item.merchant_name}
+                  merchantAddress={item.merchant_address}
+                  paymentMethod={item.paid_method}
+                  clientName={item.customer_name}
+                  clientMobile={item.customer_phone}
+                  totalPrice={item.total_price}
+                  date={item.date}
+                  status={item.status}
+                  navigation={navigation}
+                />
+              ))
           ) : (
             <View></View>
           )}
           <View style={{ padding: 150 }}></View>
         </ScrollView>
-        <View style={{ padding: 20 }}></View>
       </View>
     );
   }

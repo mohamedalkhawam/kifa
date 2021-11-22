@@ -15,6 +15,8 @@ import {
   _objO,
   clearList,
 } from "../utils/allImports";
+import { PrinterDiscover } from "react-native-epson-epos-printer";
+
 import { useTranslation } from "react-i18next";
 import AutoComplete from "./newAutoComplete";
 import { View, Text, ScrollView, Platform } from "react-native";
@@ -40,24 +42,27 @@ export default function HomePageLeftSide({ navigation }) {
   const settingsReducer = useSelector((state) => state.settingsReducer);
   const [query, setQuery] = useState("");
   const [searchObject, setSearchObject] = useState({});
+  const [state, setState] = useState({ message: "" });
+  console.log({ ddddddddddddddddddddddddddddddd: state.message });
+  const dddd = async () => {};
+  useEffect(() => {}, []);
   const print = async (uri) => {
     if (Platform.OS === "android") {
-      Print.printAsync({
-        uri: uri,
-      })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => console.log(err));
+      const discover = new PrinterDiscover();
+      // Print.printAsync({
+      //   uri: uri,
+      // })
+      //   .then((res) => {
+      //     console.log(res);
+      //   })
+      //   .catch((err) => console.log(err));
     } else {
       Print.selectPrinterAsync()
         .then((res) => {
           Print.printAsync({
             printerUrl: res.url,
             uri: uri,
-          }).then((res) => {
-            console.log(res);
-          });
+          }).then((res) => {});
         })
         .catch((err) => console.log(err));
     }
@@ -359,7 +364,7 @@ export default function HomePageLeftSide({ navigation }) {
                         },
                       ]}
                     >
-                      {totals.price}
+                      {totals.price.toFixed(2)}
                       <Text
                         style={[styles.tableBodyTextStyle, { fontSize: 9 }]}
                       >
@@ -409,7 +414,7 @@ export default function HomePageLeftSide({ navigation }) {
                         },
                       ]}
                     >
-                       {t("discountAmount")}
+                      {t("discountAmount")}
                     </Text>
                     <Text
                       style={[
@@ -417,7 +422,9 @@ export default function HomePageLeftSide({ navigation }) {
                         { flexShrink: 1, paddingVertical: 2 },
                       ]}
                     >
-                      {totals.price - totals.totalPriceWithDiscount}
+                      {(totals.price - totals.totalPriceWithDiscount).toFixed(
+                        2
+                      )}
                       <Text
                         style={[styles.tableBodyTextStyle, { fontSize: 9 }]}
                       >
@@ -446,8 +453,10 @@ export default function HomePageLeftSide({ navigation }) {
                         { flexShrink: 1, paddingVertical: 2 },
                       ]}
                     >
-                      {totals.totalPriceWithDiscount *
-                        (Number(settingsReducer.settings.tax.value) / 100)}
+                      {(
+                        totals.totalPriceWithDiscount *
+                        (Number(settingsReducer.settings.tax.value) / 100)
+                      ).toFixed(2)}
                       <Text
                         style={[styles.tableBodyTextStyle, { fontSize: 9 }]}
                       >
@@ -468,7 +477,7 @@ export default function HomePageLeftSide({ navigation }) {
                         },
                       ]}
                     >
-                      Total
+                      {t("totals")}
                     </Text>
                     <Text
                       style={[
@@ -503,14 +512,37 @@ export default function HomePageLeftSide({ navigation }) {
           <nativeElement.Button
             title={t("save&print")}
             onPress={() => {
+              console.log({
+                cashier_id: authReducer.user.id,
+                customer_id: searchObject?.id || 0,
+                cost_with_tax: (
+                  totals.totalPriceWithDiscount +
+                  totals.totalPriceWithDiscount *
+                    (Number(settingsReducer.settings.tax.value) / 100)
+                ).toFixed(2),
+                cost_without_tax: totals.price.toFixed(2),
+                tax: (
+                  totals.totalPriceWithDiscount *
+                  (Number(settingsReducer.settings.tax.value) / 100)
+                ).toFixed(2),
+                is_paid: 1,
+                order_details: [...appReducer.list],
+              });
               dispatch(
                 createOrder(
                   {
                     cashier_id: authReducer.user.id,
-                    customer_id: searchObject.id,
-                   cost_with_tax: (totals.price + totals.price * (Number(settingsReducer.settings.tax.value) / 100)).toFixed(2),
+                    customer_id: searchObject?.id || 0,
+                    cost_with_tax: (
+                      totals.totalPriceWithDiscount +
+                      totals.totalPriceWithDiscount *
+                        (Number(settingsReducer.settings.tax.value) / 100)
+                    ).toFixed(2),
                     cost_without_tax: totals.price.toFixed(2),
-                    tax:( totals.price *  (Number(settingsReducer.settings.tax.value) / 100)).toFixed(2),
+                    tax: (
+                      totals.totalPriceWithDiscount *
+                      (Number(settingsReducer.settings.tax.value) / 100)
+                    ).toFixed(2),
                     is_paid: 1,
                     order_details: [...appReducer.list],
                   },
@@ -519,7 +551,6 @@ export default function HomePageLeftSide({ navigation }) {
               )
                 .then((res) => {
                   if (res.status === 200) {
-                    console.log({ res });
                     print(res.data.data.invoice_link);
                     setSearchObject({});
                     setQuery("");
@@ -531,10 +562,11 @@ export default function HomePageLeftSide({ navigation }) {
                     });
                   } else {
                     alert(t("somethingWrongHappen"));
-                    console.log(res);
                   }
                 })
-                .catch((err) => {});
+                .catch((err) => {
+                  console.log({ err });
+                });
             }}
             type="solid"
             buttonStyle={styles.floatingActionButtonsStyle}
@@ -556,9 +588,16 @@ export default function HomePageLeftSide({ navigation }) {
                   {
                     cashier_id: authReducer.user.id,
                     customer_id: searchObject.id,
-                    cost_with_tax: (totals.price + totals.price * (Number(settingsReducer.settings.tax.value) / 100)).toFixed(2),
+                    cost_with_tax: (
+                      totals.totalPriceWithDiscount +
+                      totals.totalPriceWithDiscount *
+                        (Number(settingsReducer.settings.tax.value) / 100)
+                    ).toFixed(2),
                     cost_without_tax: totals.price.toFixed(2),
-                    tax:( totals.price *  (Number(settingsReducer.settings.tax.value) / 100)).toFixed(2),
+                    tax: (
+                      totals.totalPriceWithDiscount *
+                      (Number(settingsReducer.settings.tax.value) / 100)
+                    ).toFixed(2),
                     is_paid: 0,
                     order_details: [...appReducer.list],
                   },

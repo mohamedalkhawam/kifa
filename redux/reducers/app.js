@@ -5,11 +5,9 @@ import {
   REMOVE_ONE,
   CLEAR_LIST,
 } from "../types/app";
-
 const initialState = {
   list: [],
 };
-
 export default appReducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {

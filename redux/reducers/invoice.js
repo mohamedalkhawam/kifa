@@ -4,6 +4,7 @@ import {
   START_INVOICES_RELOAD,
   FINISHED_INVOICES_RELOAD,
   CHANGE_INVOICE_STATUS,
+  CLEAR_INVOICE,
 } from "../types/invoice";
 
 const initialState = {
@@ -43,7 +44,11 @@ export default function (state = initialState, action) {
           ),
         ],
       };
-
+    case CLEAR_INVOICE:
+      return {
+        ...state,
+        invoice: {},
+      };
     case START_INVOICES_RELOAD:
       return {
         ...state,

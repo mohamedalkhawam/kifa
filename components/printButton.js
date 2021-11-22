@@ -20,9 +20,7 @@ export default function PrintButton({ data, tax, total }) {
       Print.printAsync({
         html: PrintPaper(data, tax, total),
       })
-        .then((res) => {
-          console.log(res);
-        })
+        .then((res) => {})
         .catch((err) => console.log(err));
     } else {
       Print.selectPrinterAsync()
@@ -30,9 +28,7 @@ export default function PrintButton({ data, tax, total }) {
           Print.printAsync({
             printerUrl: res.url,
             html: PrintPaper(data, tax, total),
-          }).then((res) => {
-            console.log(res);
-          });
+          }).then((res) => {});
         })
         .catch((err) => console.log(err));
     }

@@ -37,25 +37,15 @@ export default function SingleInvoice({ navigation, route }) {
   const invoicesReducer = useSelector((state) => state.invoicesReducer);
   const styles = globalStyle();
   const { t } = useTranslation();
-  const [status, setStatus] = useState(invoicesReducer.invoice.is_paid);
-  const [totals, setTotals] = useState({
-    price: 0,
-    quantity: 0,
-    totalPriceWithDiscount: 0,
-  });
-  const settingsReducer = useSelector((state) => state.settingsReducer);
+  const [status, setStatus] = useState(route.params.status);
 
-  useEffect(() => {
-    dispatch(readSettings(authReducer.token));
-  }, []);
+  const settingsReducer = useSelector((state) => state.settingsReducer);
   const print = async (uri) => {
     if (Platform.OS === "android") {
       Print.printAsync({
         uri: uri,
       })
-        .then((res) => {
-          console.log(res);
-        })
+        .then((res) => {})
         .catch((err) => console.log(err));
     } else {
       Print.selectPrinterAsync()
@@ -63,9 +53,7 @@ export default function SingleInvoice({ navigation, route }) {
           Print.printAsync({
             printerUrl: res.url,
             uri: uri,
-          }).then((res) => {
-            console.log(res);
-          });
+          }).then((res) => {});
         })
         .catch((err) => console.log(err));
     }
@@ -74,22 +62,11 @@ export default function SingleInvoice({ navigation, route }) {
     if (route.params.id) {
       dispatch(readOneInvoice({ id: route.params.id }, authReducer.token)).then(
         (invoice) => {
-          setStatus(invoicesReducer.invoice.is_paid);
-          let totalPriceWithDiscount =
-            invoicesReducer.invoice?.order_details?.map(
-              (el) => el.buying_price_after_discount * el.quantity
-            );
-          setTotals({
-            ...totals,
-            totalPriceWithDiscount: totalPriceWithDiscount.reduce(
-              (a, b) => a + b,
-              0
-            ),
-          });
+          setStatus(invoice.data.data.is_paid);
         }
       );
     }
-  }, [route.params.id]);
+  }, [route.params.id, route.params.status]);
 
   if (
     authReducer.loading ||
@@ -128,7 +105,7 @@ export default function SingleInvoice({ navigation, route }) {
                   {t("invoiceNumber")}:
                 </Text>
                 <Text style={[styles.invoicesCardInfoStyle]}>
-                  {invoicesReducer.invoice.invoice_number}
+                  {invoicesReducer.invoice?.invoice_number ?? ""}
                 </Text>
               </View>
               <View style={[styles.flexBetween, styles.responsiveDirection]}>
@@ -136,7 +113,7 @@ export default function SingleInvoice({ navigation, route }) {
                   {t("merchantName")}:
                 </Text>
                 <Text style={[styles.invoicesCardInfoStyle]}>
-                  {invoicesReducer.invoice.merchant_name}
+                  {invoicesReducer.invoice?.merchant_name ?? ""}
                 </Text>
               </View>
               <View style={[styles.flexBetween, styles.responsiveDirection]}>
@@ -144,7 +121,7 @@ export default function SingleInvoice({ navigation, route }) {
                   {t("merchantAddress")}:
                 </Text>
                 <Text style={[styles.invoicesCardInfoStyle]}>
-                  {invoicesReducer.invoice.merchant_address}
+                  {invoicesReducer.invoice?.merchant_address ?? ""}
                 </Text>
               </View>
               <View style={[styles.flexBetween, styles.responsiveDirection]}>
@@ -152,7 +129,7 @@ export default function SingleInvoice({ navigation, route }) {
                   {t("cashierName")}:
                 </Text>
                 <Text style={[styles.invoicesCardInfoStyle]}>
-                  {invoicesReducer.invoice.cashier_name}
+                  {invoicesReducer.invoice?.cashier_name ?? ""}
                 </Text>
               </View>
             </View>
@@ -162,7 +139,9 @@ export default function SingleInvoice({ navigation, route }) {
                   {t("date")}:
                 </Text>
                 <Text style={[styles.invoicesCardInfoStyle]}>
-                  {new Date(invoicesReducer.invoice.date).toLocaleDateString()}
+                  {new Date(
+                    invoicesReducer?.invoice?.date
+                  )?.toLocaleDateString?.() ?? ""}
                 </Text>
               </View>
               <View style={[styles.flexBetween, styles.responsiveDirection]}>
@@ -170,7 +149,9 @@ export default function SingleInvoice({ navigation, route }) {
                   {t("time")}:
                 </Text>
                 <Text style={[styles.invoicesCardInfoStyle]}>
-                  {new Date(invoicesReducer.invoice.date).toLocaleTimeString()}
+                  {new Date(
+                    invoicesReducer?.invoice?.date
+                  )?.toLocaleTimeString?.() ?? ""}
                 </Text>
               </View>
               <View style={[styles.flexBetween, styles.responsiveDirection]}>
@@ -178,7 +159,7 @@ export default function SingleInvoice({ navigation, route }) {
                   {t("taxNumber")}:
                 </Text>
                 <Text style={[styles.invoicesCardInfoStyle]}>
-                  {invoicesReducer.invoice.tax_number}
+                  {invoicesReducer.invoice?.tax_number ?? ""}
                 </Text>
               </View>
               <View style={[styles.flexBetween, styles.responsiveDirection]}>
@@ -195,7 +176,7 @@ export default function SingleInvoice({ navigation, route }) {
                     <VStack alignItems="center" space={10}>
                       <Select
                         selectedValue={
-                          status || invoicesReducer.invoice.is_paid
+                          status ?? invoicesReducer.invoice.is_paid
                         }
                         minWidth={200}
                         accessibilityLabel="change invoice status"
@@ -204,7 +185,10 @@ export default function SingleInvoice({ navigation, route }) {
                           setStatus(itemValue);
                           dispatch(
                             changeInvoiceStatus(
-                              { id: route.params.id, is_paid: itemValue },
+                              {
+                                id: route.params.id,
+                                is_paid: Number(itemValue),
+                              },
                               authReducer.token
                             )
                           ).then((res) => {
@@ -307,23 +291,23 @@ export default function SingleInvoice({ navigation, route }) {
                     }}
                   >
                     <Image
-                      source={{ uri: item.image }}
+                      source={{ uri: item?.image }}
                       style={{ width: "100%", height: "100%" }}
                     />
                   </View>
                   <Text style={[styles.invoicesCardInfoStyle]}>
-                    {item.name}
+                    {item?.name ?? ""}
                   </Text>
                 </View>
               </View>
               <View style={[styles.flexCenter, { width: "10%" }]}>
                 <Text style={[styles.invoicesCardInfoStyle]}>
-                  {item.quantity}
+                  {item?.quantity ?? ""}
                 </Text>
               </View>
               <View style={[styles.flexCenter, { width: "15%" }]}>
                 <Text style={[styles.invoicesCardInfoStyle]}>
-                  {(item.price * 1).toFixed(2)}{" "}
+                  {(item?.price * 1)?.toFixed(2)}{" "}
                   <Text style={[styles.tableBodyTextStyle, { fontSize: 9 }]}>
                     SAR
                   </Text>
@@ -331,7 +315,7 @@ export default function SingleInvoice({ navigation, route }) {
               </View>
               <View style={[styles.flexCenter, { width: "15%" }]}>
                 <Text style={[styles.invoicesCardInfoStyle]}>
-                  {(item.total_price * 1).toFixed(2)}{" "}
+                  {(item?.total_price * 1)?.toFixed(2)}{" "}
                   <Text style={[styles.tableBodyTextStyle, { fontSize: 9 }]}>
                     SAR
                   </Text>
@@ -362,7 +346,7 @@ export default function SingleInvoice({ navigation, route }) {
                   {t("subTotal")}
                 </Text>
                 <Text style={[styles.invoicesCardInfoStyle]}>
-                  {(invoicesReducer.invoice.sub_total * 1).toFixed(2)}{" "}
+                  {(invoicesReducer?.invoice?.sub_total * 1)?.toFixed(2)}{" "}
                   <Text style={[styles.tableBodyTextStyle, { fontSize: 9 }]}>
                     SAR
                   </Text>
@@ -373,25 +357,19 @@ export default function SingleInvoice({ navigation, route }) {
                   {t("discountAmount")}
                 </Text>
                 <Text style={[styles.invoicesCardInfoStyle]}>
-                  {
-                    (
-                      invoicesReducer.invoice.sub_total * 1 -
-                      totals.totalPriceWithDiscount
-                    ).toFixed(2)
-                  }
+                  {invoicesReducer?.invoice?.discount?.toFixed?.(2) ?? ""}
                   <Text style={[styles.tableBodyTextStyle, { fontSize: 9 }]}>
                     SAR
                   </Text>
                 </Text>
               </View>
-
               <View style={[styles.flexBetween, styles.responsiveDirection]}>
                 <Text style={[styles.invoicesCardTitleStyle]}>
                   {t("taxAmount")}
                 </Text>
                 <Text style={[styles.invoicesCardInfoStyle]}>
-                  {(totals.totalPriceWithDiscount *
-                    (Number(settingsReducer.settings.tax.value) / 100)).toFixed(2)}
+                  {invoicesReducer.invoice?.tax_amount?.toFixed?.(2) ?? ""}
+
                   <Text style={[styles.tableBodyTextStyle, { fontSize: 9 }]}>
                     SAR
                   </Text>
@@ -408,7 +386,8 @@ export default function SingleInvoice({ navigation, route }) {
                   {t("totals")}
                 </Text>
                 <Text style={[styles.invoicesCardInfoStyle]}>
-                  {(invoicesReducer.invoice.total_price * 1).toFixed(2)}{" "}
+                  {(invoicesReducer?.invoice?.total_price * 1)?.toFixed?.(2) ??
+                    ""}{" "}
                   <Text style={[styles.tableBodyTextStyle, { fontSize: 9 }]}>
                     SAR
                   </Text>
@@ -451,7 +430,7 @@ export default function SingleInvoice({ navigation, route }) {
                   styles.responsiveTextDirection,
                 ]}
               >
-                {invoicesReducer.invoice.customer_name}
+                {invoicesReducer.invoice?.customer_name ?? ""}
               </Text>
             </View>
 
@@ -470,7 +449,7 @@ export default function SingleInvoice({ navigation, route }) {
                   styles.responsiveTextDirection,
                 ]}
               >
-                {t(`${invoicesReducer.invoice.paid_method}`)}
+                {t(`${invoicesReducer.invoice?.paid_method ?? ""}`)}
               </Text>
             </View>
             <View style={{ width: "20%" }}>
@@ -508,7 +487,7 @@ export default function SingleInvoice({ navigation, route }) {
                   styles.responsiveTextDirection,
                 ]}
               >
-                {invoicesReducer.invoice.customer_phone}
+                {invoicesReducer?.invoice?.customer_phone ?? ""}
               </Text>
             </View>
           </View>
@@ -528,7 +507,7 @@ export default function SingleInvoice({ navigation, route }) {
           >
             <View style={styles.flexCenter}>
               <Text style={{ color: primaryColor }}>
-                {invoicesReducer.invoice.tax_percentage}
+                {settingsReducer?.settings?.tax?.value ?? ""}%{" "}
                 {t("taxIncluded")}
               </Text>
             </View>

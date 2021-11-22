@@ -5,6 +5,7 @@ import {
   START_INVOICES_RELOAD,
   FINISHED_INVOICES_RELOAD,
   CHANGE_INVOICE_STATUS,
+  CLEAR_INVOICE,
 } from "../types/invoice";
 import { readItemsAsync } from "./equCurd/readItems";
 import { readOneItemAsync } from "./equCurd/readOneItem";
@@ -55,3 +56,6 @@ export const changeInvoiceStatus = (formData, token) =>
       Authorization: `Bearer ${token}`,
     },
   });
+export const clearInvoice = () => (dispatch) => {
+  dispatch({ type: CLEAR_INVOICE });
+};

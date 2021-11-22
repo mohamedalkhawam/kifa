@@ -21,7 +21,7 @@ const storeData = async (value) => {
   try {
     await AsyncStorage.setItem("token", value);
   } catch (e) {
-    alert(e);
+    console.log(e);
   }
 };
 export default function AuthReducer(state = initialState, action) {

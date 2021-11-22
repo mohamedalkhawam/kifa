@@ -1,7 +1,13 @@
-import { React, globalStyle, localize, useEffect } from "../utils/allImports";
+import {
+  React,
+  globalStyle,
+  localize,
+  useEffect,
+  useDispatch,
+} from "../utils/allImports";
 import { View, Text, TouchableOpacity } from "react-native";
 import { useTranslation } from "react-i18next";
-
+import { clearInvoice } from "../redux/actions/invoice";
 export default function InvoicesCard({
   id,
   invoiceNumber,
@@ -14,18 +20,22 @@ export default function InvoicesCard({
   date,
   navigation,
   num,
+  item,
+  status,
 }) {
   const styles = globalStyle();
   const { t } = useTranslation();
-
+  const dispatch = useDispatch();
   return (
     <TouchableOpacity
       style={[styles.invoiceCardContainerStyle]}
-      onPress={() =>
+      onPress={() => {
+        dispatch(clearInvoice());
         navigation.navigate("singleInvoice", {
-          id,
-        })
-      }
+          id: id || item.id,
+          status,
+        });
+      }}
     >
       <View style={[styles.invoicesHalfPart]}>
         <View style={[styles.flexBetween, styles.responsiveDirection]}>
@@ -44,7 +54,7 @@ export default function InvoicesCard({
           <Text style={[styles.invoicesCardTitleStyle]}>
             {t("merchantAddress")}
           </Text>
-          <Text style={[styles.invoicesCardInfoStyle]}>{num + 1}</Text>
+          <Text style={[styles.invoicesCardInfoStyle]}>{merchantAddress}</Text>
         </View>
         <View style={[styles.flexBetween, styles.responsiveDirection]}>
           <Text style={[styles.invoicesCardTitleStyle]}>
@@ -70,7 +80,9 @@ export default function InvoicesCard({
         </View>
         <View style={[styles.flexBetween, styles.responsiveDirection]}>
           <Text style={[styles.invoicesCardTitleStyle]}>{t("date")}</Text>
-          <Text style={[styles.invoicesCardInfoStyle]}>{date}</Text>
+          <Text style={[styles.invoicesCardInfoStyle]}>
+            {new Date(date).toLocaleDateString()}
+          </Text>
         </View>
       </View>
     </TouchableOpacity>
