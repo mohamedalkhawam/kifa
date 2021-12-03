@@ -44,11 +44,11 @@ export default function HomePageLeftSide({ navigation }) {
   const [searchObject, setSearchObject] = useState({});
   const [state, setState] = useState({ message: "" });
   console.log({ ddddddddddddddddddddddddddddddd: state.message });
-  const dddd = async () => {};
-  useEffect(() => {}, []);
   const print = async (uri) => {
     if (Platform.OS === "android") {
       const discover = new PrinterDiscover();
+      discover.start();
+      discover.on("discover", console.log);
       // Print.printAsync({
       //   uri: uri,
       // })
@@ -512,6 +512,7 @@ export default function HomePageLeftSide({ navigation }) {
           <nativeElement.Button
             title={t("save&print")}
             onPress={() => {
+              print("res.data.data.invoice_link");
               console.log({
                 cashier_id: authReducer.user.id,
                 customer_id: searchObject?.id || 0,

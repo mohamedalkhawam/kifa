@@ -6932,6 +6932,11 @@ react-native-epson-epos-printer@^0.0.14:
   resolved "https://registry.yarnpkg.com/react-native-epson-epos-printer/-/react-native-epson-epos-printer-0.0.14.tgz#f7aa0b8ab1488ad8f8fb5acc4a8fdeefb08d5c66"
   integrity sha512-n8Bet5A2+RaSzF0xhkBfZ9cikmIiXIaBq/pi2zl2g4kdYppXeM53VNZdlkvsfFbN1d0ZAIpjgegz8xn9+fUe6w==
 
+react-native-epson-printer@^0.1.10:
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/react-native-epson-printer/-/react-native-epson-printer-0.1.10.tgz#49f220c07eb792ef62d24065d4a2de0a409e8251"
+  integrity sha512-wTL7SXxg97OL04SOVC7xj/x43lZl3M39mJyliWXPvrVhjHxQbrx4xDrDgsRw/KyHSXfTCuwIE6ByUo/xj2+FiA==
+
 react-native-epson-tm@^1.0.9:
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/react-native-epson-tm/-/react-native-epson-tm-1.0.9.tgz#25c0c03e10857fb4856060fa40013911f1e0f556"
